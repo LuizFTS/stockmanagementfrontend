@@ -1,4 +1,4 @@
-@use './variables';
+@use '../variables';
 
 body[data-theme='light'] {
   --bg-color: #{variables.$gray-2};

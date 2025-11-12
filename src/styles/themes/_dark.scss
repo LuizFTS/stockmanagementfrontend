@@ -1,6 +1,14 @@
-@use './variables';
+@use '../variables';
 
 body[data-theme='dark'] {
-  --bg-color: #{variables.$gray-7};
+  --bg-color: #{variables.$gray-9};
   --text-color: #{variables.$gray-2};
+
+  --primary-color-l: #{variables.$green-1};
+  --primary-color-m: #{variables.$green-2};
+  --primary-color-d: #{variables.$green-3};
+
+  --sidebar-bg: #{variables.$gray-9};
+  --sidebar-text: #{variables.$gray-2};
+  --sidebar-text-selected: #{variables.$white};
 }

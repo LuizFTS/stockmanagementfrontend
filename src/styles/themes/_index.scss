@@ -1,6 +1,10 @@
 @forward './dark';
 @forward './light';
 
+html {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -10,6 +14,8 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 input:-webkit-autofill,
