@@ -1,0 +1,6 @@
+@use './variables';
+
+body[data-theme='light'] {
+  --bg-color: #{variables.$gray-2};
+  --text-color: #{variables.$gray-7};
+}

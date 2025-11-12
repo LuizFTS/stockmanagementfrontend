@@ -1,0 +1,32 @@
+@forward './dark';
+@forward './light';
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 0s 600000s,
+    color 0s 600000s !important;
+}
+
+/* Para navegadores WebKit (Chrome, Safari, Edge, Opera) */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Para o Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
