@@ -1,0 +1,35 @@
+.main {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+
+  &__menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    padding: 5px;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    z-index: 3;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--btn-hover-gray);
+    }
+
+    &.active {
+      display: none;
+    }
+
+    & mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+    }
+  }
+}

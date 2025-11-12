@@ -11,6 +11,7 @@ body[data-theme='dark'] {
   --primary-color-d: #{variables.$green-3};
 
   --sidebar-bg: #{variables.$gray-9};
+  --sidebar-hover: #{variables.$gray-8};
   --sidebar-text: #{variables.$gray-2};
   --sidebar-text-selected: #{variables.$white};
 
@@ -18,4 +19,7 @@ body[data-theme='dark'] {
   --btn-hover: #{variables.$green-3};
   --btn-text: #{variables.$gray-2};
   --btn-disabled: #{variables.$gray-6};
+
+  --btn-bg-gray: #{variables.$gray-9};
+  --btn-hover-gray: #{variables.$gray-7};
 }

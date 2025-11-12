@@ -1,0 +1,69 @@
+<div [class]="active ? 'backdrop active' : 'backdrop'" (click)="onClose()"></div>
+<nav [class]="active ? 'nav active' : 'nav'">
+  <div class="menuContainer">
+    <div class="menuContainer__header">
+      <h1>stockmanagement</h1>
+      <mat-icon (click)="onClose()">menu</mat-icon>
+    </div>
+    <ul class="menuContainer__ul">
+      @for (item of menuData; track item.name; let i = $index) {
+        @if (item.name === 'Inicio') {
+          <li
+            [class]="activeIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'"
+            (click)="toggleItem(i)"
+          >
+            <mat-icon
+              [fontSet]="activeIndex === i ? 'material-icons' : 'material-icons-outlined'"
+              [class]="activeIndex === i ? 'menuContainer__ul__li__icon' : ''"
+              >{{ item.icon }}</mat-icon
+            >
+            <a
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [routerLink]="['/home']"
+              >{{ item.name }}</a
+            >
+          </li>
+        } @else {
+          <li
+            [class]="activeIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'"
+            (click)="toggleItem(i)"
+          >
+            <mat-icon
+              [fontSet]="activeIndex === i ? 'material-icons' : 'material-icons-outlined'"
+              [class]="activeIndex === i ? 'menuContainer__ul__li__icon' : ''"
+              >{{ item.icon }}</mat-icon
+            >
+            <a>{{ item.name }}</a>
+            @if (item.itens.length > 0) {
+              <mat-icon
+                [class]="
+                  activeIndex === i
+                    ? 'menuContainer__ul__li__arrow active'
+                    : 'menuContainer__ul__li__arrow'
+                "
+                >arrow_back_ios_new</mat-icon
+              >
+            }
+          </li>
+        }
+        @if (item.itens.length > 0 && activeIndex === i) {
+          <ul class="menuContainer__ul__sub">
+            @for (sub of item.itens; track sub.item) {
+              <li
+                class="menuContainer__ul__sub__li"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a [routerLink]="sub.path">
+                  {{ sub.item }}
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      }
+    </ul>
+  </div>
+  <div></div>
+</nav>

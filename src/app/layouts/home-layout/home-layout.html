@@ -1,1 +1,10 @@
-<p>home-layout works!</p>
+<div class="main">
+  <div
+    [class]="isSidebarOpen ? 'main__menuButton active' : 'main__menuButton'"
+    (click)="toggleSidebar()"
+  >
+    <mat-icon>menu</mat-icon>
+  </div>
+  <app-sidebar [active]="isSidebarOpen" (close)="toggleSidebar()" />
+  <router-outlet />
+</div>
