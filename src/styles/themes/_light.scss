@@ -2,5 +2,20 @@
 
 body[data-theme='light'] {
   --bg-color: #{variables.$gray-2};
-  --text-color: #{variables.$gray-7};
+  --text-color: #{variables.$gray-9};
+
+  --border-color: #{variables.$gray-4};
+
+  --primary-color-l: #{variables.$green-1};
+  --primary-color-m: #{variables.$green-2};
+  --primary-color-d: #{variables.$green-3};
+
+  --sidebar-bg: #{variables.$gray-9};
+  --sidebar-text: #{variables.$gray-2};
+  --sidebar-text-selected: #{variables.$white};
+
+  --btn-bg: #{variables.$green-2};
+  --btn-hover: #{variables.$green-3};
+  --btn-text: #{variables.$gray-2};
+  --btn-disabled: #{variables.$gray-6};
 }

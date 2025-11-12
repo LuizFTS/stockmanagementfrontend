@@ -10,6 +10,21 @@ body {
   color: var(--text-color);
 }
 
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--text-color);
+}
+
 *,
 *::before,
 *::after {

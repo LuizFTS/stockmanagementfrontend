@@ -1,1 +1,57 @@
-<p>login-page works!</p>
+<div class="login_page">
+  <div class="login_page__container">
+    <h1>stockmanagement</h1>
+    <form class="login_page__container__form">
+      @if (errorMessageDisplayed) {
+        <div class="error-message">{{ errorMessageDisplayed }}</div>
+      }
+      <div class="login_page__container__form__input-group">
+        <input
+          #emailInput
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          (ngModelChange)="validateEmail()"
+          placeholder=" "
+          class="login_page__container__form__input-group__modern-input"
+          [class.valid]="isEmailValid && email.length > 0"
+          [class.invalid]="!isEmailValid"
+        />
+        <label class="login_page__container__form__input-group__floating-label">E-mail</label>
+        @if (!isEmailValid && email.length > 0) {
+          <div class="error-text">Por favor, insira um e-mail válido</div>
+        }
+      </div>
+
+      <div class="login_page__container__form__input-group">
+        <input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          (ngModelChange)="validatePassword()"
+          placeholder=" "
+          class="login_page__container__form__input-group__modern-input"
+          [class.valid]="isPasswordValid && password.length > 0"
+          [class.invalid]="!isPasswordValid"
+        />
+        <label class="login_page__container__form__input-group__floating-label">Senha</label>
+        @if (!isPasswordValid && password.length > 0) {
+          <div class="error-text">Senha inválida</div>
+        }
+      </div>
+
+      <div class="login_page__container__form__div__submit">
+        <app-button
+          [disabled]="
+            !isEmailValid || !isPasswordValid || email.length === 0 || password.length === 0
+          "
+          [type]="'submit'"
+          (click)="login()"
+          [loading]="isLoading"
+          >Entrar</app-button
+        >
+        <a href="#">Criar nova conta</a>
+      </div>
+    </form>
+  </div>
+</div>

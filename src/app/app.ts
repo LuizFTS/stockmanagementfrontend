@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,11 @@ import { RouterOutlet } from '@angular/router';
 export class App {
   protected readonly title = signal('stockmanagementfrontend');
 
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+  ) {}
+
   ngOnInit() {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -18,6 +24,12 @@ export class App {
     mediaQuery.addEventListener('change', (e) => {
       this.setTheme(e.matches);
     });
+
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['home']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
   private setTheme(prefersDark: boolean): void {
     if (prefersDark) {
