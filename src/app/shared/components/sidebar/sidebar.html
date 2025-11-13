@@ -1,16 +1,16 @@
-<div [class]="active ? 'backdrop active' : 'backdrop'" (click)="onClose()"></div>
+<div [class]="active ? 'backdrop active' : 'backdrop'" (click)="onToggleBar(false)"></div>
 <nav [class]="active ? 'nav active' : 'nav'">
-  <div class="menuContainer">
+  <div [class]="active ? 'menuContainer active' : 'menuContainer'">
     <div class="menuContainer__header">
       <h1>stockmanagement</h1>
-      <mat-icon (click)="onClose()">menu</mat-icon>
+      <mat-icon (click)="onToggleBar(!this.active)">menu</mat-icon>
     </div>
     <ul class="menuContainer__ul">
       @for (item of menuData; track item.name; let i = $index) {
         @if (item.name === 'Inicio') {
           <li
             [class]="activeIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'"
-            (click)="toggleItem(i)"
+            (click)="onToggleItem(i)"
           >
             <mat-icon
               [fontSet]="activeIndex === i ? 'material-icons' : 'material-icons-outlined'"
@@ -27,7 +27,7 @@
         } @else {
           <li
             [class]="activeIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'"
-            (click)="toggleItem(i)"
+            (click)="onToggleItem(i)"
           >
             <mat-icon
               [fontSet]="activeIndex === i ? 'material-icons' : 'material-icons-outlined'"
@@ -65,5 +65,20 @@
       }
     </ul>
   </div>
-  <div></div>
+  <div [class]="active ? 'logoutContainer active' : 'logoutContainer'">
+    <a
+      class="logoutContainer__link"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [routerLink]="['/profile']"
+      (click)="onToggleItem(-1)"
+    >
+      <mat-icon>account_circle</mat-icon>
+      <p>{{ user?.firstName }} {{ user?.lastName }}</p>
+      <mat-icon class="logoutContainer__link__arrow">keyboard_arrow_right</mat-icon>
+    </a>
+    <span class="logoutContainer__icon" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+    </span>
+  </div>
 </nav>

@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import type { User } from '../../../core/models/User.model';
+import { UserService } from '../../../core/services/user.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface Menu {
   name: string;
@@ -58,16 +61,37 @@ const MENU = [
 export class Sidebar {
   menuData: Menu[] = MENU;
   activeIndex: number | null = null;
+  user: User | null = null;
+
+  constructor(
+    private userService: UserService,
+    private auth: AuthService,
+  ) {}
 
   @Input() active: boolean = false;
-  @Output() close = new EventEmitter<void>();
+  @Output() opened = new EventEmitter<boolean>();
 
-  onClose() {
-    this.close.emit();
+  ngOnInit() {
+    this.userService.$user.subscribe((user) => {
+      this.user = user;
+    });
   }
 
-  toggleItem(index: number) {
-    console.log(index);
-    this.activeIndex = this.activeIndex === index ? null : index;
+  onToggleBar(event: boolean) {
+    this.opened.emit(event);
+  }
+
+  onToggleItem(index: number) {
+    if (!this.active && index !== 0 && index !== -1) {
+      this.opened.emit(true);
+    }
+    if (index === -1) {
+      this.activeIndex = null;
+    }
+    this.activeIndex = index;
+  }
+
+  onLogout() {
+    this.auth.logout();
   }
 }

@@ -1,3 +1,5 @@
+@use '../../../../styles/breakpoints' as *;
+
 .backdrop {
   position: fixed;
   height: 100%;
@@ -9,6 +11,10 @@
   &.active {
     left: 0;
   }
+
+  @include respond('md') {
+    display: none;
+  }
 }
 
 a {
@@ -16,22 +22,37 @@ a {
 }
 
 .nav {
-  height: 100%;
-  width: 80vw;
+  height: 100vh;
   position: fixed;
   z-index: 2;
-  left: -80vw;
+  left: -100%;
   background-color: var(--sidebar-bg);
   color: var(--sidebar-text);
   transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
 
   &.active {
     left: 0;
+  }
+
+  @include respond('md') {
+    left: 0;
+    position: relative;
+    width: 64px;
+  }
+
+  &.active {
+    @include respond('md') {
+      position: relative;
+      width: 275px;
+    }
   }
 }
 
 .menuContainer {
   width: 100%;
+  flex: 1;
 
   &__header {
     display: flex;
@@ -45,10 +66,8 @@ a {
       text-transform: uppercase;
     }
 
-    & span {
-      line-height: 0;
-      padding: 5px;
-      border-radius: 5px;
+    & mat-icon {
+      cursor: pointer;
     }
   }
 
@@ -56,14 +75,13 @@ a {
     list-style: none;
     padding: 0;
     margin: 0;
+    font-weight: 300;
 
     &__li {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px;
-      border-bottom-right-radius: 20px;
-      border-top-right-radius: 20px;
+      gap: 20px;
+      padding: 10px 20px;
       cursor: pointer;
       transition: all 0.2s;
       color: var(--sidebar-text);
@@ -86,13 +104,13 @@ a {
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        transform: rotate(90deg);
+        transform: rotate(270deg);
         transition: all 0.2s;
+      }
 
-        &.active {
-          transform: rotate(270deg);
-          color: var(--primary-color-m);
-        }
+      &.active .menuContainer__ul__li__arrow {
+        transform: rotate(90deg);
+        color: var(--primary-color-m);
       }
     }
 
@@ -101,7 +119,6 @@ a {
       padding: 0;
       margin: 0;
       padding-left: 2rem;
-      animation: fadeIn 0.3s ease;
 
       &__li {
         position: relative;
@@ -109,8 +126,9 @@ a {
         &::before {
           content: '';
           height: 100%;
-          width: 2px;
+          width: 4px;
           background-color: var(--sidebar-hover);
+          border-radius: 5px;
           position: absolute;
           top: 0;
           left: 0;
@@ -130,15 +148,138 @@ a {
       }
     }
   }
+
+  &__header {
+    & h1 {
+      @include respond('md') {
+        display: none;
+      }
+    }
+
+    @include respond('md') {
+      justify-content: center;
+    }
+  }
+
+  &.active .menuContainer__header {
+    @include respond('md') {
+      justify-content: space-between;
+    }
+  }
+
+  &__ul__li {
+    @include respond('md') {
+      justify-content: center;
+    }
+
+    & a {
+      @include respond('md') {
+        display: none;
+      }
+    }
+
+    &__arrow {
+      @include respond('md') {
+        display: none;
+      }
+    }
+  }
+
+  &.active .menuContainer__ul__li {
+    & a {
+      @include respond('md') {
+        display: block;
+      }
+    }
+
+    &__arrow {
+      @include respond('md') {
+        display: flex;
+      }
+    }
+  }
+
+  &.active .menuContainer__header h1 {
+    @include respond('md') {
+      display: inline;
+    }
+  }
+
+  &__ul__sub {
+    @include respond('md') {
+      display: none;
+    }
+  }
+
+  &.active .menuContainer__ul__sub {
+    @include respond('md') {
+      display: block;
+    }
+  }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    max-height: 0;
+.logoutContainer {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+
+  &__link {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    gap: 10px;
+    cursor: pointer;
+
+    & p {
+      flex: 1;
+    }
+
+    &:hover {
+      background-color: var(--sidebar-hover);
+    }
+
+    & mat-icon {
+      color: var(--sidebar-text);
+    }
+
+    &.active mat-icon {
+      color: var(--primary-color-m);
+    }
   }
-  to {
-    opacity: 1;
-    max-height: 500px;
+
+  &__icon {
+    padding: 5px;
+    border-radius: 5px;
+    line-height: 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--sidebar-hover);
+    }
+  }
+
+  &.active .logoutContainer__link p {
+    display: block;
+  }
+
+  &.active .logoutContainer__link__arrow {
+    display: block;
+  }
+
+  &__link p {
+    @include respond('md') {
+      display: none;
+    }
+  }
+
+  &__link__arrow {
+    @include respond('md') {
+      display: none;
+    }
   }
 }

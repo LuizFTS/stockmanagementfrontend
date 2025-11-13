@@ -25,8 +25,6 @@ export class AuthService {
       tap((response) => {
         localStorage.setItem(this.tokenKey, response.token);
         const payload: Payload = JSON.parse(atob(response.token.split('.')[1]));
-        console.log(payload);
-
         this.router.navigate(['/home']);
       }),
     );

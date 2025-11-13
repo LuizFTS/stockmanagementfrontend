@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { AuthService } from './core/services/auth.service';
+import { UserService } from './core/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class App {
 
   constructor(
     private auth: AuthService,
+    private userService: UserService,
     private router: Router,
   ) {}
 
@@ -20,6 +22,7 @@ export class App {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     this.setTheme(mediaQuery.matches);
+    this.userService.loadUser();
 
     mediaQuery.addEventListener('change', (e) => {
       this.setTheme(e.matches);

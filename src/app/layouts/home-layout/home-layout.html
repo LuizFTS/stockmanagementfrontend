@@ -1,10 +1,12 @@
 <div class="main">
   <div
     [class]="isSidebarOpen ? 'main__menuButton active' : 'main__menuButton'"
-    (click)="toggleSidebar()"
+    (click)="toggleSidebar(true)"
   >
     <mat-icon>menu</mat-icon>
   </div>
-  <app-sidebar [active]="isSidebarOpen" (close)="toggleSidebar()" />
-  <router-outlet />
+  <app-sidebar [active]="isSidebarOpen" (opened)="toggleSidebar($event)" />
+  <main class="container">
+    <router-outlet />
+  </main>
 </div>

@@ -12,8 +12,7 @@ import { Sidebar } from '../../shared/components/sidebar/sidebar';
 export class HomeLayout {
   isSidebarOpen: boolean = false;
 
-  toggleSidebar() {
-    console.log('Test');
-    this.isSidebarOpen = !this.isSidebarOpen;
+  toggleSidebar(event: boolean) {
+    this.isSidebarOpen = event;
   }
 }
