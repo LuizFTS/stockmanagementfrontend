@@ -50,12 +50,6 @@ export class ChangePasswordPage {
   messageDisplayed: Message = { status: '', message: '' };
   isLoading: boolean = false;
 
-  passwordVisible = [
-    { name: 'current', visible: false },
-    { name: 'new', visible: false },
-    { name: 'confirm', visible: false },
-  ];
-
   constructor(private userService: UserService) {}
 
   onChangePassword() {
