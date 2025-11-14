@@ -87,7 +87,6 @@ export class Sidebar {
   }
 
   onToggleItem(index: number) {
-    console.log(this.activeIndex);
     if (!this.active && index !== 0 && index !== -1) {
       this.opened.emit(true);
     }

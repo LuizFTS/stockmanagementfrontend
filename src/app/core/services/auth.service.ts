@@ -21,13 +21,17 @@ export class AuthService {
   ) {}
 
   login(email: string, password: string) {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/api/login`, { email, password }).pipe(
-      tap((response) => {
-        localStorage.setItem(this.tokenKey, response.token);
-        const payload: Payload = JSON.parse(atob(response.token.split('.')[1]));
-        this.router.navigate(['/home']);
-      }),
-    );
+    const formattedEmail = email.toLowerCase();
+
+    return this.http
+      .post<{ token: string }>(`${this.apiUrl}/api/login`, { formattedEmail, password })
+      .pipe(
+        tap((response) => {
+          localStorage.setItem(this.tokenKey, response.token);
+          const payload: Payload = JSON.parse(atob(response.token.split('.')[1]));
+          this.router.navigate(['/home']);
+        }),
+      );
   }
 
   logout() {

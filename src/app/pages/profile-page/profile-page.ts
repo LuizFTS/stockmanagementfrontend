@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 interface Menu {
   id: number;

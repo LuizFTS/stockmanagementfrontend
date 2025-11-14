@@ -1,0 +1,23 @@
+.container__back__btn {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px 0;
+
+  & mat-icon {
+    height: 15px;
+    width: 15px;
+    line-height: 15px;
+    font-size: 15px;
+  }
+
+  & p {
+    font-weight: 500;
+  }
+
+  &:hover > p {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,91 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  & h1 {
+    max-width: 700px;
+    width: 100%;
+  }
+}
+
+.container {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  max-width: 700px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: relative;
+
+  &__back {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+  }
+
+  &__title {
+    & h2 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    & label {
+      font-size: 14px;
+    }
+
+    & input {
+      background-color: var(--bg-color);
+      outline: none;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      height: 30px;
+      padding-left: 10px;
+      width: 100%;
+    }
+
+    &__input-group {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      position: relative;
+      gap: 5px;
+    }
+
+    &__btn {
+      margin-top: 5px;
+    }
+  }
+}
+
+.error-text {
+  bottom: -18px;
+  left: 0rem;
+  font-size: 14px;
+  padding-bottom: 10px;
+  color: #f44336;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -5,6 +5,8 @@ import { MatIcon } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
 import { UserService } from '../../../core/services/user.service';
+import { ButtonBackComponent } from '../components/button-back-component/button-back-component';
+import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 
 interface PasswordData {
   type: string;
@@ -21,7 +23,15 @@ interface Message {
 
 @Component({
   selector: 'app-change-password-page',
-  imports: [MatIcon, RouterModule, CommonModule, FormsModule, Button],
+  imports: [
+    MatIcon,
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    Button,
+    ButtonBackComponent,
+    MessageNotificationComponent,
+  ],
   templateUrl: './change-password-page.html',
   styleUrl: './change-password-page.scss',
 })
@@ -56,7 +66,7 @@ export class ChangePasswordPage {
     this.isLoading = true;
     this.userService.changePassword(this.currentPassword.data, this.newPassword.data);
 
-    this.userService.$passwordStatus.subscribe((response) => {
+    this.userService.$responseStatus.subscribe((response) => {
       if (response) {
         this.messageDisplayed = response;
 

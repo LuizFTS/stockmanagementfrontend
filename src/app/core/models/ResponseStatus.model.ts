@@ -1,4 +1,4 @@
-export interface ChangePassword {
+export interface ResponseStatus {
   status: string;
   message: string;
 }
