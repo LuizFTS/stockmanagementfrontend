@@ -242,8 +242,7 @@ a {
       flex: 1;
     }
 
-    &:hover,
-    &.active {
+    &:hover {
       background-color: var(--sidebar-hover);
     }
 
@@ -251,8 +250,13 @@ a {
       color: var(--sidebar-text);
     }
 
-    &.active mat-icon {
-      color: var(--primary-color-m);
+    &.active {
+      &:hover {
+        background-color: var(--sidebar-hover);
+      }
+      & mat-icon {
+        color: var(--primary-color-m);
+      }
     }
   }
 
@@ -267,12 +271,13 @@ a {
     }
   }
 
-  &.active .logoutContainer__link p {
-    display: block;
-  }
-
-  &.active .logoutContainer__link__arrow {
-    display: block;
+  &.active .logoutContainer__link {
+    p {
+      display: block;
+    }
+    &__arrow {
+      display: block;
+    }
   }
 
   &__link p {

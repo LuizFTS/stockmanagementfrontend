@@ -66,17 +66,14 @@
     </ul>
   </div>
   <div [class]="active ? 'logoutContainer active' : 'logoutContainer'">
-    <a
-      class="logoutContainer__link"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      [routerLink]="['/profile']"
+    <div
+      [class]="activeIndex === -1 ? 'logoutContainer__link active' : 'logoutContainer__link'"
       (click)="onToggleItem(-1)"
     >
       <mat-icon>account_circle</mat-icon>
       <p>{{ user?.firstName }} {{ user?.lastName }}</p>
       <mat-icon class="logoutContainer__link__arrow">keyboard_arrow_right</mat-icon>
-    </a>
+    </div>
     <span class="logoutContainer__icon" (click)="onLogout()">
       <mat-icon>logout</mat-icon>
     </span>

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import type { User } from '../../../core/models/User.model';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -62,6 +62,7 @@ export class Sidebar {
   menuData: Menu[] = MENU;
   activeIndex: number | null = null;
   user: User | null = null;
+  private router = inject(Router);
 
   constructor(
     private userService: UserService,
@@ -77,16 +78,24 @@ export class Sidebar {
     });
   }
 
+  navigate(path: string) {
+    this.router.navigate([path]);
+  }
+
   onToggleBar(event: boolean) {
     this.opened.emit(event);
   }
 
   onToggleItem(index: number) {
+    console.log(this.activeIndex);
     if (!this.active && index !== 0 && index !== -1) {
       this.opened.emit(true);
     }
     if (index === -1) {
-      this.activeIndex = null;
+      this.navigate('/profile');
+    }
+    if (index === 0) {
+      this.navigate('/home');
     }
     this.activeIndex = index;
   }
