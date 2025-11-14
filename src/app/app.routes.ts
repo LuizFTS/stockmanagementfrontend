@@ -11,6 +11,8 @@ import { ProductsPage } from './pages/inventory/products-page/products-page';
 import { InventoryMovementPage } from './pages/inventory/inventory-movement-page/inventory-movement-page';
 import { CustomersPage } from './pages/register/customers-page/customers-page';
 import { SuppliersPage } from './pages/register/suppliers-page/suppliers-page';
+import { GeneralInformationPage } from './pages/profile-page/general-information-page/general-information-page';
+import { ChangePasswordPage } from './pages/profile-page/change-password-page/change-password-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
@@ -21,6 +23,8 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomePage },
       { path: 'profile', component: ProfilePage },
+      { path: 'profile/general', component: GeneralInformationPage },
+      { path: 'profile/change-password', component: ChangePasswordPage },
       { path: 'purchases/add', component: NewPurchasePage },
       { path: 'purchases/history', component: PurchaseHistoryPage },
       { path: 'sales/add', component: NewSalePage },
