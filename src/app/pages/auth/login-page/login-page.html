@@ -1,24 +1,25 @@
 <div class="login_page">
   <div class="login_page__container">
     <h1>stockmanagement</h1>
-    <form class="login_page__container__form">
-      @if (errorMessageDisplayed) {
-        <div class="error-message">{{ errorMessageDisplayed }}</div>
+    <form class="login_page__container__form" [formGroup]="loginForm" (ngSubmit)="login()">
+      @if (messageDisplayed.message.length > 0) {
+        <stk-message-notification
+          [status]="messageDisplayed.status"
+          [message]="messageDisplayed.message"
+        />
       }
       <div class="login_page__container__form__input-group">
         <input
-          #emailInput
-          type="email"
-          [(ngModel)]="email"
-          name="email"
-          (ngModelChange)="validateEmail()"
+          type="text"
+          id="email"
+          formControlName="email"
           placeholder=" "
           class="login_page__container__form__input-group__modern-input"
-          [class.valid]="isEmailValid && email.length > 0"
-          [class.invalid]="!isEmailValid"
+          [class.valid]="!loginForm.get('email')?.invalid"
+          [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.dirty"
         />
         <label class="login_page__container__form__input-group__floating-label">E-mail</label>
-        @if (!isEmailValid && email.length > 0) {
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.dirty) {
           <div class="error-text">Por favor, insira um e-mail válido</div>
         }
       </div>
@@ -26,31 +27,24 @@
       <div class="login_page__container__form__input-group">
         <input
           type="password"
-          [(ngModel)]="password"
-          name="password"
-          (ngModelChange)="validatePassword()"
+          id="password"
+          formControlName="password"
           placeholder=" "
           class="login_page__container__form__input-group__modern-input"
-          [class.valid]="isPasswordValid && password.length > 0"
-          [class.invalid]="!isPasswordValid"
+          [class.valid]="!loginForm.get('password')?.invalid"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.dirty"
         />
         <label class="login_page__container__form__input-group__floating-label">Senha</label>
-        @if (!isPasswordValid && password.length > 0) {
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.dirty) {
           <div class="error-text">Senha inválida</div>
         }
       </div>
 
       <div class="login_page__container__form__div__submit">
-        <app-button
-          [disabled]="
-            !isEmailValid || !isPasswordValid || email.length === 0 || password.length === 0
-          "
-          [type]="'submit'"
-          (click)="login()"
-          [loading]="isLoading"
+        <app-button [disabled]="loginForm.invalid" type="submit" [loading]="isLoading"
           >Entrar</app-button
         >
-        <a href="#">Criar nova conta</a>
+        <a (click)="navigate('/register')">Criar nova conta</a>
       </div>
     </form>
   </div>

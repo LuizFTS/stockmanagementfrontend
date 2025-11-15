@@ -15,6 +15,8 @@ export class HomePage implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
+    this.userService.loadUser();
+
     this.userService.$user.subscribe((user) => {
       this.user = user;
     });

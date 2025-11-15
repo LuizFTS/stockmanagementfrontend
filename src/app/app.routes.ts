@@ -13,10 +13,11 @@ import { CustomersPage } from './pages/register/customers-page/customers-page';
 import { SuppliersPage } from './pages/register/suppliers-page/suppliers-page';
 import { GeneralInformationPage } from './pages/profile-page/general-information-page/general-information-page';
 import { ChangePasswordPage } from './pages/profile-page/change-password-page/change-password-page';
+import { RegisterPage } from './pages/auth/register-page/register-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
-  { path: 'register', component: LoginPage },
+  { path: 'register', component: RegisterPage },
   {
     path: '',
     component: HomeLayout,

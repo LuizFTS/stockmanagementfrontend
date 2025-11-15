@@ -4,6 +4,12 @@ import type { User } from '../models/User.model';
 import { BehaviorSubject, tap } from 'rxjs';
 import type { ResponseStatus } from '../models/ResponseStatus.model';
 import type { UpdateUser } from '../models/UpdateUserRequest.model';
+import type { RegisterUserRequest } from '../models/RegisterUserRequest.model';
+
+interface UserCreated {
+  message: string;
+  user: User;
+}
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -28,6 +34,23 @@ export class UserService {
       },
       error: (err) => {
         console.error('Erro ao carregar usuário');
+      },
+    });
+  }
+
+  registerUser(data: RegisterUserRequest) {
+    return this.http.post<UserCreated>(`${this.apiUrl}/api/register`, data).subscribe({
+      next: () => {
+        this.responseStatus.next({
+          status: 'success',
+          message: '',
+        });
+      },
+      error: (err) => {
+        this.responseStatus.next({
+          status: 'error',
+          message: err.error.message,
+        });
       },
     });
   }

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
+import type { ResponseStatus } from '../models/ResponseStatus.model';
 
 interface Payload {
   sub: string;
@@ -15,23 +16,29 @@ export class AuthService {
   private readonly apiUrl: string = 'http://localhost:8080';
   private readonly tokenKey: string = 'auth_token';
 
+  private responseStatus = new BehaviorSubject<ResponseStatus | null>(null);
+  $responseStatus = this.responseStatus.asObservable();
+
   constructor(
     private http: HttpClient,
     private router: Router,
   ) {}
 
   login(email: string, password: string) {
-    const formattedEmail = email.toLowerCase();
-
     return this.http
-      .post<{ token: string }>(`${this.apiUrl}/api/login`, { formattedEmail, password })
-      .pipe(
-        tap((response) => {
+      .post<{ token: string }>(`${this.apiUrl}/api/login`, { email, password })
+      .subscribe({
+        next: (response) => {
           localStorage.setItem(this.tokenKey, response.token);
-          const payload: Payload = JSON.parse(atob(response.token.split('.')[1]));
           this.router.navigate(['/home']);
-        }),
-      );
+        },
+        error: (err) => {
+          this.responseStatus.next({
+            status: 'error',
+            message: err.error.message,
+          });
+        },
+      });
   }
 
   logout() {

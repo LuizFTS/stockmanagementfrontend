@@ -1,92 +1,73 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, type ElementRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, ViewChild, type ElementRef } from '@angular/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Button } from '../../../shared/components/button/button';
+import { Router } from '@angular/router';
+import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 
 @Component({
   selector: 'app-login-page',
-  imports: [CommonModule, FormsModule, Button],
+  imports: [CommonModule, FormsModule, Button, MessageNotificationComponent, ReactiveFormsModule],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
 })
 export class LoginPage {
   @ViewChild('emailInput') emailInput!: ElementRef<HTMLInputElement>;
-  email = '';
-  password = '';
-  errorMessageDisplayed = '';
-
-  isEmailValid = false;
-
-  isPasswordValid = false;
-
+  messageDisplayed = { status: '', message: '' };
   isLoading = false;
 
-  constructor(private auth: AuthService) {}
+  loginForm: FormGroup;
 
-  ngAfterViewInit(): void {
-    this.emailInput.nativeElement.focus();
+  private router = inject(Router);
+
+  constructor(
+    private auth: AuthService,
+    private fb: FormBuilder,
+  ) {
+    this.loginForm = this.createLoginForm();
   }
 
-  login() {
-    this.isLoading = true;
-
-    if (
-      !this.isEmailValid ||
-      !this.isPasswordValid ||
-      this.email.length === 0 ||
-      this.password.length === 0
-    ) {
-      this.loginFailedHandle('Verifique os dados.');
-      this.isLoading = false;
-      return;
-    }
-
-    this.auth.login(this.email.toLowerCase(), this.password).subscribe({
-      next: () => {
-        this.isLoading = false;
-      },
-      error: (err) => {
-        if (err.status === 0) {
-          this.loginFailedHandle('Tente novamente mais tarde');
-        } else {
-          this.loginFailedHandle(err.error.message);
-        }
-        this.isLoading = false;
-      },
+  private createLoginForm(): FormGroup {
+    return this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
-  loginFailedHandle(message: string) {
-    this.errorMessageDisplayed = message;
+  login() {
+    if (this.loginForm.valid) {
+      this.isLoading = true;
 
+      const formValue = this.loginForm.value;
+
+      this.auth.login(formValue.email.toLowerCase(), formValue.password);
+      this.auth.$responseStatus.subscribe((response) => {
+        if (response && response.status === 'error') {
+          this.messageDisplayed.message = response.message;
+          this.messageDisplayed.status = response.status;
+        }
+      });
+
+      this.messageHandle();
+    }
+  }
+
+  messageHandle() {
     setTimeout(() => {
-      this.errorMessageDisplayed = '';
+      this.messageDisplayed.message = '';
+      this.messageDisplayed.status = '';
     }, 5000);
     this.isLoading = false;
   }
 
-  validateEmail() {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (this.email.length === 0) {
-      this.isEmailValid = false;
-      return;
-    }
-
-    this.isEmailValid = regex.test(this.email);
-  }
-
-  validatePassword() {
-    if (this.password.length === 0) {
-      this.isPasswordValid = false;
-      return;
-    }
-
-    if (this.password.length >= 8 && this.password.length < 50) {
-      this.isPasswordValid = true;
-    } else {
-      this.isPasswordValid = false;
-    }
+  navigate(path: string) {
+    this.router.navigate([path]);
   }
 }
