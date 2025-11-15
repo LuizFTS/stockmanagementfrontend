@@ -243,7 +243,8 @@ a {
       flex: 1;
     }
 
-    &:hover {
+    &:hover,
+    &.active {
       background-color: var(--sidebar-hover);
     }
 
