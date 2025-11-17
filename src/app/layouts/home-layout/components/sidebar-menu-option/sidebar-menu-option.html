@@ -1,0 +1,23 @@
+@if (icon || text || arrow) {
+  <span [class]="`option-container ${className}`" (click)="onClick()">
+    @if (icon) {
+      <mat-icon
+        class="option-container__icon"
+        [fontSet]="itemActive ? 'material-icons' : 'material-icons-outlined'"
+        >{{ icon }}</mat-icon
+      >
+    }
+    @if (text) {
+      <p class="option-container__text">{{ text }}</p>
+    }
+    @if (arrow) {
+      <mat-icon
+        [class]="
+          type === 'default' ? 'option-container__arrow arrowRotate' : 'option-container__arrow'
+        "
+        [fontSet]="itemActive ? 'material-icons' : 'material-icons-outlined'"
+        >{{ arrow }}</mat-icon
+      >
+    }
+  </span>
+}

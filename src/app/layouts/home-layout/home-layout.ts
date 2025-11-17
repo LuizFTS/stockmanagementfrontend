@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
-import { Sidebar } from '../../shared/components/sidebar/sidebar';
+import { Sidebar } from './components/sidebar/sidebar';
 
 @Component({
   selector: 'app-home-layout',

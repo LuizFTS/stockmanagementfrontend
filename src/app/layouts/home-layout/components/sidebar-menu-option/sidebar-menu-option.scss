@@ -1,0 +1,71 @@
+@use '../../../../../styles/breakpoints' as *;
+
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.option-container {
+  line-height: 0;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &__text {
+    flex: 1;
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+
+    &.arrowRotate {
+      transform: rotate(90deg);
+      font-size: 16px;
+    }
+  }
+
+  &:hover {
+    background-color: var(--sidebar-hover);
+  }
+
+  &.itemActive {
+    background-color: var(--sidebar-hover);
+    font-weight: 500;
+  }
+
+  &.itemActive .option-container__arrow {
+    transform: rotate(-90deg);
+  }
+
+  &.barActive {
+    width: 100%;
+  }
+
+  &.barActive .option-container__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.barActive .option-container__text {
+    display: block;
+    flex: 1;
+  }
+
+  &__arrow,
+  &__text {
+    @include respond('md') {
+      display: none;
+    }
+  }
+}
