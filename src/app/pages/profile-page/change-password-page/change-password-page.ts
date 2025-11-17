@@ -64,20 +64,24 @@ export class ChangePasswordPage {
 
   onChangePassword() {
     this.isLoading = true;
-    this.userService.changePassword(this.currentPassword.data, this.newPassword.data);
-
-    this.userService.$responseStatus.subscribe((response) => {
-      if (response) {
-        this.messageDisplayed = response;
-
-        if (response.status === 'success') {
-          this.currentPassword.data = '';
-          this.newPassword.data = '';
-          this.confirmPassword.data = '';
-        }
-      }
-    });
-
+    this.userService
+      .changeUserPassword(this.currentPassword.data, this.newPassword.data)
+      .subscribe({
+        next: () => {
+          this.messageDisplayed = {
+            status: 'success',
+            message: 'Senha alterada com sucesso!',
+          };
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.messageDisplayed = {
+            status: 'error',
+            message: err.error.message ?? 'Tente novamente mais tarde',
+          };
+          this.isLoading = false;
+        },
+      });
     this.showMessageHandle();
   }
 

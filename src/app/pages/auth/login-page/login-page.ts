@@ -19,6 +19,8 @@ import { MessageNotificationComponent } from '../../../shared/components/message
   styleUrl: './login-page.scss',
 })
 export class LoginPage {
+  private readonly tokenKey: string = 'auth_token';
+
   @ViewChild('emailInput') emailInput!: ElementRef<HTMLInputElement>;
   messageDisplayed = { status: '', message: '' };
   isLoading = false;
@@ -47,24 +49,27 @@ export class LoginPage {
 
       const formValue = this.loginForm.value;
 
-      this.auth.login(formValue.email.toLowerCase(), formValue.password);
-      this.auth.$responseStatus.subscribe((response) => {
-        if (response && response.status === 'error') {
-          this.messageDisplayed.message = response.message;
-          this.messageDisplayed.status = response.status;
-        }
+      this.auth.login(formValue.email.toLowerCase(), formValue.password).subscribe({
+        next: (response) => {
+          localStorage.setItem(this.tokenKey, response.token);
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          this.messageDisplayed = {
+            status: 'error',
+            message: err.error.message ?? 'Tente novamente mais tarde',
+          };
+          this.isLoading = false;
+          this.showMessageHandle();
+        },
       });
-
-      this.messageHandle();
     }
   }
 
-  messageHandle() {
+  showMessageHandle() {
     setTimeout(() => {
-      this.messageDisplayed.message = '';
-      this.messageDisplayed.status = '';
+      this.messageDisplayed = { status: '', message: '' };
     }, 5000);
-    this.isLoading = false;
   }
 
   navigate(path: string) {

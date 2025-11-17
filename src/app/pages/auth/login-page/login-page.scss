@@ -4,6 +4,12 @@ a:hover {
   cursor: pointer;
 }
 
+stk-message-notification {
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
 .login_page {
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, tap, type Observable } from 'rxjs';
 import type { ResponseStatus } from '../models/ResponseStatus.model';
 
 interface Payload {
@@ -24,21 +24,8 @@ export class AuthService {
     private router: Router,
   ) {}
 
-  login(email: string, password: string) {
-    return this.http
-      .post<{ token: string }>(`${this.apiUrl}/api/login`, { email, password })
-      .subscribe({
-        next: (response) => {
-          localStorage.setItem(this.tokenKey, response.token);
-          this.router.navigate(['/home']);
-        },
-        error: (err) => {
-          this.responseStatus.next({
-            status: 'error',
-            message: err.error.message,
-          });
-        },
-      });
+  login(email: string, password: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/api/login`, { email, password });
   }
 
   logout() {

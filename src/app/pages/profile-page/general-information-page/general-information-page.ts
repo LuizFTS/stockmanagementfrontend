@@ -14,6 +14,7 @@ import {
 import { Button } from '../../../shared/components/button/button';
 import { ButtonBackComponent } from '../components/button-back-component/button-back-component';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
+import { capitalize } from '../../../shared/utils/capitalize';
 
 interface Message {
   status: string;
@@ -68,32 +69,39 @@ export class GeneralInformationPage {
       const formValue = this.userForm.value;
 
       const updateData = {
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        email: formValue.email,
+        firstName: capitalize(formValue.firstName.toLowerCase()),
+        lastName: capitalize(formValue.lastName.toLowerCase()),
+        email: formValue.email.toLowerCase(),
       };
 
-      this.userService.changeInformation(updateData);
-
-      this.userService.$responseStatus.subscribe((response) => {
-        this.userService.loadUser();
-        if (response) {
-          this.messageDisplayed = response;
-        }
+      this.userService.changeUserInformation(updateData).subscribe({
+        next: () => {
+          this.messageDisplayed = {
+            status: 'success',
+            message: 'Dados alterados com sucesso!',
+          };
+          this.isLoading = false;
+          this.userService.loadUser();
+        },
+        error: (err) => {
+          this.messageDisplayed = {
+            status: 'error',
+            message: err.error.message ?? 'Tente novamente mais tarde',
+          };
+          this.isLoading = false;
+        },
       });
     }
     this.showMessageHandle();
   }
 
-  navigate(path: string) {
-    this.router.navigate([path]);
-  }
-
   showMessageHandle() {
     setTimeout(() => {
-      this.messageDisplayed.message = '';
-      this.messageDisplayed.status = '';
+      this.messageDisplayed = { status: '', message: '' };
     }, 5000);
-    this.isLoading = false;
+  }
+
+  navigate(path: string) {
+    this.router.navigate([path]);
   }
 }

@@ -56,45 +56,42 @@ export class RegisterPage {
   }
 
   registerHandle() {
-    if (this.newUserForm.valid) {
-      this.isLoading = true;
+    if (this.newUserForm.invalid) return;
 
-      const formValue = this.newUserForm.value;
+    this.isLoading = true;
+    const formValue = this.newUserForm.value;
 
-      const registerData = {
-        firstName: formValue.firstName.toLowerCase(),
-        lastName: formValue.lastName.toLowerCase(),
-        email: formValue.email.toLowerCase(),
-        password: formValue.password,
-      };
+    const registerData = {
+      firstName: formValue.firstName.toLowerCase(),
+      lastName: formValue.lastName.toLowerCase(),
+      email: formValue.email.toLowerCase(),
+      password: formValue.password,
+    };
 
-      this.userService.registerUser(registerData);
-
-      this.userService.$responseStatus.subscribe((response) => {
-        if (response) {
-          if (response.status === 'success') {
-            this.auth.login(registerData.email, registerData.password);
-          } else {
-            this.messageDisplayed = response;
-          }
-        }
-      });
-
-      this.messageHandle();
-    }
+    this.userService.registerUser(registerData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.auth.login(registerData.email, registerData.password);
+      },
+      error: (err) => {
+        this.messageDisplayed = {
+          status: 'error',
+          message: err.error?.message ?? 'Tente novamente mais tarde',
+        };
+        this.isLoading = false;
+        this.showMessageHandle();
+      },
+    });
   }
 
   private passwordsMatchValidator(form: FormGroup) {
     const pass = form.get('password')?.value;
     const confirm = form.get('confirmPassword')?.value;
-
     return pass === confirm ? null : { passwordsNotMatching: true };
   }
-  private messageHandle() {
+  private showMessageHandle() {
     setTimeout(() => {
-      this.messageDisplayed.message = '';
-      this.messageDisplayed.status = '';
+      this.messageDisplayed = { status: '', message: '' };
     }, 5000);
-    this.isLoading = false;
   }
 }

@@ -1,5 +1,11 @@
 @use '../../../../styles/breakpoints' as *;
 
+stk-message-notification {
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
 .register_page {
   display: flex;
   width: 100%;
@@ -51,6 +57,9 @@
 
       &__btn {
         margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
