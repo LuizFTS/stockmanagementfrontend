@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import type { User } from '../models/User.model';
-import { BehaviorSubject, tap, type Observable } from 'rxjs';
+import { BehaviorSubject, map, tap, type Observable } from 'rxjs';
 import type { ResponseStatus } from '../models/ResponseStatus.model';
 import type { UpdateUser } from '../models/UpdateUserRequest.model';
 import type { RegisterUserRequest } from '../models/RegisterUserRequest.model';
@@ -50,5 +50,9 @@ export class UserService {
 
   getUser(): User | null {
     return this.userSubject.value;
+  }
+
+  getUserFullName(): Observable<string> {
+    return this.$user.pipe(map((user) => `${user?.firstName} ${user?.lastName}`));
   }
 }

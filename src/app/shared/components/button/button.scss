@@ -1,5 +1,11 @@
+@use '../../../../styles/breakpoints' as *;
+
+:host {
+  display: flex;
+  justify-content: center;
+}
+
 .btn {
-  max-width: 300px;
   width: 100%;
   padding: 10px 0;
   font-size: 18px;
@@ -27,6 +33,10 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @include respond('md') {
+    max-width: 300px;
   }
 }
 

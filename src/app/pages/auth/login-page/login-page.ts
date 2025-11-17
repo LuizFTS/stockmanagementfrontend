@@ -24,7 +24,7 @@ export class LoginPage {
   @ViewChild('emailInput') emailInput!: ElementRef<HTMLInputElement>;
   messageDisplayed = { status: '', message: '' };
   isLoading = false;
-
+  isPasswordVisible: boolean = false;
   loginForm: FormGroup;
 
   private router = inject(Router);
@@ -70,6 +70,10 @@ export class LoginPage {
     setTimeout(() => {
       this.messageDisplayed = { status: '', message: '' };
     }, 5000);
+  }
+
+  passwordVisible() {
+    this.isPasswordVisible = !this.passwordVisible;
   }
 
   navigate(path: string) {

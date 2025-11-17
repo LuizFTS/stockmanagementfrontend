@@ -1,4 +1,25 @@
 <div class="main">
-  <h1>Vendas</h1>
-  <p>Histórico de vendas</p>
+  <div class="main__title">
+    <h1>Vendas</h1>
+    <p>Histórico de vendas</p>
+  </div>
+
+  <section class="main__list">
+    @for (item of sales; track $index) {
+      <div class="main__list__item">
+        <div class="main__list__item__info">
+          <p>Número da compra: 123</p>
+          <p>Fornecedor: {{ item.customer.name }}</p>
+          <p>Data da operação: {{ formatDate(item.createdAt) }}</p>
+        </div>
+        <div class="main__list__item__details">
+          <h3>R${{ formatValue(item.totalValue) }}</h3>
+          <span class="main__list__item__details__visualizar">
+            <p>Visualizar</p>
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </span>
+        </div>
+      </div>
+    }
+  </section>
 </div>
