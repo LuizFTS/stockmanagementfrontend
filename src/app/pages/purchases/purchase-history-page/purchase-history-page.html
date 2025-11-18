@@ -4,22 +4,22 @@
     <p>Histórico de compras</p>
   </div>
 
-  <section class="main__list">
-    @for (item of purchases; track $index) {
-      <div class="main__list__item">
-        <div class="main__list__item__info">
-          <p>Número da compra: 123</p>
-          <p>Fornecedor: {{ item.supplier.name }}</p>
-          <p>Data da operação: {{ formatDate(item.createdAt) }}</p>
-        </div>
-        <div class="main__list__item__details">
-          <h3>R${{ formatValue(item.totalValue) }}</h3>
-          <span class="main__list__item__details__visualizar">
-            <p>Visualizar</p>
-            <mat-icon>keyboard_arrow_right</mat-icon>
-          </span>
-        </div>
-      </div>
+  <stk-search-input
+    (searchChange)="onSearch($event)"
+    placeholder="Pesquisar por comprador ou fornecedor"
+  />
+
+  <stk-card>
+    @for (item of filteredPurchases; track $index; let i = $index) {
+      <stk-transaction-item
+        [date]="item.createdAt"
+        [nameInfo]="{ type: 'Fornecedor', name: item.supplier.name }"
+        [value]="item.totalValue"
+        [itens]="{ qt: filteredPurchases.length, index: i }"
+      />
     }
-  </section>
+    @if (filteredPurchases.length === 0) {
+      <stk-itens-not-found text="Nenhuma compra encontrado" />
+    }
+  </stk-card>
 </main>

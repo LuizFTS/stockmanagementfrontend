@@ -1,4 +1,26 @@
 <div class="main">
-  <h1>Estoque</h1>
-  <p>Produtos</p>
+  <div class="main__title">
+    <h1>Estoque</h1>
+    <p>Produtos cadastrados</p>
+  </div>
+  <stk-search-input
+    (searchChange)="onSearch($event)"
+    placeholder="Pesquisar por nome ou descrição"
+  />
+  <stk-card>
+    @for (item of filteredProducts; track item.id; let i = $index) {
+      <stk-product-item
+        [name]="item.name"
+        [description]="item.description"
+        [costPrice]="item.costPrice"
+        [salePrice]="item.salePrice"
+        [createdAt]="item.createdAt"
+        [saldo]="item.inventoryBalance"
+        [itens]="{ qt: filteredProducts.length, index: i }"
+      />
+    }
+    @if (filteredProducts.length === 0) {
+      <stk-itens-not-found text="Nenhum produto encontrado" />
+    }
+  </stk-card>
 </div>

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { SideBarMenuOption } from '../sidebar-menu-option/sidebar-menu-option';
 import { UserService } from '../../../../core/services/user.service';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -15,7 +14,6 @@ interface Menu {
 interface MenuItem {
   item: string;
   path: string;
-  active: boolean;
 }
 
 const MENU = [
@@ -23,32 +21,32 @@ const MENU = [
   {
     name: 'Compras',
     itens: [
-      { item: 'Adicionar compra', path: '/purchases/add', active: false },
-      { item: 'Histórico de compras', path: '/purchases/history', active: false },
+      { item: 'Adicionar compra', path: '/purchases/add' },
+      { item: 'Histórico de compras', path: '/purchases/history' },
     ],
     icon: 'shopping_cart',
   },
   {
     name: 'Vendas',
     itens: [
-      { item: 'Adicionar venda', path: '/sales/add', active: false },
-      { item: 'Histórico de vendas', path: '/sales/history', active: false },
+      { item: 'Adicionar venda', path: '/sales/add' },
+      { item: 'Histórico de vendas', path: '/sales/history' },
     ],
     icon: 'paid',
   },
   {
     name: 'Estoque',
     itens: [
-      { item: 'Produtos', path: '/inventory/products', active: false },
-      { item: 'Movimentação do estoque', path: '/inventory/movement', active: false },
+      { item: 'Produtos', path: '/inventory/products' },
+      { item: 'Movimentação do estoque', path: '/inventory/movement' },
     ],
     icon: 'inventory_2',
   },
   {
     name: 'Cadastro',
     itens: [
-      { item: 'Clientes', path: '/register/customers', active: false },
-      { item: 'Fornecedores', path: '/register/suppliers', active: false },
+      { item: 'Clientes', path: '/register/customers' },
+      { item: 'Fornecedores', path: '/register/suppliers' },
     ],
     icon: 'list_alt_check',
   },
@@ -62,8 +60,10 @@ const MENU = [
 })
 export class Sidebar {
   menuData: Menu[] = MENU;
-  itemIndex: number | null = null;
-  subItemIndex: number | null = null;
+  index: { itemIndex: number | null; subItemIndex: number | null } = {
+    itemIndex: null,
+    subItemIndex: null,
+  };
   user: string | null = null;
   private router = inject(Router);
 
@@ -90,34 +90,35 @@ export class Sidebar {
   }
 
   onToggleItem(index: number) {
+    const shouldCloseBar = window.innerWidth < 1024;
+
     if (!this.active && index !== 0 && index !== -1) {
-      this.opened.emit(true);
+      this.onToggleBar(true);
     }
-    if (index === -1) {
-      this.navigate('/profile');
-      this.onToggleBar(false);
+
+    switch (index) {
+      case -1:
+        this.navigate('/profile');
+        if (shouldCloseBar) this.onToggleBar(false);
+        break;
+      case 0:
+        this.navigate('/home');
+        if (shouldCloseBar) this.onToggleBar(false);
+        break;
     }
-    if (index === 0) {
-      this.navigate('/home');
-      this.onToggleBar(false);
+
+    if (this.index.itemIndex !== index && this.index.itemIndex) {
+      this.index.subItemIndex = null;
     }
-    this.subItemIndex = null;
-    this.itemIndex = index;
+
+    this.index.itemIndex = this.index.itemIndex === index ? null : index;
   }
 
   onToggleSubItem(itemIndex: number) {
-    this.subItemIndex = itemIndex;
+    this.index.subItemIndex = itemIndex;
   }
 
   onLogout() {
     this.auth.logout();
-  }
-
-  private deactivateSubItens() {
-    this.menuData.forEach((item) => {
-      item.itens.forEach((i) => {
-        i.active = false;
-      });
-    });
   }
 }

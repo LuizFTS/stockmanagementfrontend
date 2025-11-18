@@ -3,3 +3,8 @@
 @use './styles/breakpoints';
 @use './styles/variables';
 @use './styles/themes' as *;
+
+[class*='stk-'] {
+  width: 100%;
+  height: 100%;
+}

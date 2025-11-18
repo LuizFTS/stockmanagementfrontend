@@ -9,31 +9,35 @@
       @for (item of menuData; track item.name; let i = $index) {
         @if (item.name === 'Inicio') {
           <li
-            [class]="itemIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'"
+            [class]="
+              index.itemIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'
+            "
             (click)="onToggleItem(i)"
           >
             <stk-sidebar-menu-option
               [barActive]="active"
-              [itemActive]="itemIndex === i"
+              [itemActive]="index.itemIndex === i"
               [icon]="item.icon"
               [text]="item.name"
             />
           </li>
         } @else {
           <li
-            [class]="itemIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'"
+            [class]="
+              index.itemIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'
+            "
             (click)="onToggleItem(i)"
           >
             <stk-sidebar-menu-option
               [icon]="item.icon"
               [text]="item.name"
               [barActive]="active"
-              [itemActive]="itemIndex === i"
+              [itemActive]="index.itemIndex === i"
               arrow="arrow_back_ios_new"
             />
           </li>
         }
-        @if (item.itens.length > 0 && itemIndex === i) {
+        @if (item.itens.length > 0 && index.itemIndex === i) {
           <ul class="menuContainer__ul__sub">
             @for (sub of item.itens; track sub.item; let ind = $index) {
               <li
@@ -45,7 +49,7 @@
                 <stk-sidebar-menu-sub-option
                   [text]="sub.item"
                   [path]="sub.path"
-                  [active]="itemIndex === i && subItemIndex === ind"
+                  [active]="index.itemIndex === i && index.subItemIndex === ind"
                   (close)="onToggleBar(false)"
                 />
               </li>
@@ -61,7 +65,7 @@
       [text]="user"
       arrow="keyboard_arrow_right"
       [barActive]="active"
-      [itemActive]="itemIndex === -1"
+      [itemActive]="index.itemIndex === -1"
       (action)="onToggleItem(-1)"
       type=""
     />

@@ -1,0 +1,35 @@
+.item {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid var(--border-color);
+
+  &__info {
+    & h2 {
+      font-size: 18px;
+    }
+
+    & p {
+      font-size: 12px;
+    }
+  }
+
+  &.first-item {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  &.last-item {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  &:not(.last-item) {
+    border-bottom: none;
+  }
+
+  &.unique-item {
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+  }
+}

@@ -1,0 +1,16 @@
+<div
+  class="item"
+  [class.last-item]="lastItem"
+  [class.first-item]="firstItem"
+  [class.unique-item]="uniqueItem"
+>
+  <div class="item__info">
+    <h2>{{ name }}</h2>
+    <p>{{ description }}</p>
+    <div>
+      <p>Preço de custo: R${{ formatValue(costPrice) }}</p>
+      <p>Preço de venda: R${{ formatValue(costPrice) }}</p>
+      <h3>Saldo no estoque: {{ saldo }}</h3>
+    </div>
+  </div>
+</div>

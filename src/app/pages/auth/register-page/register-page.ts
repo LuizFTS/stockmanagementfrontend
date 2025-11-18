@@ -46,8 +46,11 @@ export class RegisterPage {
         firstName: ['', [Validators.required, Validators.minLength(2)]],
         lastName: ['', [Validators.required, Validators.minLength(2)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+        confirmPassword: [
+          '',
+          [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
+        ],
       },
       {
         validators: this.passwordsMatchValidator,
@@ -69,7 +72,7 @@ export class RegisterPage {
     };
 
     this.userService.registerUser(registerData).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
         this.auth.login(registerData.email, registerData.password);
       },

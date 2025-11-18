@@ -15,6 +15,7 @@ import { Button } from '../../../shared/components/button/button';
 import { ButtonBackComponent } from '../components/button-back-component/button-back-component';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 import { capitalize } from '../../../shared/utils/capitalize';
+import { TextInput } from '../../../shared/components/text-input/text-input';
 
 interface Message {
   status: string;
@@ -23,7 +24,13 @@ interface Message {
 
 @Component({
   selector: 'app-general-information-page',
-  imports: [ReactiveFormsModule, Button, ButtonBackComponent, MessageNotificationComponent],
+  imports: [
+    ReactiveFormsModule,
+    Button,
+    ButtonBackComponent,
+    MessageNotificationComponent,
+    TextInput,
+  ],
   templateUrl: './general-information-page.html',
   styleUrl: './general-information-page.scss',
 })

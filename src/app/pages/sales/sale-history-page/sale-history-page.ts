@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
 import type { Sale } from '../../../core/models/Sale.model';
 import { SaleService } from '../../../core/services/sale.service';
-import { MatIcon } from '@angular/material/icon';
+import { TransactionItem } from '../../../shared/components/transaction-item/transaction-item';
+import { Card } from '../../../shared/components/card/card';
+import { SearchInput } from '../../../shared/components/search-input/search-input';
+import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 
 @Component({
   selector: 'app-sale-history-page',
-  imports: [MatIcon],
+  imports: [TransactionItem, Card, SearchInput, ItensNotFound],
   templateUrl: './sale-history-page.html',
   styleUrl: './sale-history-page.scss',
 })
 export class SaleHistoryPage {
   sales: Sale[] = [];
+  filteredSales: Sale[] = [];
 
   constructor(private saleService: SaleService) {}
 
@@ -18,6 +22,7 @@ export class SaleHistoryPage {
     this.saleService.getSales().subscribe({
       next: (response) => {
         this.sales = response;
+        this.filteredSales = response;
       },
       error: (err) => {
         console.error(err);
@@ -25,14 +30,13 @@ export class SaleHistoryPage {
     });
   }
 
-  formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('pt-BR');
-  }
+  onSearch(term: string) {
+    const value = term?.toLowerCase() ?? '';
 
-  formatValue(value: number): string {
-    return value.toLocaleString('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+    this.filteredSales = this.sales.filter((p) => {
+      return (
+        p.customer.name.toLowerCase().includes(value) || p.seller.name.toLowerCase().includes(value)
+      );
     });
   }
 }

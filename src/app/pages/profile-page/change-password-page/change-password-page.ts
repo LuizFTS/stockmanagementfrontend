@@ -1,12 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  Validators,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
 import { UserService } from '../../../core/services/user.service';
 import { ButtonBackComponent } from '../components/button-back-component/button-back-component';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
+import { PasswordInput } from '../../../shared/components/password-input/password-input';
 
 interface PasswordData {
   type: string;
@@ -31,41 +38,51 @@ interface Message {
     Button,
     ButtonBackComponent,
     MessageNotificationComponent,
+    ReactiveFormsModule,
+    PasswordInput,
   ],
   templateUrl: './change-password-page.html',
   styleUrl: './change-password-page.scss',
 })
 export class ChangePasswordPage {
-  currentPassword: PasswordData = {
-    type: 'current',
-    data: '',
-    isValid: false,
-    errorMessage: '',
-    visible: false,
-  };
-  newPassword: PasswordData = {
-    type: 'new',
-    data: '',
-    isValid: false,
-    errorMessage: '',
-    visible: false,
-  };
-  confirmPassword: PasswordData = {
-    type: 'confirm',
-    data: '',
-    isValid: false,
-    errorMessage: '',
-    visible: false,
-  };
   messageDisplayed: Message = { status: '', message: '' };
   isLoading: boolean = false;
+  passwordForm: FormGroup;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+  ) {
+    this.passwordForm = this.changePasswordForm();
+  }
+
+  private changePasswordForm(): FormGroup {
+    return this.fb.group(
+      {
+        currentPassword: [
+          '',
+          [Validators.required, Validators.minLength(8), Validators.maxLength(25)],
+        ],
+        newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
+        confirmPassword: [
+          '',
+          [Validators.required, Validators.minLength(8), Validators.maxLength(25)],
+        ],
+      },
+      {
+        validators: this.passwordsMatchValidator,
+      },
+    );
+  }
 
   onChangePassword() {
+    if (this.passwordForm.invalid) return;
+
     this.isLoading = true;
+    const formValue = this.passwordForm.value;
+
     this.userService
-      .changeUserPassword(this.currentPassword.data, this.newPassword.data)
+      .changeUserPassword(formValue.currentPassword, formValue.newPassword)
       .subscribe({
         next: () => {
           this.messageDisplayed = {
@@ -85,55 +102,17 @@ export class ChangePasswordPage {
     this.showMessageHandle();
   }
 
-  turnInputVisible(id: number) {
-    if (id === 0) this.currentPassword.visible = !this.currentPassword.visible;
-    if (id === 1) this.newPassword.visible = !this.newPassword.visible;
-    if (id === 2) this.confirmPassword.visible = !this.confirmPassword.visible;
-  }
-
-  validatePassword(password: PasswordData) {
-    if (
-      password.type === this.confirmPassword.type &&
-      this.newPassword.data !== this.confirmPassword.data
-    ) {
-      this.confirmPassword.isValid = false;
-      this.confirmPassword.errorMessage = 'As senhas não coincidem';
-      return;
-    }
-
-    if (
-      password.type === this.confirmPassword.type &&
-      this.confirmPassword.data === this.currentPassword.data &&
-      this.newPassword.data === this.currentPassword.data
-    ) {
-      this.confirmPassword.isValid = false;
-      this.confirmPassword.errorMessage = 'A senha deve ser diferente da atual';
-      return;
-    }
-
-    if (password.data.length === 0) {
-      password.isValid = false;
-      password.errorMessage = 'Senha inválida';
-      return;
-    }
-
-    if (password.data.length < 8) {
-      password.isValid = false;
-      password.errorMessage = 'Senha muito curta';
-    } else if (password.data.length > 50) {
-      password.isValid = false;
-      password.errorMessage = 'Senha muito longa';
-    } else {
-      password.isValid = true;
-      password.errorMessage = '';
-    }
-  }
-
   showMessageHandle() {
     setTimeout(() => {
       this.messageDisplayed.message = '';
       this.messageDisplayed.status = '';
     }, 5000);
     this.isLoading = false;
+  }
+
+  private passwordsMatchValidator(form: FormGroup) {
+    const pass = form.get('newPassword')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+    return pass === confirm ? null : { passwordsNotMatching: true };
   }
 }

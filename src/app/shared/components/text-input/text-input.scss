@@ -1,0 +1,47 @@
+:host {
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  width: 100%;
+  position: relative;
+  flex-direction: column;
+  position: relative;
+  gap: 5px;
+
+  & label {
+    font-size: 14px;
+  }
+
+  & input {
+    background-color: var(--bg-color);
+    outline: none;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    height: 30px;
+    padding-left: 10px;
+    width: 100%;
+  }
+}
+
+.error-text {
+  bottom: -18px;
+  left: 0rem;
+  font-size: 14px;
+  padding-bottom: 10px;
+  color: #f44336;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

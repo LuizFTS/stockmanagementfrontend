@@ -25,58 +25,10 @@
     width: 100%;
     background-color: var(--card-bg);
     border-radius: 10px;
-
-    &__item {
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-
-      &__info {
-        font-size: 14px;
-      }
-
-      &__details {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        &__visualizar {
-          line-height: 0;
-          padding: 5px 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 5px;
-          border: 1px solid var(--border-color);
-          cursor: pointer;
-          transition: background 0.1s;
-
-          & mat-icon {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-
-          &:hover {
-            background-color: var(--btn-hover-gray);
-            color: var(--btn-text-gray);
-          }
-        }
-      }
-    }
-
-    &__item:not(:last-child) {
-      border-bottom: 1px solid var(--border-color);
-    }
+    overflow: hidden;
   }
 
   @include respond('md') {
     padding: 40px;
-  }
-
-  &__list__item__info {
-    @include respond('md') {
-      font-size: 18px;
-    }
   }
 }

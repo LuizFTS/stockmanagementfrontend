@@ -1,0 +1,15 @@
+<div class="input-group">
+  <label class="input-group__label" for="">{{ label }}</label>
+  <input
+    [type]="type"
+    [id]="id"
+    [formControl]="$any(control)"
+    placeholder=" "
+    class="input-group__input"
+    [class.valid]="isValid"
+    [class.invalid]="isInvalid"
+  />
+  @if (currentError) {
+    <div class="error-text">{{ currentError }}</div>
+  }
+</div>

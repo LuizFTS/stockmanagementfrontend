@@ -1,0 +1,12 @@
+<div class="search" (click)="searchInput.focus()">
+  <span class="search__icon">
+    <mat-icon>search</mat-icon>
+  </span>
+  <input
+    #searchInput
+    type="text"
+    class="search__input"
+    [placeholder]="placeholder"
+    [formControl]="searchControl"
+  />
+</div>

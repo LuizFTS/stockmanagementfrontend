@@ -1,3 +1,8 @@
-<div class="card">
+<div
+  class="card"
+  [class.padding-sm]="padding === 1"
+  [class.padding-md]="padding === 2"
+  [class.padding-lg]="padding === 3"
+>
   <ng-content></ng-content>
 </div>

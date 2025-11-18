@@ -15,63 +15,36 @@
       <h2>Alterar informações gerais</h2>
     </div>
     <form class="container__form" [formGroup]="userForm" (ngSubmit)="updateHandle()">
-      <div class="container__form__input-group">
-        <label for="firstName">Nome *</label>
-        <input
-          type="text"
-          id="firstName"
-          formControlName="firstName"
-          placeholder=" "
-          [class.error]="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched"
-        />
-        @if (userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched) {
-          <span class="error-text">
-            @if (userForm.get('firstName')?.errors?.['required']) {
-              Nome é obrigatório
-            } @else if (userForm.get('firstName')?.errors?.['minlength']) {
-              Nome deve ter pelo menos 2 caracteres
-            }
-          </span>
-        }
-      </div>
-      <div class="container__form__input-group">
-        <label for="lastName">Sobrenome *</label>
-        <input
-          type="text"
-          id="lastName"
-          formControlName="lastName"
-          placeholder=" "
-          [class.error]="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched"
-        />
-        @if (userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched) {
-          <span class="error-text">
-            @if (userForm.get('lastName')?.errors?.['required']) {
-              Sobrenome é obrigatório
-            } @else if (userForm.get('lastName')?.errors?.['minlength']) {
-              Sobrenome deve ter pelo menos 2 caracteres
-            }
-          </span>
-        }
-      </div>
-      <div class="container__form__input-group">
-        <label for="email">E-mail *</label>
-        <input
-          type="text"
-          id="email"
-          formControlName="email"
-          placeholder=" "
-          [class.error]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
-        />
-        @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
-          <span class="error-text">
-            @if (userForm.get('email')?.errors?.['required']) {
-              E-mail é obrigatório
-            } @else if (userForm.get('email')?.errors?.['email']) {
-              E-mail inválido
-            }
-          </span>
-        }
-      </div>
+      <stk-text-input
+        type="text"
+        id="firstName"
+        label="Nome *"
+        [control]="userForm.get('firstName')"
+        [errorMessages]="{
+          required: 'Campo obrigatório',
+          minlength: 'Nome deve ter pelo menos 2 caracteres',
+        }"
+      />
+      <stk-text-input
+        type="text"
+        id="lastName"
+        label="Sobrenome *"
+        [control]="userForm.get('lastName')"
+        [errorMessages]="{
+          required: 'Campo obrigatório',
+          minlength: 'Sobrenome deve ter pelo menos 2 caracteres',
+        }"
+      />
+      <stk-text-input
+        type="email"
+        id="email"
+        label="E-mail *"
+        [control]="userForm.get('email')"
+        [errorMessages]="{
+          required: 'Campo obrigatório',
+          email: 'E-mail inválido',
+        }"
+      />
       <app-button
         [disabled]="userForm.invalid"
         [type]="'submit'"
