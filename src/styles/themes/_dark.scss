@@ -4,6 +4,8 @@ body[data-theme='dark'] {
   --bg-color: #{variables.$gray-9};
   --text-color: #{variables.$gray-2};
 
+  --text-dark: #{variables.$gray-8};
+
   --border-color: #{variables.$gray-4};
 
   --primary-color-l: #{variables.$green-1};

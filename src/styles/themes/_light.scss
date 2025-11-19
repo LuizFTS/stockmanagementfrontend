@@ -2,6 +2,7 @@
 
 body[data-theme='light'] {
   --bg-color: #{variables.$gray-2};
+  --hover-color: #{variables.$gray-4};
   --text-color: #{variables.$gray-9};
 
   --border-color: #{variables.$gray-4};

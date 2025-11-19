@@ -1,57 +1,57 @@
 <div class="main">
   <h1>Perfil</h1>
 
-  <div class="container">
-    @if (messageDisplayed.message.length > 0) {
-      <stk-message-notification
-        [message]="messageDisplayed.message"
-        [status]="messageDisplayed.status"
-      />
-    }
-    <div class="container__back">
-      <stk-button-back path="/profile" />
+  <stk-card [padding]="2">
+    <div class="container">
+      @if (messageDisplayed.message.length > 0) {
+        <stk-message-notification
+          [message]="messageDisplayed.message"
+          [status]="messageDisplayed.status"
+        />
+      }
+      <stk-back-button path="/profile" />
+      <div class="container__title">
+        <h2>Alterar informações gerais</h2>
+      </div>
+      <form class="container__form" [formGroup]="userForm" (ngSubmit)="updateHandle()">
+        <stk-text-input
+          type="text"
+          id="firstName"
+          label="Nome *"
+          [control]="userForm.get('firstName')"
+          [errorMessages]="{
+            required: 'Nome é obrigatório',
+            minlength: 'Nome deve ter pelo menos 2 caracteres',
+          }"
+        />
+        <stk-text-input
+          type="text"
+          id="lastName"
+          label="Sobrenome *"
+          [control]="userForm.get('lastName')"
+          [errorMessages]="{
+            required: 'Sobrenome é obrigatório',
+            minlength: 'Sobrenome deve ter pelo menos 2 caracteres',
+          }"
+        />
+        <stk-text-input
+          type="email"
+          id="email"
+          label="E-mail *"
+          [control]="userForm.get('email')"
+          [errorMessages]="{
+            required: 'E-mail é obrigatório',
+            email: 'E-mail inválido',
+          }"
+        />
+        <app-button
+          [disabled]="userForm.invalid"
+          [type]="'submit'"
+          [loading]="isLoading"
+          class="container__form__btn"
+          >Alterar</app-button
+        >
+      </form>
     </div>
-    <div class="container__title">
-      <h2>Alterar informações gerais</h2>
-    </div>
-    <form class="container__form" [formGroup]="userForm" (ngSubmit)="updateHandle()">
-      <stk-text-input
-        type="text"
-        id="firstName"
-        label="Nome *"
-        [control]="userForm.get('firstName')"
-        [errorMessages]="{
-          required: 'Campo obrigatório',
-          minlength: 'Nome deve ter pelo menos 2 caracteres',
-        }"
-      />
-      <stk-text-input
-        type="text"
-        id="lastName"
-        label="Sobrenome *"
-        [control]="userForm.get('lastName')"
-        [errorMessages]="{
-          required: 'Campo obrigatório',
-          minlength: 'Sobrenome deve ter pelo menos 2 caracteres',
-        }"
-      />
-      <stk-text-input
-        type="email"
-        id="email"
-        label="E-mail *"
-        [control]="userForm.get('email')"
-        [errorMessages]="{
-          required: 'Campo obrigatório',
-          email: 'E-mail inválido',
-        }"
-      />
-      <app-button
-        [disabled]="userForm.invalid"
-        [type]="'submit'"
-        [loading]="isLoading"
-        class="container__form__btn"
-        >Alterar</app-button
-      >
-    </form>
-  </div>
+  </stk-card>
 </div>

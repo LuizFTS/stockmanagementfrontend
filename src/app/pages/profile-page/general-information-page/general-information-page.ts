@@ -12,10 +12,11 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Button } from '../../../shared/components/button/button';
-import { ButtonBackComponent } from '../components/button-back-component/button-back-component';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 import { capitalize } from '../../../shared/utils/capitalize';
 import { TextInput } from '../../../shared/components/text-input/text-input';
+import { Card } from '../../../shared/components/card/card';
+import { BackButton } from '../../../shared/components/back-button/back-button';
 
 interface Message {
   status: string;
@@ -24,13 +25,7 @@ interface Message {
 
 @Component({
   selector: 'app-general-information-page',
-  imports: [
-    ReactiveFormsModule,
-    Button,
-    ButtonBackComponent,
-    MessageNotificationComponent,
-    TextInput,
-  ],
+  imports: [ReactiveFormsModule, Button, BackButton, MessageNotificationComponent, TextInput, Card],
   templateUrl: './general-information-page.html',
   styleUrl: './general-information-page.scss',
 })

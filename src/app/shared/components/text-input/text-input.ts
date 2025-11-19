@@ -8,11 +8,11 @@ import { ReactiveFormsModule, type AbstractControl } from '@angular/forms';
   styleUrl: './text-input.scss',
 })
 export class TextInput {
-  @Input() label: string = '';
-  @Input() type: string = '';
-  @Input() id: string = '';
-  @Input() control: AbstractControl | null = null;
-  @Input() errorMessages: { [key: string]: string } = {};
+  @Input() label!: string;
+  @Input() type!: string;
+  @Input() id!: string;
+  @Input() control!: AbstractControl | null;
+  @Input() errorMessages!: { [key: string]: string };
 
   get isValid(): boolean {
     return !!(this.control && !this.control.invalid);

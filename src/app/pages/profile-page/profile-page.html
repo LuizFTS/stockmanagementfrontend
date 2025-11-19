@@ -1,13 +1,15 @@
 <div class="main">
   <h1>Perfil</h1>
 
-  <div class="menuContainer">
-    @for (item of menuData; track item.id) {
-      <div class="menuContainer__item" (click)="navigate(item.path)">
-        <mat-icon fontSet="material-icons-outlined">{{ item.icon }}</mat-icon>
-        <p>{{ item.title }}</p>
-        <mat-icon class="menuContainer__item__arrow">arrow_back_ios</mat-icon>
-      </div>
-    }
-  </div>
+  <stk-card>
+    <div class="menuContainer">
+      @for (item of menuData; track item.id) {
+        <div class="menuContainer__item" (click)="navigate(item.path)">
+          <mat-icon fontSet="material-icons-outlined">{{ item.icon }}</mat-icon>
+          <p>{{ item.title }}</p>
+          <mat-icon class="menuContainer__item__arrow">arrow_back_ios</mat-icon>
+        </div>
+      }
+    </div>
+  </stk-card>
 </div>

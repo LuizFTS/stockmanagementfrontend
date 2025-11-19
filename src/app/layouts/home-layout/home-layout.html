@@ -6,5 +6,7 @@
     <mat-icon>menu</mat-icon>
   </div>
   <stk-sidebar [active]="isSidebarOpen" (opened)="toggleSidebar($event)" />
-  <router-outlet></router-outlet>
+  <main class="main__container">
+    <router-outlet></router-outlet>
+  </main>
 </div>

@@ -8,10 +8,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
+import { Pagination } from '../../../shared/components/pagination/pagination';
 
 @Component({
   selector: 'app-products-page',
-  imports: [Card, ProductItem, MatIcon, ReactiveFormsModule, ItensNotFound, SearchInput],
+  imports: [Card, ProductItem, ReactiveFormsModule, ItensNotFound, SearchInput, Pagination],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
 })
@@ -20,6 +21,8 @@ export class ProductsPage {
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
+
+  currentPage: number = 1;
 
   constructor(private productService: ProductService) {}
 
@@ -38,5 +41,11 @@ export class ProductsPage {
     this.filteredProducts = this.products.filter((p) => {
       return p.name.toLowerCase().includes(value) || p.description.toLowerCase().includes(value);
     });
+  }
+
+  changePage(page: number) {
+    if (this.currentPage === page) return;
+    console.log(page);
+    this.currentPage = page;
   }
 }

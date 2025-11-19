@@ -7,21 +7,13 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatIcon } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
 import { UserService } from '../../../core/services/user.service';
-import { ButtonBackComponent } from '../components/button-back-component/button-back-component';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
-
-interface PasswordData {
-  type: string;
-  data: string;
-  isValid: boolean;
-  errorMessage: string;
-  visible: boolean;
-}
+import { Card } from '../../../shared/components/card/card';
+import { BackButton } from '../../../shared/components/back-button/back-button';
 
 interface Message {
   status: string;
@@ -31,15 +23,15 @@ interface Message {
 @Component({
   selector: 'app-change-password-page',
   imports: [
-    MatIcon,
     RouterModule,
     CommonModule,
     FormsModule,
     Button,
-    ButtonBackComponent,
+    BackButton,
     MessageNotificationComponent,
     ReactiveFormsModule,
     PasswordInput,
+    Card,
   ],
   templateUrl: './change-password-page.html',
   styleUrl: './change-password-page.scss',

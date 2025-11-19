@@ -1,47 +1,36 @@
-:host {
-  width: 100%;
-}
+@use '../../../../styles/breakpoints' as *;
+@use '../../../../styles/mixins' as mix;
 
 .input-group {
   display: flex;
-  width: 100%;
   position: relative;
   flex-direction: column;
   position: relative;
   gap: 5px;
 
-  & label {
+  &__label {
     font-size: 14px;
   }
 
-  & input {
-    background-color: var(--bg-color);
-    outline: none;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    height: 30px;
-    padding-left: 10px;
-    width: 100%;
+  &__input {
+    @include mix.input;
+
+    &.valid {
+      border-color: #4caf50;
+    }
+
+    &.invalid {
+      border-color: #f44336;
+    }
+  }
+
+  &__label {
+    @include respond('md') {
+      font-size: 16px;
+    }
   }
 }
 
 .error-text {
-  bottom: -18px;
-  left: 0rem;
-  font-size: 14px;
-  padding-bottom: 10px;
-  color: #f44336;
-  font-weight: 500;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  @include mix.error-text;
 }

@@ -3,12 +3,12 @@ import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'stk-button-back',
+  selector: 'stk-back-button',
   imports: [MatIcon],
-  templateUrl: './button-back-component.html',
-  styleUrl: './button-back-component.scss',
+  templateUrl: './back-button.html',
+  styleUrl: './back-button.scss',
 })
-export class ButtonBackComponent {
+export class BackButton {
   @Input() path: string = '';
 
   private router = inject(Router);

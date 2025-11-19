@@ -15,7 +15,7 @@
         [date]="item.createdAt"
         [nameInfo]="{ type: 'Fornecedor', name: item.supplier.name }"
         [value]="item.totalValue"
-        [itens]="{ qt: filteredPurchases.length, index: i }"
+        [index]="i"
       />
     }
     @if (filteredPurchases.length === 0) {

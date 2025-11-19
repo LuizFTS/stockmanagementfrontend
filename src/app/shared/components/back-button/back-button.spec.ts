@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ButtonBackComponent } from './button-back-component';
+import { BackButton } from './back-button';
 
-describe('ButtonBackComponent', () => {
-  let component: ButtonBackComponent;
-  let fixture: ComponentFixture<ButtonBackComponent>;
+describe('BackButton', () => {
+  let component: BackButton;
+  let fixture: ComponentFixture<BackButton>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonBackComponent]
+      imports: [BackButton]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ButtonBackComponent);
+    fixture = TestBed.createComponent(BackButton);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

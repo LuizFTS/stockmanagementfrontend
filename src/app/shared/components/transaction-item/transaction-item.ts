@@ -12,9 +12,8 @@ export class TransactionItem {
   @Input() date: string = '';
   @Input() value: number = 0;
 
-  @Input() itens: { qt: number; index: number } = { qt: 0, index: 0 };
+  @Input() index: number = 0;
 
-  lastItem: boolean = false;
   firstItem: boolean = false;
 
   formatDate(date: string): string {
@@ -22,8 +21,7 @@ export class TransactionItem {
   }
 
   ngOnInit() {
-    this.lastItem = this.itens.index === this.itens.qt - 1;
-    this.firstItem = this.itens.index === 0;
+    this.firstItem = this.index === 0;
   }
 
   formatValue(value: number): string {

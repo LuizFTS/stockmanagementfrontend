@@ -14,16 +14,12 @@ export class ProductItem implements OnChanges {
   @Input() createdAt: string = '';
   @Input() saldo: number = 0;
 
-  @Input() itens!: { qt: number; index: number };
+  @Input() index: number = 0;
 
-  lastItem: boolean = false;
   firstItem: boolean = false;
-  uniqueItem: boolean = false;
 
   ngOnChanges() {
-    this.lastItem = this.itens.index === this.itens.qt - 1 && this.itens.qt > 1;
-    this.firstItem = this.itens.index === 0 && this.itens.qt > 1;
-    this.uniqueItem = this.itens.qt === 1;
+    this.firstItem = this.index === 0;
   }
 
   formatDate(date: string): string {

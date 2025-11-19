@@ -1,0 +1,60 @@
+@use '../../../../styles/mixins' as mix;
+
+.pagination {
+  display: flex;
+  gap: 8px;
+
+  &__button {
+    @include mix.flex-center;
+
+    padding: 6px;
+    line-height: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.1s;
+
+    & span {
+      @include mix.flex-center;
+      height: 24px;
+      width: 24px;
+    }
+
+    &.active {
+      background: var(--btn-bg-gray);
+      color: var(--btn-text-gray);
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+      color: var(--text-dark);
+    }
+
+    &:hover:not(:disabled):not(.active) {
+      background-color: var(--hover-color);
+    }
+  }
+
+  &__arrow {
+    @include mix.flex-center;
+    border: none;
+    border-radius: 5px;
+    padding: 6px;
+    line-height: 0;
+    cursor: pointer;
+    height: 36px;
+
+    background: transparent;
+    transition: background 0.1s;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: var(--hover-color);
+    }
+  }
+}

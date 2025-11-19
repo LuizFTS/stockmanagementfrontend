@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
+import { Card } from '../../shared/components/card/card';
 
 interface Menu {
   id: number;
@@ -16,7 +17,7 @@ const MENU_PROFILE: Menu[] = [
 
 @Component({
   selector: 'app-profile-page',
-  imports: [MatIcon, RouterModule],
+  imports: [MatIcon, RouterModule, Card],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.scss',
 })

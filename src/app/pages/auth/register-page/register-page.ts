@@ -4,7 +4,9 @@ import { MessageNotificationComponent } from '../../../shared/components/message
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Button } from '../../../shared/components/button/button';
-import { ButtonBackComponent } from '../../profile-page/components/button-back-component/button-back-component';
+import { TextInput } from '../../../shared/components/text-input/text-input';
+import { PasswordInput } from '../../../shared/components/password-input/password-input';
+import { BackButton } from '../../../shared/components/back-button/back-button';
 
 interface Message {
   status: string;
@@ -21,7 +23,14 @@ interface NewUser {
 
 @Component({
   selector: 'app-register-page',
-  imports: [ReactiveFormsModule, MessageNotificationComponent, Button, ButtonBackComponent],
+  imports: [
+    ReactiveFormsModule,
+    MessageNotificationComponent,
+    Button,
+    BackButton,
+    TextInput,
+    PasswordInput,
+  ],
   templateUrl: './register-page.html',
   styleUrl: './register-page.scss',
 })
@@ -46,10 +55,10 @@ export class RegisterPage {
         firstName: ['', [Validators.required, Validators.minLength(2)]],
         lastName: ['', [Validators.required, Validators.minLength(2)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
         confirmPassword: [
           '',
-          [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
+          [Validators.required, Validators.minLength(8), Validators.maxLength(25)],
         ],
       },
       {

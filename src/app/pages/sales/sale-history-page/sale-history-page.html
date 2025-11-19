@@ -15,7 +15,7 @@
         [date]="item.createdAt"
         [nameInfo]="{ type: 'Cliente', name: item.customer.name }"
         [value]="item.totalValue"
-        [itens]="{ qt: filteredSales.length, index: i }"
+        [index]="i"
       />
     }
     @if (filteredSales.length === 0) {
