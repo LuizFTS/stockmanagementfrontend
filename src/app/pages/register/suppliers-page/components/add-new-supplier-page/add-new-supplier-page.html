@@ -5,6 +5,7 @@
   <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
   <section>
     <stk-card [padding]="2">
+      <stk-back-button path="/register/suppliers" />
       @if (currentStep === 1) {
         <stk-supplier-tax-id [form]="supplierForm" (nextStep)="nextStep()" />
       }

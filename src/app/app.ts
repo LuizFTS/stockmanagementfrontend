@@ -26,7 +26,8 @@ export class App {
     });
 
     if (this.auth.isLoggedIn()) {
-      this.router.navigate(['home']);
+      /* this.router.navigate(['home']); */
+      this.router.navigate(['suppliers']);
     } else {
       this.router.navigate(['/login']);
     }

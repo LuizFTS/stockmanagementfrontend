@@ -13,7 +13,9 @@ export class BackButton {
 
   private router = inject(Router);
 
-  navigate(path: string) {
-    this.router.navigate([path]);
+  navigate() {
+    if (this.path.length > 0) {
+      this.router.navigate([this.path]);
+    }
   }
 }

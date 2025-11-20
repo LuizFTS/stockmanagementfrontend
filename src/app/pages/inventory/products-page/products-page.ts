@@ -24,33 +24,39 @@ export class ProductsPage {
 
   currentPage: number = 1;
   pageSize: number = 10;
+  totalItems: number = 1;
+  filter: string = '';
 
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    this.productService.getProducts().subscribe({
-      next: (response) => {
-        this.products = response;
-        this.filteredProducts = response;
-      },
-    });
+    this.getProductsByPage(this.filter, this.currentPage, this.pageSize);
   }
 
   onSearch(term: string) {
-    const value = term?.toLowerCase() ?? '';
-
-    this.filteredProducts = this.products.filter((p) => {
-      return p.name.toLowerCase().includes(value) || p.description.toLowerCase().includes(value);
-    });
+    this.filter = term?.toLowerCase() ?? '';
+    this.getProductsByPage(this.filter, this.currentPage, this.pageSize);
   }
 
   changePage(page: number) {
     if (this.currentPage === page) return;
-    console.log(page);
     this.currentPage = page;
+    this.getProductsByPage(this.filter, page, this.pageSize);
   }
+
   changePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.currentPage = 1;
+    this.getProductsByPage(this.filter, this.currentPage, this.pageSize);
+  }
+
+  private getProductsByPage(filter: string, page: number, pageSize: number) {
+    this.productService.getProductsByPage(filter, page - 1, pageSize).subscribe({
+      next: (response) => {
+        this.products = response.content;
+        this.filteredProducts = response.content;
+        this.totalItems = response.totalElements;
+      },
+    });
   }
 }

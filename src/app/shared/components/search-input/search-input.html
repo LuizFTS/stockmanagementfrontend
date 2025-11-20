@@ -1,4 +1,4 @@
-<div class="search" (click)="searchInput.focus()">
+<form class="search" [formGroup]="form" (click)="searchInput.focus()" (ngSubmit)="onSearch()">
   <span class="search__icon">
     <mat-icon>search</mat-icon>
   </span>
@@ -7,6 +7,7 @@
     type="text"
     class="search__input"
     [placeholder]="placeholder"
-    [formControl]="searchControl"
+    formControlName="search"
   />
-</div>
+  <button type="submit" class="search__button">Pesquisar</button>
+</form>

@@ -45,8 +45,8 @@ const MENU = [
   {
     name: 'Cadastro',
     itens: [
-      { item: 'Clientes', path: '/register/customers' },
-      { item: 'Fornecedores', path: '/register/suppliers' },
+      { item: 'Clientes', path: '/customers' },
+      { item: 'Fornecedores', path: '/suppliers' },
     ],
     icon: 'list_alt_check',
   },

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="container__title">
+    <h2>Informações do fornecedor</h2>
+  </div>
+  <stk-text-input
+    type="text"
+    id="cnpj"
+    label="Digite o CNPJ *"
+    [control]="form.get('cnpj')"
+    [errorMessages]="{
+      required: 'CNPJ é obrigatório',
+      cnpjInvalid: 'CNPJ inválido',
+    }"
+  />
+  <app-button
+    [disabled]="form.get('cnpj')?.invalid ?? true"
+    (click)="next()"
+    [type]="'button'"
+    class="container__form__btn"
+    >Próximo passo
+  </app-button>
+</div>

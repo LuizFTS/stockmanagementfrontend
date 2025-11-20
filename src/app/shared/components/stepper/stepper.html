@@ -1,0 +1,17 @@
+<div class="stepper">
+  @for (item of steps; track item) {
+    <span
+      class="stepper__step"
+      [class.first]="item === 1"
+      [class.has-next]="item < totalSteps"
+      [class.completed]="item < currentStep"
+      [class.last]="item === totalSteps"
+    >
+      @if (item < currentStep) {
+        <mat-icon>done</mat-icon>
+      } @else {
+        <p>{{ item }}</p>
+      }
+    </span>
+  }
+</div>

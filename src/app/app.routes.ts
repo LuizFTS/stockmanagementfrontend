@@ -14,6 +14,7 @@ import { SuppliersPage } from './pages/register/suppliers-page/suppliers-page';
 import { GeneralInformationPage } from './pages/profile-page/general-information-page/general-information-page';
 import { ChangePasswordPage } from './pages/profile-page/change-password-page/change-password-page';
 import { RegisterPage } from './pages/auth/register-page/register-page';
+import { AddNewSupplierPage } from './pages/register/suppliers-page/components/add-new-supplier-page/add-new-supplier-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
@@ -32,9 +33,10 @@ export const routes: Routes = [
       { path: 'sales/history', component: SaleHistoryPage },
       { path: 'inventory/products', component: ProductsPage },
       { path: 'inventory/movement', component: InventoryMovementPage },
-      { path: 'register/customers', component: CustomersPage },
-      { path: 'register/suppliers', component: SuppliersPage },
+      { path: 'customers', component: CustomersPage },
+      { path: 'suppliers', component: SuppliersPage },
+      { path: 'suppliers/add', component: AddNewSupplierPage },
     ],
   },
-  { path: '**', redirectTo: '/' },
+  { path: '**', redirectTo: '/home' },
 ];
