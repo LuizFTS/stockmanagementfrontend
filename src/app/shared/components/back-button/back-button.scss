@@ -1,13 +1,19 @@
+@use '../../../../styles/mixins' as mix;
+
+:host {
+  @include mix.main-host;
+  justify-content: flex-start;
+}
+
 .back__container {
-  display: flex;
-  align-items: center;
-  justify-content: left;
+  display: block;
+  padding: 3px 12px;
+  border: 1px solid transparent;
+  border-radius: 5px;
 
   &__btn {
-    display: flex;
+    @include mix.flex-center;
     gap: 10px;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     padding: 5px 0;
 
@@ -21,9 +27,12 @@
     & p {
       font-weight: 500;
     }
+  }
+  &:hover > .back__container__btn p {
+    text-decoration: underline;
+  }
 
-    &:hover > p {
-      text-decoration: underline;
-    }
+  &:hover {
+    border: 1px solid var(--border-color);
   }
 }

@@ -23,6 +23,7 @@ export class PurchaseHistoryPage {
       next: (response) => {
         this.purchases = response;
         this.filteredPurchases = response;
+        console.log(response);
       },
       error: (err) => {
         console.error(err);

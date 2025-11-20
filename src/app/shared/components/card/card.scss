@@ -1,7 +1,7 @@
+@use '../../../../styles/mixins' as mix;
+
 :host {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  @include mix.main-host;
 }
 
 .card {

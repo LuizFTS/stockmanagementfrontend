@@ -27,8 +27,9 @@
   </section>
   <stk-pagination
     [totalItems]="55"
-    [pageSize]="10"
+    [pageSize]="pageSize"
     [currentPage]="currentPage"
     (pageChange)="changePage($event)"
+    (pageSizeChange)="changePageSize($event)"
   />
 </div>

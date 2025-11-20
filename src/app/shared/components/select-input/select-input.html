@@ -1,0 +1,19 @@
+<div class="select">
+  <div class="select__selected" (click)="toggleOptions()" [class.active]="isOpen">
+    <span>
+      {{ selectedOption }}
+    </span>
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </div>
+  <ul class="select__options" [class.active]="isOpen">
+    @for (option of options; track option) {
+      <li (click)="onSelect(option)">{{ option }}</li>
+    }
+  </ul>
+
+  <select>
+    @for (option of options; track option) {
+      <option value="{{ option }}">{{ option }}</option>
+    }
+  </select>
+</div>

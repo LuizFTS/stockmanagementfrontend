@@ -14,9 +14,7 @@
   }
 
   &__icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include mix.flex-center;
     line-height: 0;
     position: absolute;
     top: 50%;

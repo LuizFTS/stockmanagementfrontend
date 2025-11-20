@@ -23,6 +23,7 @@ export class ProductsPage {
   filteredProducts: Product[] = [];
 
   currentPage: number = 1;
+  pageSize: number = 10;
 
   constructor(private productService: ProductService) {}
 
@@ -47,5 +48,9 @@ export class ProductsPage {
     if (this.currentPage === page) return;
     console.log(page);
     this.currentPage = page;
+  }
+  changePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.currentPage = 1;
   }
 }

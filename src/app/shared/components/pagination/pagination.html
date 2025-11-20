@@ -28,4 +28,9 @@
       <mat-icon>chevron_right</mat-icon>
     </span>
   </button>
+  <stk-select-input
+    [options]="['10', '20', '50', '100']"
+    (optionSelected)="changePageSize($event)"
+    [selectedOption]="pageSize.toString()"
+  />
 </nav>

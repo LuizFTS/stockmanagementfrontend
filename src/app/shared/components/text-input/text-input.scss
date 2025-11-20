@@ -2,11 +2,7 @@
 @use '../../../../styles/mixins' as mix;
 
 .input-group {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  position: relative;
-  gap: 5px;
+  @include mix.input-group;
 
   &__label {
     font-size: 14px;

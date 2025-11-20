@@ -14,11 +14,13 @@
     background: transparent;
     cursor: pointer;
     transition: background 0.1s;
+    height: 38px;
 
     & span {
       @include mix.flex-center;
       height: 24px;
       width: 24px;
+      font-size: 14px;
     }
 
     &.active {
@@ -39,12 +41,13 @@
 
   &__arrow {
     @include mix.flex-center;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 5px;
     padding: 6px;
     line-height: 0;
     cursor: pointer;
-    height: 36px;
+    font-size: 14px;
+    height: 38px;
 
     background: transparent;
     transition: background 0.1s;
@@ -55,6 +58,28 @@
 
     &:hover:not(:disabled) {
       background-color: var(--hover-color);
+    }
+
+    &:hover {
+      border-color: var(--hover-color);
+    }
+  }
+
+  &__select {
+    @include mix.flex-center;
+    padding: 6px;
+    border-radius: 5px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+
+    & option {
+      background-color: var(--bg-color);
+      border-radius: 5px;
+
+      &:hover {
+        background-color: var(--hover-color);
+      }
     }
   }
 }

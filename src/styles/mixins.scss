@@ -33,6 +33,13 @@
   }
 }
 
+@mixin input-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 5px;
+}
+
 @mixin input {
   outline: none;
   border: 1px solid var(--border-color);
