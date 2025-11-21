@@ -54,4 +54,13 @@ export class SupplierService {
   update({ id, email, phone }: UpdateSupplierRequest): Observable<PageableResponse<Supplier>> {
     return this.http.put<PageableResponse<Supplier>>(`${this.apiUrl}/${id}`, { phone, email });
   }
+
+  deactivate({ id, taxId }: { id?: string; taxId?: string }): Observable<void> {
+    const idQuery = id ? `id=${id}` : null;
+    const taxIdQuery = taxId ? `taxId=${taxId}` : null;
+
+    const query = [idQuery, taxIdQuery].filter((q) => q !== null).join('&');
+
+    return this.http.delete<void>(`${this.apiUrl}?${query}`);
+  }
 }

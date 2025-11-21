@@ -118,11 +118,28 @@ export class UpdateSupplierPage {
       cancelText: 'Cancelar',
     });
 
-    if (confirmed) {
-      console.log('Desativado');
-    } else {
-      console.log('Ação cancelada');
-    }
+    if (!confirmed) return;
+    this.supplierService.deactivate({ id: this.id }).subscribe({
+      next: () => {
+        this.messageDisplayed = {
+          status: 'success',
+          message: 'Fornecedor desativado!',
+        };
+
+        setTimeout(() => {
+          this.navigate('/suppliers');
+        }, 3000);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.messageDisplayed = {
+          status: 'error',
+          message: err.error.message ?? 'Tente novamente mais tarde',
+        };
+        this.isLoading = false;
+      },
+    });
+    this.showMessageHandle();
   }
 
   navigate(path: string) {
