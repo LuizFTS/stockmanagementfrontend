@@ -12,6 +12,7 @@ import { BackButton } from '../../../../../shared/components/back-button/back-bu
 })
 export class SupplierGeneralInformation {
   @Input() form!: FormGroup;
+  @Input() isLoading: boolean = false;
 
   @Output() back = new EventEmitter<void>();
 

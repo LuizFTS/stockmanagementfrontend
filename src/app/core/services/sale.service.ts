@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import type { Sale } from '../models/Sale.model';
+import type { PageableResponse } from '../models/PageableResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class SaleService {
@@ -9,7 +10,7 @@ export class SaleService {
 
   constructor(private http: HttpClient) {}
 
-  getSales(): Observable<Sale[]> {
-    return this.http.get<Sale[]>(`${this.apiUrl}/sales`);
+  getSales(): Observable<PageableResponse<Sale[]>> {
+    return this.http.get<PageableResponse<Sale[]>>(`${this.apiUrl}/sales`);
   }
 }

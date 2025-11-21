@@ -1,42 +1,74 @@
-import { Component } from '@angular/core';
-import { Stepper } from '../../../shared/components/stepper/stepper';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { CnpjValidator } from '../../../shared/utils/CnpjValidator';
-import { SupplierTaxId } from './components/supplier-tax-id/supplier-tax-id';
+import { Component, inject } from '@angular/core';
 import { Card } from '../../../shared/components/card/card';
-import { SupplierGeneralInformation } from './components/supplier-general-information/supplier-general-information';
+import { SupplierItem } from './components/supplier-item/supplier-item';
+import { SearchInput } from '../../../shared/components/search-input/search-input';
+import { FormControl } from '@angular/forms';
+import type { Supplier } from '../../../core/models/Supplier.model';
+import { SupplierService } from '../../../core/services/supplier.service';
+import { Pagination } from '../../../shared/components/pagination/pagination';
+import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
+import { Button } from '../../../shared/components/button/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-suppliers-page',
-  imports: [Stepper, SupplierTaxId, Card, SupplierGeneralInformation],
+  imports: [Card, SupplierItem, SearchInput, Pagination, ItensNotFound, Button],
   templateUrl: './suppliers-page.html',
   styleUrl: './suppliers-page.scss',
 })
 export class SuppliersPage {
-  supplierForm: FormGroup;
-  currentStep: number = 1;
-  totalSteps: number = 2;
+  private router = inject(Router);
+  searchControl = new FormControl('');
 
-  constructor(private fb: FormBuilder) {
-    this.supplierForm = this.newSupplierForm();
+  suppliers: Supplier[] = [];
+  filteredSuppliers: Supplier[] = [];
+
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalItems: number = 1;
+  filter: string = '';
+
+  constructor(private supplierService: SupplierService) {}
+
+  ngOnInit() {
+    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
   }
 
-  private newSupplierForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      cnpj: ['', [Validators.required, CnpjValidator.cnpj()]],
+  onSearch(term: string) {
+    this.filter = term?.toLowerCase() ?? '';
+    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
+  }
+
+  changePage(page: number) {
+    if (this.currentPage === page) return;
+    this.currentPage = page;
+    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
+  }
+
+  changePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.currentPage = 1;
+    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
+  }
+
+  navigate(path: string) {
+    this.router.navigate([path]);
+  }
+
+  private getSuppliers(
+    page: number,
+    pageSize: number,
+    filter?: string,
+    id?: string,
+    taxId?: string,
+    name?: string,
+  ) {
+    this.supplierService.get(page - 1, pageSize, filter, id, taxId, name).subscribe({
+      next: (response) => {
+        this.suppliers = response.content;
+        this.filteredSuppliers = response.content;
+        this.totalItems = response.totalElements;
+      },
     });
-  }
-
-  nextStep() {
-    this.currentStep++;
-  }
-
-  back() {
-    this.currentStep--;
   }
 }

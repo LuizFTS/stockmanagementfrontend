@@ -41,8 +41,8 @@
       </div>
 
       <div class="login_page__container__form__div__submit">
-        <app-button [disabled]="loginForm.invalid && !isLoading" type="submit" [loading]="isLoading"
-          >Entrar</app-button
+        <stk-button [disabled]="loginForm.invalid && !isLoading" type="submit" [loading]="isLoading"
+          >Entrar</stk-button
         >
         <a (click)="navigate('/register')">Criar nova conta</a>
       </div>

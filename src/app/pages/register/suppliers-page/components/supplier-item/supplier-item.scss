@@ -1,0 +1,20 @@
+.item {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-color);
+
+  &__info {
+    & h2 {
+      font-size: 18px;
+    }
+
+    & p {
+      font-size: 12px;
+    }
+  }
+
+  &.first-item {
+    border-top: none;
+  }
+}

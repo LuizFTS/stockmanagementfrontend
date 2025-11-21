@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Button } from '../../../../../shared/components/button/button';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
 import type { FormGroup } from '@angular/forms';
+import { BackButton } from '../../../../../shared/components/back-button/back-button';
 
 @Component({
   selector: 'stk-supplier-tax-id',
-  imports: [Button, TextInput],
+  imports: [Button, TextInput, BackButton],
   templateUrl: './supplier-tax-id.html',
   styleUrl: './supplier-tax-id.scss',
 })

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import type { User } from '../models/User.model';
 import { BehaviorSubject, map, tap, type Observable } from 'rxjs';
 import type { ResponseStatus } from '../models/ResponseStatus.model';
-import type { UpdateUser } from '../models/UpdateUserRequest.model';
-import type { RegisterUserRequest } from '../models/RegisterUserRequest.model';
+import type { UpdateUser } from '../models/request/UpdateUserRequest.model';
+import type { RegisterUserRequest } from '../models/request/RegisterUserRequest.model';
 import { capitalize } from '../../shared/utils/capitalize';
 
 interface UserCreated {

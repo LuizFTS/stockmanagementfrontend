@@ -3,15 +3,15 @@
 
 :host {
   @include mix.flex-center;
+  width: 100%;
 }
 
 .btn {
-  width: 100%;
-  padding: 10px 0;
+  @include mix.flex-center;
+  width: auto;
+  padding: 20px 35px;
   font-size: 18px;
   font-weight: 500;
-  background-color: var(--btn-bg);
-  color: var(--btn-text);
   transition: background 0.1s;
   cursor: pointer;
   outline: none;
@@ -28,11 +28,39 @@
   }
 
   &:disabled {
-    background-color: var(--btn-disabled);
-    color: var(--btn-text);
     cursor: not-allowed;
     transform: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &.green {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+
+    &:hover:not(:disabled) {
+      background-color: var(--btn-hover);
+    }
+
+    &:disabled {
+      background-color: var(--btn-disabled);
+      color: var(--btn-text);
+    }
+  }
+
+  &.black {
+    background-color: var(--btn-bg-gray);
+    color: var(--btn-text-gray);
+
+    &:hover:not(:disabled) {
+      background-color: var(--btn-hover-gray);
+    }
+
+    &:disabled {
+      &:disabled {
+        background-color: var(--btn-disabled);
+        color: var(--btn-text);
+      }
+    }
   }
 
   @include respond('md') {

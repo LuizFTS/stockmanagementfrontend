@@ -1,22 +1,23 @@
 <div class="container">
+  <stk-back-button path="/suppliers" />
   <div class="container__title">
     <h2>Informações do fornecedor</h2>
   </div>
   <stk-text-input
     type="text"
-    id="cnpj"
+    id="taxId"
     label="Digite o CNPJ *"
-    [control]="form.get('cnpj')"
+    [control]="form.get('taxId')"
     [errorMessages]="{
       required: 'CNPJ é obrigatório',
       cnpjInvalid: 'CNPJ inválido',
     }"
   />
-  <app-button
-    [disabled]="form.get('cnpj')?.invalid ?? true"
+  <stk-button
+    [disabled]="form.get('taxId')?.invalid ?? true"
     (click)="next()"
     [type]="'button'"
     class="container__form__btn"
     >Próximo passo
-  </app-button>
+  </stk-button>
 </div>

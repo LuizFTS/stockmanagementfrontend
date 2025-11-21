@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
-import type { Product } from '../models/Product.model';
 import { HttpClient } from '@angular/common/http';
 import type { PageableResponse } from '../models/PageableResponse.model';
+import type { Customer } from '../models/Customer.model';
 
 @Injectable({ providedIn: 'root' })
-export class ProductService {
-  private readonly apiUrl: string = 'http://localhost:8080/api/products';
+export class CustomerService {
+  private readonly apiUrl: string = 'http://localhost:8080/api/customers';
 
   constructor(private http: HttpClient) {}
 
-  getProductsByPage(
+  get(
     filter: string = '',
     page: number,
     pageSize: number,
-  ): Observable<PageableResponse<Product[]>> {
-    return this.http.get<PageableResponse<Product[]>>(
+  ): Observable<PageableResponse<Customer[]>> {
+    return this.http.get<PageableResponse<Customer[]>>(
       `${this.apiUrl}?filter=${filter}&page=${page}&size=${pageSize}&sort=name,asc`,
     );
   }

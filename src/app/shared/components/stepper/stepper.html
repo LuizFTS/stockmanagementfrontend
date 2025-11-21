@@ -6,6 +6,7 @@
       [class.has-next]="item < totalSteps"
       [class.completed]="item < currentStep"
       [class.last]="item === totalSteps"
+      [class.current]="item === currentStep"
     >
       @if (item < currentStep) {
         <mat-icon>done</mat-icon>

@@ -15,6 +15,7 @@ import { GeneralInformationPage } from './pages/profile-page/general-information
 import { ChangePasswordPage } from './pages/profile-page/change-password-page/change-password-page';
 import { RegisterPage } from './pages/auth/register-page/register-page';
 import { AddNewSupplierPage } from './pages/register/suppliers-page/components/add-new-supplier-page/add-new-supplier-page';
+import { AddNewProductPage } from './pages/inventory/products-page/components/add-new-product-page/add-new-product-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
@@ -32,6 +33,7 @@ export const routes: Routes = [
       { path: 'sales/add', component: NewSalePage },
       { path: 'sales/history', component: SaleHistoryPage },
       { path: 'inventory/products', component: ProductsPage },
+      { path: 'inventory/products/add', component: AddNewProductPage },
       { path: 'inventory/movement', component: InventoryMovementPage },
       { path: 'customers', component: CustomersPage },
       { path: 'suppliers', component: SuppliersPage },

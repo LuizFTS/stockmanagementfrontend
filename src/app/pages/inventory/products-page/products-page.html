@@ -7,6 +7,9 @@
     (searchChange)="onSearch($event)"
     placeholder="Pesquisar por nome ou descrição"
   />
+  <stk-button [model]="1" (click)="navigate('/inventory/products/add')">
+    Cadastrar produto
+  </stk-button>
   <section>
     <stk-card>
       @for (item of filteredProducts; track item.id; let i = $index) {

@@ -21,8 +21,8 @@ export class SaleHistoryPage {
   ngOnInit() {
     this.saleService.getSales().subscribe({
       next: (response) => {
-        this.sales = response;
-        this.filteredSales = response;
+        this.sales = response.content;
+        this.filteredSales = response.content;
       },
       error: (err) => {
         console.error(err);

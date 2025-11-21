@@ -1,22 +1,23 @@
-import { Component, ViewChild, type ElementRef } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Card } from '../../../shared/components/card/card';
 import type { Product } from '../../../core/models/Product.model';
 import { ProductService } from '../../../core/services/product.service';
 import { ProductItem } from './components/product-item/product-item';
-import { MatIcon } from '@angular/material/icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { Pagination } from '../../../shared/components/pagination/pagination';
+import { Button } from '../../../shared/components/button/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products-page',
-  imports: [Card, ProductItem, ReactiveFormsModule, ItensNotFound, SearchInput, Pagination],
+  imports: [Card, ProductItem, ReactiveFormsModule, ItensNotFound, SearchInput, Pagination, Button],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
 })
 export class ProductsPage {
+  private router = inject(Router);
   searchControl = new FormControl('');
 
   products: Product[] = [];
@@ -48,6 +49,10 @@ export class ProductsPage {
     this.pageSize = pageSize;
     this.currentPage = 1;
     this.getProductsByPage(this.filter, this.currentPage, this.pageSize);
+  }
+
+  navigate(path: string) {
+    this.router.navigate([path]);
   }
 
   private getProductsByPage(filter: string, page: number, pageSize: number) {

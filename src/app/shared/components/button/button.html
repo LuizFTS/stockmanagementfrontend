@@ -1,4 +1,11 @@
-<button [type]="type" class="btn" (click)="onClick()" [disabled]="disabled">
+<button
+  [type]="type"
+  class="btn"
+  (click)="onClick()"
+  [disabled]="disabled"
+  [class.green]="model === 0"
+  [class.black]="model === 1"
+>
   @if (loading) {
     <span>
       <svg class="loading-spinner" viewBox="0 0 50 50">

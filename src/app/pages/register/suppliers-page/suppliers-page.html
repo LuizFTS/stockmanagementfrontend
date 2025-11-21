@@ -2,15 +2,31 @@
   <div class="main__title">
     <h1>Fornecedores</h1>
   </div>
-  <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
+  <stk-search-input placeholder="Digite o nome ou CNPJ" (searchChange)="onSearch($event)" />
+
+  <stk-button [model]="1" (click)="navigate('/suppliers/add')"> Cadastrar fornecedor </stk-button>
+
   <section>
-    <stk-card [padding]="2">
-      @if (currentStep === 1) {
-        <stk-supplier-tax-id [form]="supplierForm" (nextStep)="nextStep()" />
+    <stk-card>
+      @for (item of filteredSuppliers; track item.id; let i = $index) {
+        <stk-supplier-item
+          [name]="item.name"
+          [taxId]="item.taxId"
+          [phone]="item.phone"
+          [email]="item.email"
+          [index]="i"
+        />
       }
-      @if (currentStep === 2) {
-        <stk-supplier-general-information [form]="supplierForm" (back)="back()" />
+      @if (filteredSuppliers.length === 0) {
+        <stk-itens-not-found text="Nenhum fornecedor encontrado" />
       }
     </stk-card>
   </section>
+  <stk-pagination
+    [totalItems]="totalItems"
+    [pageSize]="pageSize"
+    [currentPage]="currentPage"
+    (pageChange)="changePage($event)"
+    (pageSizeChange)="changePageSize($event)"
+  />
 </div>

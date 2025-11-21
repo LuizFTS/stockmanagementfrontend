@@ -1,24 +1,47 @@
-import { Component } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CnpjValidator } from '../../../../../shared/utils/CnpjValidator';
 import { Stepper } from '../../../../../shared/components/stepper/stepper';
 import { SupplierTaxId } from '../supplier-tax-id/supplier-tax-id';
 import { Card } from '../../../../../shared/components/card/card';
 import { SupplierGeneralInformation } from '../supplier-general-information/supplier-general-information';
-import { BackButton } from '../../../../../shared/components/back-button/back-button';
+import { capitalize } from '../../../../../shared/utils/capitalize';
+import { SupplierService } from '../../../../../core/services/supplier.service';
+import type { AddSupplierRequest } from '../../../../../core/models/request/AddSupplierRequest.model';
+import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
+import { Router } from '@angular/router';
+
+interface Message {
+  status: string;
+  message: string;
+}
 
 @Component({
   selector: 'app-add-new-supplier-page',
-  imports: [Stepper, SupplierTaxId, Card, SupplierGeneralInformation, BackButton],
+  imports: [
+    Stepper,
+    SupplierTaxId,
+    Card,
+    SupplierGeneralInformation,
+    ReactiveFormsModule,
+    MessageNotificationComponent,
+  ],
   templateUrl: './add-new-supplier-page.html',
   styleUrl: './add-new-supplier-page.scss',
 })
 export class AddNewSupplierPage {
+  private router = inject(Router);
   supplierForm: FormGroup;
   currentStep: number = 1;
   totalSteps: number = 2;
 
-  constructor(private fb: FormBuilder) {
+  isLoading: boolean = false;
+  messageDisplayed: Message = { status: '', message: '' };
+
+  constructor(
+    private fb: FormBuilder,
+    private supplierService: SupplierService,
+  ) {
     this.supplierForm = this.newSupplierForm();
   }
 
@@ -27,8 +50,50 @@ export class AddNewSupplierPage {
       name: ['', [Validators.required, Validators.minLength(2)]],
       phone: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      cnpj: ['', [Validators.required, CnpjValidator.cnpj()]],
+      taxId: ['', [Validators.required, CnpjValidator.cnpj()]],
     });
+  }
+
+  onAddNewSupplier() {
+    if (this.supplierForm.invalid) return;
+    this.isLoading = true;
+
+    const formValue = this.supplierForm.value;
+
+    const updateData = {
+      taxId: formValue.taxId.replace(/\D/g, ''),
+      name: capitalize(formValue.name.toLowerCase()),
+      phone: formValue.phone.replace(/\D/g, ''),
+      email: formValue.email,
+    };
+
+    this.supplierService.create(updateData).subscribe({
+      next: () => {
+        this.messageDisplayed = {
+          status: 'success',
+          message: 'Fornecedor cadastrado!',
+        };
+
+        setTimeout(() => {
+          this.navigate('/suppliers');
+        }, 3000);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.messageDisplayed = {
+          status: 'error',
+          message: err.error.message ?? 'Tente novamente mais tarde',
+        };
+        this.isLoading = false;
+      },
+    });
+    this.showMessageHandle();
+  }
+
+  showMessageHandle() {
+    setTimeout(() => {
+      this.messageDisplayed = { status: '', message: '' };
+    }, 5000);
   }
 
   nextStep() {
@@ -37,5 +102,9 @@ export class AddNewSupplierPage {
 
   back() {
     this.currentStep--;
+  }
+
+  navigate(path: string) {
+    this.router.navigate([path]);
   }
 }

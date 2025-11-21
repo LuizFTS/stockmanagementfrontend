@@ -4,14 +4,25 @@
   </div>
   <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
   <section>
+    @if (messageDisplayed.message.length > 0) {
+      <stk-message-notification
+        [message]="messageDisplayed.message"
+        [status]="messageDisplayed.status"
+      />
+    }
     <stk-card [padding]="2">
-      <stk-back-button path="/register/suppliers" />
-      @if (currentStep === 1) {
-        <stk-supplier-tax-id [form]="supplierForm" (nextStep)="nextStep()" />
-      }
-      @if (currentStep === 2) {
-        <stk-supplier-general-information [form]="supplierForm" (back)="back()" />
-      }
+      <form [formGroup]="supplierForm" (ngSubmit)="onAddNewSupplier()">
+        @if (currentStep === 1) {
+          <stk-supplier-tax-id [form]="supplierForm" (nextStep)="nextStep()" />
+        }
+        @if (currentStep === 2) {
+          <stk-supplier-general-information
+            [isLoading]="isLoading"
+            [form]="supplierForm"
+            (back)="back()"
+          />
+        }
+      </form>
     </stk-card>
   </section>
 </div>
