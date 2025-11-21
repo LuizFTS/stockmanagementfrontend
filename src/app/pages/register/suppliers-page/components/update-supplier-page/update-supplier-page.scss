@@ -40,4 +40,8 @@ stk-message-notification {
     flex-direction: column;
     gap: 10px;
   }
+
+  &__btns {
+    display: flex;
+  }
 }

@@ -1,1 +1,12 @@
 <router-outlet />
+<stk-confirm-modal
+  [isOpen]="modalService.isOpen()"
+  [title]="modalService.title()"
+  [message]="modalService.message()"
+  [confirmText]="modalService.confirmText()"
+  [cancelText]="modalService.cancelText()"
+  (confirm)="modalService.confirm()"
+  (cancel)="modalService.cancel()"
+>
+  /></stk-confirm-modal
+>

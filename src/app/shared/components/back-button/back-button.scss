@@ -8,7 +8,7 @@
 .back__container {
   display: block;
   padding: 3px 12px;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
 
   &__btn {
@@ -28,11 +28,9 @@
       font-weight: 500;
     }
   }
-  &:hover > .back__container__btn p {
-    text-decoration: underline;
-  }
 
   &:hover {
-    border: 1px solid var(--border-color);
+    background-color: var(--btn-hover-gray);
+    color: var(--btn-text-gray);
   }
 }

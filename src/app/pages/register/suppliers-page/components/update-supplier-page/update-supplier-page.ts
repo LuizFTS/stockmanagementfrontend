@@ -8,6 +8,8 @@ import { Card } from '../../../../../shared/components/card/card';
 import { SupplierService } from '../../../../../core/services/supplier.service';
 import type { Supplier } from '../../../../../core/models/Supplier.model';
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 
 interface Message {
   status: string;
@@ -22,6 +24,7 @@ interface Message {
 })
 export class UpdateSupplierPage {
   private router = inject(Router);
+  private modalService = inject(ConfirmationModalService);
 
   messageDisplayed: Message = { status: '', message: '' };
   updateForm: FormGroup;
@@ -34,6 +37,7 @@ export class UpdateSupplierPage {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private supplierService: SupplierService,
+    private dialog: MatDialog,
   ) {
     this.updateForm = this.createUpdateForm();
   }
@@ -104,6 +108,21 @@ export class UpdateSupplierPage {
     setTimeout(() => {
       this.messageDisplayed = { status: '', message: '' };
     }, 5000);
+  }
+
+  async deactivate() {
+    const confirmed = await this.modalService.open({
+      title: 'Confirmar desativação',
+      message: 'Tem certeza que deseja desativar este fornecedor?',
+      confirmText: 'Confirmar',
+      cancelText: 'Cancelar',
+    });
+
+    if (confirmed) {
+      console.log('Desativado');
+    } else {
+      console.log('Ação cancelada');
+    }
   }
 
   navigate(path: string) {

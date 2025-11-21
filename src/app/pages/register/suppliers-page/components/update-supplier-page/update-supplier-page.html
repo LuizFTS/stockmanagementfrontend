@@ -34,13 +34,24 @@
           email: 'E-mail inválido',
         }"
       />
-      <stk-button
-        [loading]="isLoading"
-        [disabled]="updateForm.invalid"
-        [type]="'submit'"
-        class="container__form__btn"
-        >Atualizar cadastro
-      </stk-button>
+      <div class="container__btns">
+        <stk-button
+          [loading]="isLoading"
+          [disabled]="updateForm.invalid"
+          [type]="'button'"
+          (click)="deactivate()"
+          class="container__form__btn"
+          [model]="2"
+          >Desativar fornecedor
+        </stk-button>
+        <stk-button
+          [loading]="isLoading"
+          [disabled]="updateForm.invalid"
+          [type]="'submit'"
+          class="container__form__btn"
+          >Atualizar cadastro
+        </stk-button>
+      </div>
     </form>
   </stk-card>
 </div>

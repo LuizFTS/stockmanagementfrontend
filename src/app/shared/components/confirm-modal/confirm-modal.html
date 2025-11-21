@@ -1,0 +1,33 @@
+@if (shouldRender) {
+  <div
+    class="modal-overlay"
+    [class.fade-in]="isAnimating"
+    [class.fade-out]="!isAnimating"
+    (click)="onOverlayClick($event)"
+  >
+    <div
+      class="modal-content"
+      [class.slide-in]="isAnimating"
+      [class.slide-out]="!isAnimating"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="modal-header">
+        <h2>{{ title }}</h2>
+        <button class="close-btn" (click)="onCancel()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p>{{ message }}</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-cancel" (click)="onCancel()">
+          {{ cancelText }}
+        </button>
+        <button class="btn btn-confirm" (click)="onConfirm()">
+          {{ confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 enum ButtonModels {
   GREEN,
   BLACK,
+  RED,
 }
 
 @Component({
