@@ -31,24 +31,24 @@ export class SuppliersPage {
   constructor(private supplierService: SupplierService) {}
 
   ngOnInit() {
-    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
+    this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
   onSearch(term: string) {
     this.filter = term?.toLowerCase() ?? '';
-    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
+    this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
   changePage(page: number) {
     if (this.currentPage === page) return;
     this.currentPage = page;
-    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
+    this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
   changePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.currentPage = 1;
-    this.getSuppliers(this.currentPage, this.pageSize, this.filter);
+    this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
   navigate(path: string) {
@@ -58,12 +58,14 @@ export class SuppliersPage {
   private getSuppliers(
     page: number,
     pageSize: number,
-    filter?: string,
-    id?: string,
-    taxId?: string,
-    name?: string,
+    opts?: {
+      filter?: string;
+      id?: string;
+      taxId?: string;
+      name?: string;
+    },
   ) {
-    this.supplierService.get(page - 1, pageSize, filter, id, taxId, name).subscribe({
+    this.supplierService.get(page - 1, pageSize, opts).subscribe({
       next: (response) => {
         this.suppliers = response.content;
         this.filteredSuppliers = response.content;

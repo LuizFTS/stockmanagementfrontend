@@ -32,7 +32,11 @@
       email: 'E-mail inválido',
     }"
   />
-  <stk-button [disabled]="form.invalid" [type]="'submit'" class="container__form__btn"
+  <stk-button
+    [loading]="isLoading"
+    [disabled]="form.invalid"
+    [type]="'submit'"
+    class="container__form__btn"
     >Finalizar cadastro
   </stk-button>
 </div>

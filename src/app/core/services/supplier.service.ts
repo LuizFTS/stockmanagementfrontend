@@ -5,6 +5,7 @@ import type { PageableResponse } from '../models/PageableResponse.model';
 import type { Supplier } from '../models/Supplier.model';
 import type { AddSupplierRequest } from '../models/request/AddSupplierRequest.model';
 import type { CreatedResponse } from '../models/CreatedResponse.model';
+import type { UpdateSupplierRequest } from '../models/request/UpdateSupplierRequest.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplierService {
@@ -25,15 +26,17 @@ export class SupplierService {
   get(
     page: number,
     pageSize: number,
-    filter?: string,
-    id?: string,
-    taxId?: string,
-    name?: string,
+    opts?: {
+      filter?: string;
+      id?: string;
+      taxId?: string;
+      name?: string;
+    },
   ): Observable<PageableResponse<Supplier[]>> {
-    const filterQuery = filter ? `filter=${filter}` : null;
-    const idQuery = id ? `id=${id}` : null;
-    const taxIdQuery = taxId ? `taxId=${taxId}` : null;
-    const nameQuery = name ? `name=${name}` : null;
+    const filterQuery = opts?.filter ? `filter=${opts?.filter}` : null;
+    const idQuery = opts?.id ? `id=${opts?.id}` : null;
+    const taxIdQuery = opts?.taxId ? `taxId=${opts?.taxId}` : null;
+    const nameQuery = opts?.name ? `name=${opts?.name}` : null;
     const pageQuery = `page=${page}`;
     const pageSizeQuery = `size=${pageSize}`;
 
@@ -46,5 +49,9 @@ export class SupplierService {
 
   create(supplierData: AddSupplierRequest): Observable<CreatedResponse<Supplier>> {
     return this.http.post<CreatedResponse<Supplier>>(`${this.apiUrl}`, supplierData);
+  }
+
+  update({ id, email, phone }: UpdateSupplierRequest): Observable<PageableResponse<Supplier>> {
+    return this.http.put<PageableResponse<Supplier>>(`${this.apiUrl}/${id}`, { phone, email });
   }
 }

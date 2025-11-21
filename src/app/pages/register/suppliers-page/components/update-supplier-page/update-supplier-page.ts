@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Button } from '../../../../../shared/components/button/button';
+import { TextInput } from '../../../../../shared/components/text-input/text-input';
+import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CnpjValidator } from '../../../../../shared/utils/CnpjValidator';
-import { Stepper } from '../../../../../shared/components/stepper/stepper';
-import { SupplierTaxId } from '../supplier-tax-id/supplier-tax-id';
 import { Card } from '../../../../../shared/components/card/card';
-import { SupplierGeneralInformation } from '../supplier-general-information/supplier-general-information';
-import { capitalize } from '../../../../../shared/utils/capitalize';
 import { SupplierService } from '../../../../../core/services/supplier.service';
+import type { Supplier } from '../../../../../core/models/Supplier.model';
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
-import { Router } from '@angular/router';
 
 interface Message {
   status: string;
@@ -16,61 +15,72 @@ interface Message {
 }
 
 @Component({
-  selector: 'app-add-new-supplier-page',
-  imports: [
-    Stepper,
-    SupplierTaxId,
-    Card,
-    SupplierGeneralInformation,
-    ReactiveFormsModule,
-    MessageNotificationComponent,
-  ],
-  templateUrl: './add-new-supplier-page.html',
-  styleUrl: './add-new-supplier-page.scss',
+  selector: 'app-update-supplier-page',
+  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule, MessageNotificationComponent],
+  templateUrl: './update-supplier-page.html',
+  styleUrl: './update-supplier-page.scss',
 })
-export class AddNewSupplierPage {
+export class UpdateSupplierPage {
   private router = inject(Router);
-  supplierForm: FormGroup;
-  currentStep: number = 1;
-  totalSteps: number = 2;
 
-  isLoading: boolean = false;
   messageDisplayed: Message = { status: '', message: '' };
+  updateForm: FormGroup;
+  isLoading: boolean = false;
+  id: string = '';
+
+  supplier: Supplier | null = null;
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private supplierService: SupplierService,
   ) {
-    this.supplierForm = this.newSupplierForm();
+    this.updateForm = this.createUpdateForm();
   }
 
-  private newSupplierForm(): FormGroup {
+  private createUpdateForm(): FormGroup {
     return this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
       phone: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      taxId: ['', [Validators.required, CnpjValidator.cnpj()]],
     });
   }
 
-  onAddNewSupplier() {
-    if (this.supplierForm.invalid) return;
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.id = id ?? '';
+
+    console.log(this.messageDisplayed);
+
+    this.supplierService.get(0, 1, { id: this.id }).subscribe({
+      next: (response) => {
+        const supplier = response.content[0];
+        this.supplier = supplier;
+
+        this.updateForm.patchValue({
+          phone: supplier.phone,
+          email: supplier.email,
+        });
+      },
+    });
+  }
+
+  onUpdateSupplier() {
+    if (this.updateForm.invalid) return;
     this.isLoading = true;
 
-    const formValue = this.supplierForm.value;
+    const formValue = this.updateForm.value;
 
     const updateData = {
-      taxId: formValue.taxId.replace(/\D/g, ''),
-      name: capitalize(formValue.name.toLowerCase()),
+      id: this.id,
       phone: formValue.phone.replace(/\D/g, ''),
       email: formValue.email,
     };
 
-    this.supplierService.create(updateData).subscribe({
+    this.supplierService.update(updateData).subscribe({
       next: () => {
         this.messageDisplayed = {
           status: 'success',
-          message: 'Fornecedor cadastrado!',
+          message: 'Cadastrado atualizado!',
         };
 
         setTimeout(() => {
@@ -86,6 +96,7 @@ export class AddNewSupplierPage {
         this.isLoading = false;
       },
     });
+
     this.showMessageHandle();
   }
 
@@ -93,14 +104,6 @@ export class AddNewSupplierPage {
     setTimeout(() => {
       this.messageDisplayed = { status: '', message: '' };
     }, 5000);
-  }
-
-  nextStep() {
-    this.currentStep++;
-  }
-
-  back() {
-    this.currentStep--;
   }
 
   navigate(path: string) {

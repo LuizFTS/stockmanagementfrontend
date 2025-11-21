@@ -2,6 +2,7 @@
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-top: 1px solid var(--border-color);
 
   &__info {
@@ -16,5 +17,17 @@
 
   &.first-item {
     border-top: none;
+  }
+
+  &__edit-icon {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+
+    &:hover {
+      background-color: var(--btn-hover-gray);
+      color: white;
+    }
   }
 }

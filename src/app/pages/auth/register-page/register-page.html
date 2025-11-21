@@ -2,17 +2,19 @@
   <div class="register_page__container">
     <stk-back-button path="/login" />
     <h2>Crie uma nova conta</h2>
+
+    @if (messageDisplayed.message.length > 0) {
+      <stk-message-notification
+        [message]="messageDisplayed.message"
+        [status]="messageDisplayed.status"
+      />
+    }
+
     <form
       class="register_page__container__form"
       [formGroup]="newUserForm"
       (ngSubmit)="registerHandle()"
     >
-      @if (messageDisplayed.message.length > 0) {
-        <stk-message-notification
-          [message]="messageDisplayed.message"
-          [status]="messageDisplayed.status"
-        />
-      }
       <stk-text-input
         label="Nome *"
         type="text"

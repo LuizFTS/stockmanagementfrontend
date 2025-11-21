@@ -16,6 +16,7 @@ import { ChangePasswordPage } from './pages/profile-page/change-password-page/ch
 import { RegisterPage } from './pages/auth/register-page/register-page';
 import { AddNewSupplierPage } from './pages/register/suppliers-page/components/add-new-supplier-page/add-new-supplier-page';
 import { AddNewProductPage } from './pages/inventory/products-page/components/add-new-product-page/add-new-product-page';
+import { UpdateSupplierPage } from './pages/register/suppliers-page/components/update-supplier-page/update-supplier-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
@@ -38,6 +39,7 @@ export const routes: Routes = [
       { path: 'customers', component: CustomersPage },
       { path: 'suppliers', component: SuppliersPage },
       { path: 'suppliers/add', component: AddNewSupplierPage },
+      { path: 'suppliers/:id', component: UpdateSupplierPage },
     ],
   },
   { path: '**', redirectTo: '/home' },

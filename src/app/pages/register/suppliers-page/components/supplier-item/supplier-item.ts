@@ -1,12 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'stk-supplier-item',
-  imports: [],
+  imports: [MatIcon],
   templateUrl: './supplier-item.html',
   styleUrl: './supplier-item.scss',
 })
 export class SupplierItem {
+  private router = inject(Router);
+  @Input() id: string = '';
   @Input() name: string = '';
   @Input() taxId: string = '';
   @Input() phone: string = '';
@@ -17,5 +21,9 @@ export class SupplierItem {
 
   ngOnChanges() {
     this.firstItem = this.index === 0;
+  }
+
+  navigate(path: string[]) {
+    this.router.navigate(path);
   }
 }

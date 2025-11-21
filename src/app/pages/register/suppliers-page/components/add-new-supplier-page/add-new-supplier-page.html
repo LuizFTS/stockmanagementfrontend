@@ -1,15 +1,15 @@
 <div class="main">
   <div class="main__title">
-    <h1>Fornecedores</h1>
+    <h1>Adicionar Fornecedor</h1>
   </div>
+  @if (messageDisplayed.message.length > 0) {
+    <stk-message-notification
+      [message]="messageDisplayed.message"
+      [status]="messageDisplayed.status"
+    />
+  }
   <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
   <section>
-    @if (messageDisplayed.message.length > 0) {
-      <stk-message-notification
-        [message]="messageDisplayed.message"
-        [status]="messageDisplayed.status"
-      />
-    }
     <stk-card [padding]="2">
       <form [formGroup]="supplierForm" (ngSubmit)="onAddNewSupplier()">
         @if (currentStep === 1) {
