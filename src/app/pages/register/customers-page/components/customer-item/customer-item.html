@@ -1,0 +1,19 @@
+<div class="item" [class.first-item]="firstItem">
+  <div class="item__info">
+    <h2>{{ name }}</h2>
+    <p>
+      CNPJ: <strong>{{ taxId }}</strong>
+    </p>
+    <div>
+      <p>
+        Celular: <strong>{{ phone }}</strong>
+      </p>
+      <p>
+        E-mail: <strong>{{ email }}</strong>
+      </p>
+    </div>
+  </div>
+  <stk-button [model]="3" (click)="navigate(['customers', id])">
+    <mat-icon>edit</mat-icon>
+  </stk-button>
+</div>

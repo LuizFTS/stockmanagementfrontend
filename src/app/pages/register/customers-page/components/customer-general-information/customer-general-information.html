@@ -1,0 +1,42 @@
+<div class="container">
+  <stk-back-button (click)="onBack()" />
+  <div class="container__title">
+    <h2>Informações do cliente</h2>
+  </div>
+  <stk-text-input
+    type="text"
+    id="name"
+    label="Digite o nome do cliente *"
+    [control]="form.get('name')"
+    [errorMessages]="{
+      required: 'Nome é obrigatório',
+      minlenth: 'Nome deve ter pelo menos 2 caracteres',
+    }"
+  />
+  <stk-text-input
+    type="text"
+    id="phone"
+    label="Digite o celular *"
+    [control]="form.get('phone')"
+    [errorMessages]="{
+      required: 'Celular é obrigatório',
+    }"
+  />
+  <stk-text-input
+    type="text"
+    id="email"
+    label="Digite o email *"
+    [control]="form.get('email')"
+    [errorMessages]="{
+      required: 'E-mail é obrigatório',
+      email: 'E-mail inválido',
+    }"
+  />
+  <stk-button
+    [loading]="isLoading"
+    [disabled]="form.invalid"
+    [type]="'submit'"
+    class="container__form__btn"
+    >Finalizar cadastro
+  </stk-button>
+</div>

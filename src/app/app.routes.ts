@@ -17,6 +17,8 @@ import { RegisterPage } from './pages/auth/register-page/register-page';
 import { AddNewSupplierPage } from './pages/register/suppliers-page/components/add-new-supplier-page/add-new-supplier-page';
 import { AddNewProductPage } from './pages/inventory/products-page/components/add-new-product-page/add-new-product-page';
 import { UpdateSupplierPage } from './pages/register/suppliers-page/components/update-supplier-page/update-supplier-page';
+import { AddNewCustomerPage } from './pages/register/customers-page/components/add-new-customer-page/add-new-customer-page';
+import { UpdateCustomerPage } from './pages/register/customers-page/components/update-customer-page/update-customer-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
@@ -35,8 +37,11 @@ export const routes: Routes = [
       { path: 'sales/history', component: SaleHistoryPage },
       { path: 'inventory/products', component: ProductsPage },
       { path: 'inventory/products/add', component: AddNewProductPage },
+      { path: 'inventory/products/:id', component: AddNewProductPage },
       { path: 'inventory/movement', component: InventoryMovementPage },
       { path: 'customers', component: CustomersPage },
+      { path: 'customers/add', component: AddNewCustomerPage },
+      { path: 'customers/:id', component: UpdateCustomerPage },
       { path: 'suppliers', component: SuppliersPage },
       { path: 'suppliers/add', component: AddNewSupplierPage },
       { path: 'suppliers/:id', component: UpdateSupplierPage },

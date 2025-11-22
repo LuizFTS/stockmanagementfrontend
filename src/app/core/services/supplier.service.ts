@@ -13,16 +13,6 @@ export class SupplierService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   *
-   * @param page
-   * @param pageSize
-   * @param filter
-   * @param id
-   * @param taxId
-   * @param name
-   * @returns
-   */
   get(
     page: number,
     pageSize: number,

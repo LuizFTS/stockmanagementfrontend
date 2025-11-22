@@ -1,0 +1,53 @@
+@use '../../../../../../styles/mixins' as mix;
+@use '../../../../../../styles/breakpoints' as *;
+
+mat-icon {
+  @include mix.flex-center;
+}
+
+.item {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+
+  &__info {
+    & h2 {
+      font-size: 18px;
+    }
+
+    & p {
+      font-size: 12px;
+    }
+  }
+
+  &.first-item {
+    border-top: none;
+  }
+
+  &__edit-icon {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+
+    &:hover {
+      background-color: var(--btn-hover-gray);
+      color: white;
+    }
+  }
+}
+
+.item {
+  &__info {
+    @include respond('md') {
+      h2 {
+        font-size: 24px;
+      }
+      p {
+        font-size: 16px;
+      }
+    }
+  }
+}

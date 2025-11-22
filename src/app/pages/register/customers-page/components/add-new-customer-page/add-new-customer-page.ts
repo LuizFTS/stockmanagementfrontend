@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 import { Stepper } from '../../../../../shared/components/stepper/stepper';
-import { SupplierTaxId } from '../supplier-tax-id/supplier-tax-id';
+import { CustomerTaxId } from '../customer-tax-id/customer-tax-id';
 import { Card } from '../../../../../shared/components/card/card';
-import { SupplierGeneralInformation } from '../supplier-general-information/supplier-general-information';
-import { capitalize } from '../../../../../shared/utils/capitalize';
-import { SupplierService } from '../../../../../core/services/supplier.service';
+import { CustomerGeneralInformation } from '../customer-general-information/customer-general-information';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { Router } from '@angular/router';
+import { CustomerService } from '../../../../../core/services/customer.service';
+import { capitalize } from '../../../../../shared/utils/capitalize';
+import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 
 interface Message {
   status: string;
@@ -16,21 +16,21 @@ interface Message {
 }
 
 @Component({
-  selector: 'app-add-new-supplier-page',
+  selector: 'stk-add-new-customer-page',
   imports: [
     Stepper,
-    SupplierTaxId,
+    CustomerTaxId,
     Card,
-    SupplierGeneralInformation,
+    CustomerGeneralInformation,
     ReactiveFormsModule,
     MessageNotificationComponent,
   ],
-  templateUrl: './add-new-supplier-page.html',
-  styleUrl: './add-new-supplier-page.scss',
+  templateUrl: './add-new-customer-page.html',
+  styleUrl: './add-new-customer-page.scss',
 })
-export class AddNewSupplierPage {
+export class AddNewCustomerPage {
   private router = inject(Router);
-  supplierForm: FormGroup;
+  customerForm: FormGroup;
   currentStep: number = 1;
   totalSteps: number = 2;
 
@@ -39,25 +39,25 @@ export class AddNewSupplierPage {
 
   constructor(
     private fb: FormBuilder,
-    private supplierService: SupplierService,
+    private customerService: CustomerService,
   ) {
-    this.supplierForm = this.newSupplierForm();
+    this.customerForm = this.newCustomerForm();
   }
 
-  private newSupplierForm(): FormGroup {
+  private newCustomerForm(): FormGroup {
     return this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       phone: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      taxId: ['', [Validators.required, CustomValidators.cnpj()]],
+      taxId: ['', [Validators.required, CustomValidators.cpfOrCnpj()]],
     });
   }
 
-  onAddNewSupplier() {
-    if (this.supplierForm.invalid) return;
+  onAddNewCustomer() {
+    if (this.customerForm.invalid) return;
     this.isLoading = true;
 
-    const formValue = this.supplierForm.value;
+    const formValue = this.customerForm.value;
 
     const updateData = {
       taxId: formValue.taxId.replace(/\D/g, ''),
@@ -66,15 +66,15 @@ export class AddNewSupplierPage {
       email: formValue.email,
     };
 
-    this.supplierService.create(updateData).subscribe({
+    this.customerService.create(updateData).subscribe({
       next: () => {
         this.messageDisplayed = {
           status: 'success',
-          message: 'Fornecedor cadastrado!',
+          message: 'Cliente cadastrado!',
         };
 
         setTimeout(() => {
-          this.navigate('/suppliers');
+          this.navigate('/customers');
         }, 3000);
         this.isLoading = false;
       },

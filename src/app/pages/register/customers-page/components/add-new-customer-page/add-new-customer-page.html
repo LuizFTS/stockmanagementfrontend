@@ -1,0 +1,28 @@
+<div class="main">
+  <div class="main__title">
+    <h1>Adicionar Cliente</h1>
+  </div>
+  @if (messageDisplayed.message.length > 0) {
+    <stk-message-notification
+      [message]="messageDisplayed.message"
+      [status]="messageDisplayed.status"
+    />
+  }
+  <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
+  <section>
+    <stk-card [padding]="2">
+      <form [formGroup]="customerForm" (ngSubmit)="onAddNewCustomer()">
+        @if (currentStep === 1) {
+          <stk-customer-tax-id [form]="customerForm" (nextStep)="nextStep()" />
+        }
+        @if (currentStep === 2) {
+          <stk-customer-general-information
+            [isLoading]="isLoading"
+            [form]="customerForm"
+            (back)="back()"
+          />
+        }
+      </form>
+    </stk-card>
+  </section>
+</div>

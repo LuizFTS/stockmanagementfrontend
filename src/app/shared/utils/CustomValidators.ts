@@ -1,0 +1,44 @@
+import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+export class CustomValidators {
+  static cnpj(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const cnpj = control.value;
+      if (!cnpj) {
+        return null;
+      }
+
+      const cleanCnpj = cnpj.replace(/\D+/g, '');
+
+      if (cleanCnpj.length !== 14) {
+        return { cnpjInvalid: true };
+      }
+
+      if (/^(\d)\1{13}$/.test(cleanCnpj)) {
+        return { cnpjInvalid: true };
+      }
+
+      return null;
+    };
+  }
+
+  static cpfOrCnpj(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) {
+        return null;
+      }
+
+      const cleanValue = value.replace(/\D+/g, '');
+
+      const isCpf = cleanValue.length === 11;
+      const isCnpj = cleanValue.length === 14;
+
+      if (!isCpf && !isCnpj) {
+        return { cpfOrCnpjInvalid: true };
+      }
+
+      return null;
+    };
+  }
+}
