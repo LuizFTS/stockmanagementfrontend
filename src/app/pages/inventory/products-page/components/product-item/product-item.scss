@@ -1,3 +1,6 @@
+@use '../../../../../../styles/mixins' as mix;
+@use '../../../../../../styles/breakpoints' as *;
+
 .item {
   padding: 10px;
   display: flex;
@@ -16,5 +19,30 @@
 
   &.first-item {
     border-top: none;
+  }
+
+  &__edit-icon {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+
+    &:hover {
+      background-color: var(--btn-hover-gray);
+      color: white;
+    }
+  }
+}
+
+.item {
+  &__info {
+    @include respond('md') {
+      h2 {
+        font-size: 24px;
+      }
+      p {
+        font-size: 16px;
+      }
+    }
   }
 }

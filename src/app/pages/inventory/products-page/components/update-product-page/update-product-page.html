@@ -10,7 +10,7 @@
   }
 
   <stk-card [padding]="2">
-    <form class="container" [formGroup]="createForm" (ngSubmit)="onCreateProduct()">
+    <form class="container" [formGroup]="updateForm" (ngSubmit)="onUpdateProduct()">
       <stk-back-button (click)="navigate('/inventory/products')" />
       <div class="container__title">
         <h2>Atualizar cadastro do produto</h2>
@@ -19,7 +19,7 @@
         type="text"
         id="name"
         label="Digite o nome *"
-        [control]="createForm.get('name')"
+        [control]="updateForm.get('name')"
         [errorMessages]="{
           required: 'Nome é obrigatório',
         }"
@@ -28,26 +28,26 @@
         type="text"
         id="description"
         label="Digite a descrição *"
-        [control]="createForm.get('description')"
+        [control]="updateForm.get('description')"
         [errorMessages]="{
           required: 'Descrição é obrigatória',
         }"
       />
       <stk-text-input
-        type="number"
+        type="text"
         id="costPrice"
         label="Digite o preço de custo *"
-        [control]="createForm.get('costPrice')"
+        [control]="updateForm.get('costPrice')"
         [errorMessages]="{
           required: 'Preço de custo é obrigatório',
           email: 'Preço de custo inválido',
         }"
       />
       <stk-text-input
-        type="number"
+        type="text"
         id="salePrice"
         label="Digite o preço de venda *"
-        [control]="createForm.get('salePrice')"
+        [control]="updateForm.get('salePrice')"
         [errorMessages]="{
           required: 'Preço de venda é obrigatório',
           email: 'Preço de venda inválido',
@@ -55,11 +55,20 @@
       />
       <div class="container__btns">
         <stk-button
-          [loading]="isLoading"
-          [disabled]="createForm.invalid"
+          [loading]="isDeactivating"
+          [disabled]="updateForm.invalid"
+          [type]="'button'"
+          (click)="deactivate()"
+          [size]="0"
+          [model]="2"
+          >Desativar
+        </stk-button>
+        <stk-button
+          [loading]="isUpdating"
+          [disabled]="updateForm.invalid"
           [type]="'submit'"
           [size]="0"
-          >Cadastrar
+          >Atualizar
         </stk-button>
       </div>
     </form>

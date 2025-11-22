@@ -19,6 +19,7 @@ import { AddNewProductPage } from './pages/inventory/products-page/components/ad
 import { UpdateSupplierPage } from './pages/register/suppliers-page/components/update-supplier-page/update-supplier-page';
 import { AddNewCustomerPage } from './pages/register/customers-page/components/add-new-customer-page/add-new-customer-page';
 import { UpdateCustomerPage } from './pages/register/customers-page/components/update-customer-page/update-customer-page';
+import { UpdateProductPage } from './pages/inventory/products-page/components/update-product-page/update-product-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
@@ -37,7 +38,7 @@ export const routes: Routes = [
       { path: 'sales/history', component: SaleHistoryPage },
       { path: 'inventory/products', component: ProductsPage },
       { path: 'inventory/products/add', component: AddNewProductPage },
-      { path: 'inventory/products/:id', component: AddNewProductPage },
+      { path: 'inventory/products/:id', component: UpdateProductPage },
       { path: 'inventory/movement', component: InventoryMovementPage },
       { path: 'customers', component: CustomersPage },
       { path: 'customers/add', component: AddNewCustomerPage },

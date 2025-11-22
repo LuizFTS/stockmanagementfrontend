@@ -31,32 +31,40 @@ export class ProductsPage {
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    this.getProductsByPage(this.filter, this.currentPage, this.pageSize);
+    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
   onSearch(term: string) {
     this.filter = term?.toLowerCase() ?? '';
-    this.getProductsByPage(this.filter, this.currentPage, this.pageSize);
+    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
   changePage(page: number) {
     if (this.currentPage === page) return;
     this.currentPage = page;
-    this.getProductsByPage(this.filter, page, this.pageSize);
+    this.getProducts(page, this.pageSize, { filter: this.filter });
   }
 
   changePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.currentPage = 1;
-    this.getProductsByPage(this.filter, this.currentPage, this.pageSize);
+    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
   navigate(path: string) {
     this.router.navigate([path]);
   }
 
-  private getProductsByPage(filter: string, page: number, pageSize: number) {
-    this.productService.getProductsByPage(filter, page - 1, pageSize).subscribe({
+  private getProducts(
+    page: number,
+    pageSize: number,
+    opts?: {
+      filter?: string;
+      id?: string;
+      name?: string;
+    },
+  ) {
+    this.productService.get(page - 1, pageSize, opts).subscribe({
       next: (response) => {
         this.products = response.content;
         this.filteredProducts = response.content;

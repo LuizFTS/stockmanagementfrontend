@@ -8,4 +8,7 @@
       <h3>Saldo no estoque: {{ saldo }}</h3>
     </div>
   </div>
+  <stk-button [model]="3" (click)="navigate(['inventory', 'products', id])">
+    <mat-icon>edit</mat-icon>
+  </stk-button>
 </div>

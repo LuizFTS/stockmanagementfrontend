@@ -1,12 +1,17 @@
-import { Component, Input, type OnChanges } from '@angular/core';
+import { Component, inject, Input, type OnChanges } from '@angular/core';
+import { Button } from '../../../../../shared/components/button/button';
+import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'stk-product-item',
-  imports: [],
+  imports: [MatIcon, Button],
   templateUrl: './product-item.html',
   styleUrl: './product-item.scss',
 })
 export class ProductItem implements OnChanges {
+  private router = inject(Router);
+  @Input() id: string = '';
   @Input() name: string = '';
   @Input() description: string = '';
   @Input() costPrice: number = 0;
@@ -31,5 +36,9 @@ export class ProductItem implements OnChanges {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+  }
+
+  navigate(path: string[]) {
+    this.router.navigate(path);
   }
 }
