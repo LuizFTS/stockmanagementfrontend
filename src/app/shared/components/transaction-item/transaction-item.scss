@@ -19,20 +19,6 @@
     &__visualizar {
       @include mix.flex-center;
       line-height: 0;
-      padding: 5px 10px;
-      border-radius: 5px;
-      border: 1px solid var(--border-color);
-      cursor: pointer;
-      transition: background 0.1s;
-
-      & mat-icon {
-        @include mix.flex-center;
-      }
-
-      &:hover {
-        background-color: var(--btn-hover-gray);
-        color: var(--btn-text-gray);
-      }
     }
   }
 

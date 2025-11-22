@@ -41,6 +41,7 @@ export class UpdateCustomerPage {
     private customerService: CustomerService,
   ) {
     this.updateForm = this.createUpdateForm();
+    this.id = this.route.snapshot.params['id'];
   }
 
   private createUpdateForm(): FormGroup {
@@ -51,11 +52,6 @@ export class UpdateCustomerPage {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.id = id ?? '';
-
-    console.log(this.messageDisplayed);
-
     this.customerService.get(0, 1, { id: this.id }).subscribe({
       next: (response) => {
         const customer = response.content[0];

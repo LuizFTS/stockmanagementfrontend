@@ -13,10 +13,10 @@ import {
 } from '@angular/forms';
 import { Button } from '../../../shared/components/button/button';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
-import { capitalize } from '../../../shared/utils/capitalize';
 import { TextInput } from '../../../shared/components/text-input/text-input';
 import { Card } from '../../../shared/components/card/card';
 import { BackButton } from '../../../shared/components/back-button/back-button';
+import { Formatter } from '../../../shared/utils/Formatter';
 
 interface Message {
   status: string;
@@ -71,8 +71,8 @@ export class GeneralInformationPage {
       const formValue = this.userForm.value;
 
       const updateData = {
-        firstName: capitalize(formValue.firstName.toLowerCase()),
-        lastName: capitalize(formValue.lastName.toLowerCase()),
+        firstName: Formatter.capitalize(formValue.firstName.toLowerCase()),
+        lastName: Formatter.capitalize(formValue.lastName.toLowerCase()),
         email: formValue.email.toLowerCase(),
       };
 

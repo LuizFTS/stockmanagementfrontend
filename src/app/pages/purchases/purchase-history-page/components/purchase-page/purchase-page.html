@@ -1,0 +1,44 @@
+<main class="main">
+  <div class="main__title">
+    <h1>Compras</h1>
+    <p>Detalhes da compra</p>
+  </div>
+
+  <stk-back-button (click)="navigate('/purchases/history')" />
+
+  <div class="main__purchase-info">
+    <p>
+      Fornecedor: <strong>{{ capitalize(purchase?.supplier?.name ?? '') }}</strong>
+    </p>
+    <p>
+      Data: <strong>{{ formatDate(purchase?.createdAt ?? '') }}</strong>
+    </p>
+    <p>
+      Valor total: <strong>R${{ formatValue(purchase?.totalValue ?? 0) }}</strong>
+    </p>
+    <p>
+      Itens: <strong>{{ purchase?.itens?.length }}</strong>
+    </p>
+  </div>
+  <div class="main__purchase-items">
+    <stk-card>
+      @for (item of purchase?.itens; track $index) {
+        <div class="main__purchase-items__item">
+          <p>
+            Produto: <strong>{{ capitalize(item.name) }}</strong>
+          </p>
+          <p>
+            Quantidade: <strong>{{ item.quantity }}</strong>
+          </p>
+          <p>
+            Preço unitário: <strong>R${{ formatValue(item.unitPrice) }}</strong>
+          </p>
+          <p>
+            Valor total do item:
+            <strong>R${{ formatValue(item.quantity * item.unitPrice) }}</strong>
+          </p>
+        </div>
+      }
+    </stk-card>
+  </div>
+</main>

@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import type { User } from '../models/User.model';
-import { BehaviorSubject, map, tap, type Observable } from 'rxjs';
-import type { ResponseStatus } from '../models/ResponseStatus.model';
+import { BehaviorSubject, map, type Observable } from 'rxjs';
 import type { UpdateUser } from '../models/request/UpdateUserRequest.model';
 import type { RegisterUserRequest } from '../models/request/RegisterUserRequest.model';
-import { capitalize } from '../../shared/utils/capitalize';
+import type { PageableResponse } from '../models/PageableResponse.model';
+import { Formatter } from '../../shared/utils/Formatter';
 
 interface UserCreated {
   message: string;
@@ -21,11 +21,11 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   loadUser(): void {
-    this.http.get<User>(`${this.apiUrl}/api/user`).subscribe({
+    this.http.get<PageableResponse<User[]>>(`${this.apiUrl}/api/user`).subscribe({
       next: (response) => {
-        let user: User = response;
-        user.firstName = capitalize(user.firstName.toLowerCase());
-        user.lastName = capitalize(user.lastName.toLowerCase());
+        let user: User = response.content[0];
+        user.firstName = Formatter.capitalize(user.firstName.toLowerCase());
+        user.lastName = Formatter.capitalize(user.lastName.toLowerCase());
         user.email = user.email.toLowerCase();
 
         this.userSubject.next(user);
@@ -34,7 +34,16 @@ export class UserService {
   }
 
   registerUser(data: RegisterUserRequest): Observable<UserCreated> {
-    return this.http.post<UserCreated>(`${this.apiUrl}/api/register`, data);
+    const firstName = data.firstName.toLowerCase();
+    const lastName = data.lastName.toLowerCase();
+    const email = data.email.toLowerCase();
+
+    return this.http.post<UserCreated>(`${this.apiUrl}/api/register`, {
+      firstName,
+      lastName,
+      email,
+      password: data.password,
+    });
   }
 
   changeUserPassword(currentPassword: string, newPassword: string): Observable<void> {
@@ -45,7 +54,15 @@ export class UserService {
   }
 
   changeUserInformation(updateData: UpdateUser): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/api/user/update-data`, updateData);
+    const firstName = updateData.firstName.toLowerCase();
+    const lastName = updateData.lastName.toLowerCase();
+    const email = updateData.email.toLowerCase();
+
+    return this.http.put<void>(`${this.apiUrl}/api/user/update-data`, {
+      firstName,
+      lastName,
+      email,
+    });
   }
 
   getUser(): User | null {

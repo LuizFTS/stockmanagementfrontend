@@ -11,6 +11,7 @@ import { ProductService } from '../../../../../core/services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Product } from '../../../../../core/models/Product.model';
+import { Formatter } from '../../../../../shared/utils/Formatter';
 
 interface Message {
   status: string;
@@ -62,10 +63,10 @@ export class UpdateProductPage {
         this.product = product;
 
         this.updateForm.patchValue({
-          name: product.name,
-          description: product.description,
-          costPrice: product.costPrice,
-          salePrice: product.salePrice,
+          name: Formatter.capitalize(product.name),
+          description: Formatter.capitalize(product.description),
+          costPrice: Formatter.priceToString(product.costPrice),
+          salePrice: Formatter.priceToString(product.salePrice),
         });
       },
     });
@@ -81,8 +82,8 @@ export class UpdateProductPage {
       id: this.id,
       name: formValue.name,
       description: formValue.description,
-      costPrice: formValue.costPrice,
-      salePrice: formValue.salePrice,
+      costPrice: Formatter.priceToNumber(formValue.costPrice),
+      salePrice: Formatter.priceToNumber(formValue.salePrice),
     };
 
     this.productService.update(updateData).subscribe({
@@ -93,7 +94,7 @@ export class UpdateProductPage {
         };
 
         setTimeout(() => {
-          this.navigate('/products');
+          this.navigate('/inventory/products');
         }, 2000);
         this.isUpdating = false;
       },

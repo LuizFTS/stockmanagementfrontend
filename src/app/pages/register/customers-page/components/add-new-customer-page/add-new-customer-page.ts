@@ -7,7 +7,6 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../../../core/services/customer.service';
-import { capitalize } from '../../../../../shared/utils/capitalize';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 
 interface Message {
@@ -61,7 +60,7 @@ export class AddNewCustomerPage {
 
     const updateData = {
       taxId: formValue.taxId.replace(/\D/g, ''),
-      name: capitalize(formValue.name.toLowerCase()),
+      name: formValue.name.toLowerCase(),
       phone: formValue.phone.replace(/\D/g, ''),
       email: formValue.email,
     };

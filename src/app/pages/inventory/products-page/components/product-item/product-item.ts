@@ -2,6 +2,7 @@ import { Component, inject, Input, type OnChanges } from '@angular/core';
 import { Button } from '../../../../../shared/components/button/button';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { Formatter } from '../../../../../shared/utils/Formatter';
 
 @Component({
   selector: 'stk-product-item',
@@ -27,15 +28,12 @@ export class ProductItem implements OnChanges {
     this.firstItem = this.index === 0;
   }
 
-  formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('pt-BR');
+  formatValue(value: number): string {
+    return Formatter.priceToString(value);
   }
 
-  formatValue(value: number): string {
-    return value.toLocaleString('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+  capitalize(str: string) {
+    return Formatter.capitalize(str);
   }
 
   navigate(path: string[]) {

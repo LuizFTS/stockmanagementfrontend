@@ -6,9 +6,11 @@
   </div>
   <div class="item__details">
     <h3>R${{ formatValue(value) }}</h3>
-    <span class="item__details__visualizar">
-      <p>Visualizar</p>
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </span>
+    <stk-button [model]="3" (click)="navigateTo()">
+      <span class="item__details__visualizar">
+        <p>Visualizar</p>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </span>
+    </stk-button>
   </div>
 </div>

@@ -66,7 +66,7 @@ export class AddNewProductPage {
         };
 
         setTimeout(() => {
-          this.navigate('/products');
+          this.navigate('/inventory/products');
         }, 2000);
         this.isLoading = false;
       },

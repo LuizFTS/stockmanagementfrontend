@@ -39,6 +39,7 @@ export class UpdateSupplierPage {
     private supplierService: SupplierService,
   ) {
     this.updateForm = this.createUpdateForm();
+    this.id = this.route.snapshot.params['id'];
   }
 
   private createUpdateForm(): FormGroup {
@@ -49,11 +50,6 @@ export class UpdateSupplierPage {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.id = id ?? '';
-
-    console.log(this.messageDisplayed);
-
     this.supplierService.get(0, 1, { id: this.id }).subscribe({
       next: (response) => {
         const supplier = response.content[0];

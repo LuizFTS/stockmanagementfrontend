@@ -27,4 +27,14 @@ export class TextInput {
     const errorKey = Object.keys(this.control.errors)[0];
     return this.errorMessages[errorKey];
   }
+
+  handleInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    if (this.type === 'number') {
+      const value = input.value.replace(/[^0-9,]/g, '');
+      input.value = value;
+      this.control?.setValue(value);
+    }
+  }
 }

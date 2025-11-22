@@ -3,12 +3,19 @@
 
 :host {
   @include mix.main-host;
+  height: 100%;
 }
 
 .main {
   @include mix.main-layout;
-
   &__title {
     width: 100%;
+  }
+
+  & section {
+    width: 100%;
+    flex: 1;
+    overflow: auto;
+    position: relative;
   }
 }

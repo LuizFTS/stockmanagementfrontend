@@ -5,10 +5,10 @@ import { Stepper } from '../../../../../shared/components/stepper/stepper';
 import { SupplierTaxId } from '../supplier-tax-id/supplier-tax-id';
 import { Card } from '../../../../../shared/components/card/card';
 import { SupplierGeneralInformation } from '../supplier-general-information/supplier-general-information';
-import { capitalize } from '../../../../../shared/utils/capitalize';
 import { SupplierService } from '../../../../../core/services/supplier.service';
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { Router } from '@angular/router';
+import { Formatter } from '../../../../../shared/utils/Formatter';
 
 interface Message {
   status: string;
@@ -61,7 +61,7 @@ export class AddNewSupplierPage {
 
     const updateData = {
       taxId: formValue.taxId.replace(/\D/g, ''),
-      name: capitalize(formValue.name.toLowerCase()),
+      name: Formatter.capitalize(formValue.name.toLowerCase()),
       phone: formValue.phone.replace(/\D/g, ''),
       email: formValue.email,
     };

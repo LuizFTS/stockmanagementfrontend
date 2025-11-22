@@ -6,11 +6,27 @@ import type { PageableResponse } from '../models/PageableResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class SaleService {
-  private readonly apiUrl: String = 'http://localhost:8080/api';
+  private readonly apiUrl: String = 'http://localhost:8080/api/sales';
 
   constructor(private http: HttpClient) {}
 
-  getSales(): Observable<PageableResponse<Sale[]>> {
-    return this.http.get<PageableResponse<Sale[]>>(`${this.apiUrl}/sales`);
+  get(
+    page: number,
+    pageSize: number,
+    opts?: {
+      filter?: string;
+      id?: string;
+    },
+  ): Observable<PageableResponse<Sale[]>> {
+    const filterQuery = opts?.filter ? `filter=${opts?.filter}` : null;
+    const idQuery = opts?.id ? `id=${opts?.id}` : null;
+    const pageQuery = `page=${page}`;
+    const pageSizeQuery = `size=${pageSize}`;
+
+    const query = [filterQuery, idQuery, pageQuery, pageSizeQuery]
+      .filter((q) => q !== null)
+      .join('&');
+
+    return this.http.get<PageableResponse<Sale[]>>(`${this.apiUrl}?${query}&sort=createdAt,desc`);
   }
 }

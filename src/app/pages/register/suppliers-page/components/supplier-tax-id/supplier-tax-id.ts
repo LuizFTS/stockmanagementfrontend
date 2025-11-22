@@ -18,4 +18,10 @@ export class SupplierTaxId {
   next() {
     this.nextStep.emit();
   }
+
+  onEnter() {
+    if (this.form.get('taxId')?.valid) {
+      this.nextStep.emit();
+    }
+  }
 }

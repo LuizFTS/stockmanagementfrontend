@@ -1,10 +1,10 @@
 <div class="item" [class.first-item]="firstItem">
   <div class="item__info">
-    <h2>{{ name }}</h2>
-    <p>{{ description }}</p>
+    <h2>{{ capitalize(name) }}</h2>
+    <p>{{ capitalize(description) }}</p>
     <div>
       <p>Preço de custo: R${{ formatValue(costPrice) }}</p>
-      <p>Preço de venda: R${{ formatValue(costPrice) }}</p>
+      <p>Preço de venda: R${{ formatValue(salePrice) }}</p>
       <h3>Saldo no estoque: {{ saldo }}</h3>
     </div>
   </div>

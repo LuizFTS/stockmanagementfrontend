@@ -4,22 +4,32 @@
     <p>Histórico de vendas</p>
   </div>
 
-  <stk-search-input
-    (searchChange)="onSearch($event)"
-    placeholder="Pesquisar por vendedor ou cliente"
-  />
+  <stk-search-input (searchChange)="onSearch($event)" placeholder="Pesquisar por cliente" />
+  <stk-button [type]="'button'" [model]="1" (click)="navigate('/sales/add')"
+    >Adicionar venda</stk-button
+  >
 
-  <stk-card>
-    @for (item of filteredSales; track $index; let i = $index) {
-      <stk-transaction-item
-        [date]="item.createdAt"
-        [nameInfo]="{ type: 'Cliente', name: item.customer.name }"
-        [value]="item.totalValue"
-        [index]="i"
-      />
-    }
-    @if (filteredSales.length === 0) {
-      <stk-itens-not-found text="Nenhuma venda encontrado" />
-    }
-  </stk-card>
+  <section>
+    <stk-card>
+      @for (item of filteredSales; track $index; let i = $index) {
+        <stk-transaction-item
+          [id]="item.id"
+          [date]="item.createdAt"
+          [nameInfo]="{ type: 'Cliente', name: item.customer.name }"
+          [value]="item.totalValue"
+          [index]="i"
+        />
+      }
+      @if (filteredSales.length === 0) {
+        <stk-itens-not-found text="Nenhuma venda encontrado" />
+      }
+    </stk-card>
+  </section>
+  <stk-pagination
+    [totalItems]="totalItems"
+    [pageSize]="pageSize"
+    [currentPage]="currentPage"
+    (pageChange)="changePage($event)"
+    (pageSizeChange)="changePageSize($event)"
+  />
 </div>

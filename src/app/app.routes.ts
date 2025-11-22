@@ -20,6 +20,8 @@ import { UpdateSupplierPage } from './pages/register/suppliers-page/components/u
 import { AddNewCustomerPage } from './pages/register/customers-page/components/add-new-customer-page/add-new-customer-page';
 import { UpdateCustomerPage } from './pages/register/customers-page/components/update-customer-page/update-customer-page';
 import { UpdateProductPage } from './pages/inventory/products-page/components/update-product-page/update-product-page';
+import { PurchasePage } from './pages/purchases/purchase-history-page/components/purchase-page/purchase-page';
+import { SalePage } from './pages/sales/sale-history-page/components/sale-page/sale-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },
@@ -34,8 +36,10 @@ export const routes: Routes = [
       { path: 'profile/change-password', component: ChangePasswordPage },
       { path: 'purchases/add', component: NewPurchasePage },
       { path: 'purchases/history', component: PurchaseHistoryPage },
+      { path: 'purchases/:id', component: PurchasePage },
       { path: 'sales/add', component: NewSalePage },
       { path: 'sales/history', component: SaleHistoryPage },
+      { path: 'sales/:id', component: SalePage },
       { path: 'inventory/products', component: ProductsPage },
       { path: 'inventory/products/add', component: AddNewProductPage },
       { path: 'inventory/products/:id', component: UpdateProductPage },

@@ -17,4 +17,10 @@ export class CustomerTaxId {
   next() {
     this.nextStep.emit();
   }
+
+  onEnter() {
+    if (this.form.get('taxId')?.valid) {
+      this.nextStep.emit();
+    }
+  }
 }
