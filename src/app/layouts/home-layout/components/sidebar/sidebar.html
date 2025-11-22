@@ -1,4 +1,10 @@
-<div [class]="active ? 'backdrop active' : 'backdrop'" (click)="onToggleBar(false)"></div>
+<div
+  [class]="active ? 'backdrop active' : 'backdrop'"
+  (click)="onToggleBar(false)"
+  [class.fade-in]="active"
+  [class.fade-out]="!active"
+></div>
+
 <nav [class]="active ? 'nav active' : 'nav'">
   <div [class]="active ? 'menuContainer active' : 'menuContainer'">
     <div class="menuContainer__header">

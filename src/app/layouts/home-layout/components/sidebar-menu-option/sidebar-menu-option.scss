@@ -1,4 +1,5 @@
 @use '../../../../../styles/breakpoints' as *;
+@use '../../../../../styles/mixins' as mix;
 
 :host {
   width: 100%;
@@ -7,11 +8,9 @@
 }
 
 .option-container {
+  @include mix.flex-center;
   line-height: 0;
   width: fit-content;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
   transition: background 0.2s;
   padding: 10px;
@@ -23,9 +22,7 @@
   }
 
   &__arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include mix.flex-center;
     transition: transform 0.2s;
 
     &.arrowRotate {
@@ -52,9 +49,7 @@
   }
 
   &.barActive .option-container__arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include mix.flex-center;
   }
 
   &.barActive .option-container__text {

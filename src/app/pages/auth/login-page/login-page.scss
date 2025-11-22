@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins' as mix;
+
 a:hover {
   text-decoration: underline;
   text-decoration-color: var(--text-color);
@@ -11,16 +13,12 @@ stk-message-notification {
 }
 
 .login_page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include mix.flex-center;
   height: 100vh;
   width: 100%;
 
   &__container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include mix.flex-center;
     flex-direction: column;
     gap: 10px;
     position: relative;
@@ -33,10 +31,8 @@ stk-message-notification {
       width: 100%;
       padding: 10px;
       gap: 15px;
-      display: flex;
+      @include mix.flex-center;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
 
       &__input-group {
         position: relative;
@@ -120,12 +116,10 @@ stk-message-notification {
       }
 
       &__div__submit {
-        display: flex;
+        @include mix.flex-center;
         flex-direction: column;
         gap: 10px;
         width: 100%;
-        align-items: center;
-        text-align: center;
 
         & app-button {
           width: 100%;
@@ -136,30 +130,7 @@ stk-message-notification {
 }
 
 .error-text {
-  position: absolute;
-  bottom: -1.5rem;
-  left: 1rem;
-  font-size: 1rem;
-  color: #f44336;
-  font-weight: 500;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.error-message {
-  position: absolute;
-  top: -2rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  background-color: #f44336;
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 500;
-  box-shadow: 0 4px 16px rgba(244, 67, 54, 0.3);
-  animation: slideDown 0.3s ease-out;
-  z-index: 2;
-  text-wrap: nowrap;
+  @include mix.error-text;
 }
 
 @keyframes shake {
@@ -172,27 +143,5 @@ stk-message-notification {
   }
   75% {
     transform: translateX(5px);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-80%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-50%);
   }
 }

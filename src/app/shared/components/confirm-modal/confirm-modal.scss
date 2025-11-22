@@ -1,29 +1,8 @@
+@use '../../../../styles/mixins' as mix;
+
 .modal {
   &__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
-    transition:
-      background-color 0.3s ease,
-      backdrop-filter 0.3s ease;
-
-    &.fade-in {
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-    }
-
-    &.fade-out {
-      background-color: rgba(0, 0, 0, 0);
-      backdrop-filter: blur(0px);
-    }
+    @include mix.backdrop;
   }
 
   &__content {

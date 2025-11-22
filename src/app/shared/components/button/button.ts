@@ -25,10 +25,4 @@ export class Button {
   @Input() type: string = 'button';
   @Input() model: ButtonModels = ButtonModels.GREEN;
   @Input() size: ButtonSize = ButtonSize.SMALL;
-
-  @Output() clicked = new EventEmitter<void>();
-
-  onClick(): void {
-    this.clicked.emit();
-  }
 }

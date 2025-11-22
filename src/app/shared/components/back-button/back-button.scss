@@ -7,5 +7,14 @@
 
 .back__container__btn {
   @include mix.flex-center;
-  gap: 10px;
+
+  & mat-icon {
+    @include mix.flex-center;
+    @include mix.icon-size(18px);
+  }
+
+  & p {
+    line-height: 0;
+    font-size: 14px;
+  }
 }

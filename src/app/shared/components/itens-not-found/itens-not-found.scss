@@ -8,9 +8,8 @@
   padding: 100px;
 
   &__icon mat-icon {
-    font-size: 64px;
-    width: 64px;
-    height: 64px;
+    @include mix.flex-center;
+    @include mix.icon-size(64px);
   }
 
   &__text {

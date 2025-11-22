@@ -1,6 +1,7 @@
+@use '../../../../../styles/mixins' as mix;
+
 .option-container {
-  display: flex;
-  align-items: center;
+  @include mix.flex-center;
   justify-content: left;
   padding: 20px 10px;
   cursor: pointer;

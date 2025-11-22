@@ -1,4 +1,5 @@
 @use '../../../styles/breakpoints' as *;
+@use '../../../styles/mixins' as mix;
 
 .main {
   height: 100vh;
@@ -7,9 +8,7 @@
   display: flex;
 
   &__menuButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include mix.flex-center;
     position: absolute;
     top: 5px;
     left: 15px;
@@ -33,20 +32,18 @@
     }
 
     & mat-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
+      @include mix.flex-center;
+      @include mix.icon-size(24px);
     }
   }
   &__container {
     position: relative;
-    padding: 60px 20px;
+    padding: 40px 20px;
     width: 100%;
     height: 100vh;
 
     @include respond('md') {
-      padding: 40px 20px;
+      padding: 20px 20px;
     }
   }
 }

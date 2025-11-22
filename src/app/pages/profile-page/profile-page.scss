@@ -19,8 +19,7 @@
 
   &__item {
     padding: 20px;
-    display: flex;
-    align-items: center;
+    @include mix.flex-center;
     justify-content: left;
     gap: 10px;
     font-size: 14px;
@@ -32,9 +31,7 @@
     }
 
     &__arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include mix.flex-center;
       transform: rotate(180deg);
     }
 
