@@ -1,10 +1,11 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'stk-back-button',
-  imports: [MatIcon],
+  imports: [MatIcon, Button],
   templateUrl: './back-button.html',
   styleUrl: './back-button.scss',
 })

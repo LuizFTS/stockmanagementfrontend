@@ -43,5 +43,7 @@ stk-message-notification {
 
   &__btns {
     display: flex;
+    justify-content: flex-end;
+    gap: 10px;
   }
 }

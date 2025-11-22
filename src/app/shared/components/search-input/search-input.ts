@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { debounceTime } from 'rxjs';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'stk-search-input',
-  imports: [MatIcon, ReactiveFormsModule, MatIconModule],
+  imports: [MatIcon, ReactiveFormsModule, MatIconModule, Button],
   templateUrl: './search-input.html',
   styleUrl: './search-input.scss',
 })

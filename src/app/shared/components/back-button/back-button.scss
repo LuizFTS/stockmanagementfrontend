@@ -1,36 +1,11 @@
 @use '../../../../styles/mixins' as mix;
 
 :host {
-  @include mix.main-host;
+  display: flex;
   justify-content: flex-start;
 }
 
-.back__container {
-  display: block;
-  padding: 3px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-
-  &__btn {
-    @include mix.flex-center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 5px 0;
-
-    & mat-icon {
-      height: 15px;
-      width: 15px;
-      line-height: 15px;
-      font-size: 15px;
-    }
-
-    & p {
-      font-weight: 500;
-    }
-  }
-
-  &:hover {
-    background-color: var(--btn-hover-gray);
-    color: var(--btn-text-gray);
-  }
+.back__container__btn {
+  @include mix.flex-center;
+  gap: 10px;
 }

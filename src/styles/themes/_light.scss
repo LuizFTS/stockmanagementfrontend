@@ -25,6 +25,10 @@ body[data-theme='light'] {
   --btn-hover-gray: #{variables.$gray-7};
   --btn-text-gray: #{variables.$gray-2};
 
+  --btn-bg-transparent: transparent;
+  --btn-hover-transparent: #{variables.$gray-3};
+  --btn-text-transparent: #{variables.$gray-8};
+
   --btn-bg-light-gray: #{variables.$gray-5};
   --btn-hover-light-gray: #{variables.$gray-4};
   --btn-text-light-gray: #{variables.$gray-2};

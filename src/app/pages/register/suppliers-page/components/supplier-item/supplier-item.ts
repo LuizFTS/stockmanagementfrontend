@@ -1,10 +1,11 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { Button } from '../../../../../shared/components/button/button';
 
 @Component({
   selector: 'stk-supplier-item',
-  imports: [MatIcon],
+  imports: [MatIcon, Button],
   templateUrl: './supplier-item.html',
   styleUrl: './supplier-item.scss',
 })

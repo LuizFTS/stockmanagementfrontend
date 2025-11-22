@@ -1,3 +1,9 @@
+@use '../../../../../../styles/mixins' as mix;
+
+mat-icon {
+  @include mix.flex-center;
+}
+
 .item {
   padding: 10px;
   display: flex;

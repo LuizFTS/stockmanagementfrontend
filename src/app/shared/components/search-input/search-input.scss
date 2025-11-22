@@ -24,17 +24,4 @@
     transform: translateY(-50%);
     cursor: text;
   }
-
-  &__button {
-    padding: 10px 20px;
-    background-color: var(--btn-bg-gray);
-    color: var(--btn-text-gray);
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--btn-bg-gray-hover);
-      color: var(--btn-text-gray-hover);
-    }
-  }
 }

@@ -8,7 +8,6 @@ import { Card } from '../../../../../shared/components/card/card';
 import { SupplierService } from '../../../../../core/services/supplier.service';
 import type { Supplier } from '../../../../../core/models/Supplier.model';
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 
 interface Message {
@@ -28,7 +27,8 @@ export class UpdateSupplierPage {
 
   messageDisplayed: Message = { status: '', message: '' };
   updateForm: FormGroup;
-  isLoading: boolean = false;
+  isDeactivating: boolean = false;
+  isUpdating: boolean = false;
   id: string = '';
 
   supplier: Supplier | null = null;
@@ -37,7 +37,6 @@ export class UpdateSupplierPage {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private supplierService: SupplierService,
-    private dialog: MatDialog,
   ) {
     this.updateForm = this.createUpdateForm();
   }
@@ -70,7 +69,7 @@ export class UpdateSupplierPage {
 
   onUpdateSupplier() {
     if (this.updateForm.invalid) return;
-    this.isLoading = true;
+    this.isUpdating = true;
 
     const formValue = this.updateForm.value;
 
@@ -89,15 +88,15 @@ export class UpdateSupplierPage {
 
         setTimeout(() => {
           this.navigate('/suppliers');
-        }, 3000);
-        this.isLoading = false;
+        }, 2000);
+        this.isUpdating = false;
       },
       error: (err) => {
         this.messageDisplayed = {
           status: 'error',
           message: err.error.message ?? 'Tente novamente mais tarde',
         };
-        this.isLoading = false;
+        this.isUpdating = false;
       },
     });
 
@@ -119,6 +118,7 @@ export class UpdateSupplierPage {
     });
 
     if (!confirmed) return;
+    this.isDeactivating = true;
     this.supplierService.deactivate({ id: this.id }).subscribe({
       next: () => {
         this.messageDisplayed = {
@@ -129,14 +129,14 @@ export class UpdateSupplierPage {
         setTimeout(() => {
           this.navigate('/suppliers');
         }, 3000);
-        this.isLoading = false;
+        this.isDeactivating = false;
       },
       error: (err) => {
         this.messageDisplayed = {
           status: 'error',
           message: err.error.message ?? 'Tente novamente mais tarde',
         };
-        this.isLoading = false;
+        this.isDeactivating = false;
       },
     });
     this.showMessageHandle();

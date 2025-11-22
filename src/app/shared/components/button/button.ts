@@ -4,6 +4,13 @@ enum ButtonModels {
   GREEN,
   BLACK,
   RED,
+  TRANSPARENT,
+}
+
+enum ButtonSize {
+  SMALL,
+  MEDIUM,
+  LARGE,
 }
 
 @Component({
@@ -17,6 +24,7 @@ export class Button {
   @Input() loading: boolean = false;
   @Input() type: string = 'button';
   @Input() model: ButtonModels = ButtonModels.GREEN;
+  @Input() size: ButtonSize = ButtonSize.SMALL;
 
   @Output() clicked = new EventEmitter<void>();
 

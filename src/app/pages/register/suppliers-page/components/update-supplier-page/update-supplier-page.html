@@ -36,20 +36,20 @@
       />
       <div class="container__btns">
         <stk-button
-          [loading]="isLoading"
+          [loading]="isDeactivating"
           [disabled]="updateForm.invalid"
           [type]="'button'"
           (click)="deactivate()"
-          class="container__form__btn"
+          [size]="0"
           [model]="2"
-          >Desativar fornecedor
+          >Desativar
         </stk-button>
         <stk-button
-          [loading]="isLoading"
+          [loading]="isUpdating"
           [disabled]="updateForm.invalid"
           [type]="'submit'"
-          class="container__form__btn"
-          >Atualizar cadastro
+          [size]="0"
+          >Atualizar
         </stk-button>
       </div>
     </form>
