@@ -33,6 +33,9 @@ body[data-theme='light'] {
   --btn-hover-light-gray: #{variables.$gray-4};
   --btn-text-light-gray: #{variables.$gray-2};
 
+  --btn-bg-red: #{variables.$red-1};
+  --btn-hover-red: #{variables.$red-2};
+
   --card-bg: #{variables.$gray-1};
   --card-hover: #{variables.$gray-2};
 

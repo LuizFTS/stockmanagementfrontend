@@ -25,5 +25,8 @@ body[data-theme='dark'] {
   --btn-bg-gray: #{variables.$gray-9};
   --btn-hover-gray: #{variables.$gray-7};
 
+  --btn-bg-red: #{variables.$red-1};
+  --btn-hover-red: #{variables.$red-2};
+
   --card-bg: #{variables.$gray-8};
 }
