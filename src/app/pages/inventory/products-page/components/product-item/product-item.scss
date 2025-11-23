@@ -8,12 +8,22 @@
   border-top: 1px solid var(--border-color);
 
   &__info {
-    & h2 {
-      font-size: 18px;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 
-    & p {
-      font-size: 12px;
+    & div {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      & h2 {
+        font-size: 18px;
+      }
+
+      & p {
+        font-size: 12px;
+      }
     }
   }
 

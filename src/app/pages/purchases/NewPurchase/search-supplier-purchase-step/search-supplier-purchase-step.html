@@ -1,0 +1,24 @@
+<div class="container" (keyup.enter)="onEnter()">
+  <div class="container__title">
+    <h2>Informações do fornecedor</h2>
+  </div>
+  <stk-text-input
+    type="text"
+    id="supplierTaxId"
+    label="Digite o CNPJ *"
+    [control]="form.get('supplierTaxId')"
+    [errorMessages]="{
+      required: 'CNPJ é obrigatório',
+      cnpjInvalid: 'CNPJ inválido',
+    }"
+  />
+  <stk-button
+    [loading]="isLoading"
+    [disabled]="form.get('supplierTaxId')?.invalid ?? true"
+    (click)="next()"
+    [model]="1"
+    type="button"
+    class="container__form__btn"
+    >Próximo passo
+  </stk-button>
+</div>

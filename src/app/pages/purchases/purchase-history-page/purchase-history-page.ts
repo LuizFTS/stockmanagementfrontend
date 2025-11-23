@@ -6,12 +6,11 @@ import { Card } from '../../../shared/components/card/card';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Router } from '@angular/router';
-import { Button } from '../../../shared/components/button/button';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 
 @Component({
   selector: 'app-purchase-history-page',
-  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Button, Pagination],
+  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination],
   templateUrl: './purchase-history-page.html',
   styleUrl: './purchase-history-page.scss',
 })

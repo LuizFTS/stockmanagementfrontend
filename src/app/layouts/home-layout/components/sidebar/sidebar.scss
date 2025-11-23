@@ -1,140 +1,165 @@
 @use '../../../../../styles/breakpoints' as *;
 @use '../../../../../styles/mixins' as mix;
 
+// =========================
+// Variables
+// =========================
+$sidebar-collapsed-width: 100px;
+$sidebar-expanded-width: 400px;
+$sidebar-padding: 15px;
+$menu-gap: 5px;
+$submenu-indent: 2rem;
+$transition-duration: 0.3s;
+$mobile-breakpoint: 'md';
+
+// =========================
+// Host
+// =========================
 :host {
   position: relative;
 }
 
+// =========================
+// Backdrop
+// =========================
 .backdrop {
   @include mix.backdrop;
 
-  @include respond('md') {
+  @include respond($mobile-breakpoint) {
     display: none;
   }
 }
 
-a {
-  text-decoration: none;
-}
-
+// =========================
+// Main Navigation
+// =========================
 .nav {
-  height: 100vh;
   position: fixed;
   z-index: 1001;
   left: -100%;
-  background-color: var(--sidebar-bg);
-  color: var(--sidebar-text);
-  transition: all 0.3s;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  white-space: nowrap;
+  padding: $sidebar-padding;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  transition: left $transition-duration ease;
 
+  // Active state
   &.active {
     left: 0;
   }
 
-  @include respond('md') {
-    left: 0;
+  // Desktop: always visible and collapsed
+  @include respond($mobile-breakpoint) {
     position: relative;
+    left: 0;
     width: 100%;
-    max-width: 100px;
+    transition: max-width $transition-duration ease-in-out;
+    max-width: $sidebar-collapsed-width;
   }
 
+  // Desktop: expanded when active
   &.active {
-    @include respond('md') {
-      position: relative;
-      width: 100%;
-      max-width: 400px;
+    @include respond($mobile-breakpoint) {
+      transition: max-width $transition-duration ease-in-out;
+      max-width: $sidebar-expanded-width;
     }
   }
 }
 
-.menuContainer {
-  width: 100%;
+// =========================
+// Menu Container
+// =========================
+.menu-container {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
 
   &__header {
     display: flex;
-    width: 100%;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     margin-bottom: 10px;
 
-    & h1 {
-      font-size: 20px;
-      text-transform: uppercase;
+    @include respond($mobile-breakpoint) {
+      justify-content: center;
+    }
+
+    &__title {
       flex: 1;
-    }
-  }
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
 
-  &__ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-weight: 400;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    &__li {
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--sidebar-text);
-    }
-
-    &__sub {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      padding-left: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-  }
-
-  &__header {
-    & h1 {
-      @include respond('md') {
+      @include respond($mobile-breakpoint) {
         display: none;
       }
     }
 
-    @include respond('md') {
-      justify-content: center;
+    .active &__title {
+      @include respond($mobile-breakpoint) {
+        display: block;
+      }
+    }
+
+    .active &__header {
+      @include respond($mobile-breakpoint) {
+        justify-content: space-between;
+      }
     }
   }
-
-  &.active .menuContainer__header {
-    @include respond('md') {
-      justify-content: space-between;
-    }
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: $menu-gap;
+    list-style: none;
+    font-weight: 400;
   }
 
-  &.active .menuContainer__header h1 {
-    @include respond('md') {
-      display: inline;
-    }
+  &__section {
+    display: flex;
+    flex-direction: column;
+    color: var(--sidebar-text);
+    gap: $menu-gap;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  &__ul__sub {
-    @include respond('md') {
+  &__subitems {
+    display: flex;
+    flex-direction: column;
+    gap: $menu-gap;
+    padding-left: $submenu-indent;
+    list-style: none;
+
+    @include respond($mobile-breakpoint) {
       display: none;
     }
   }
 
-  &.active .menuContainer__ul__sub {
-    @include respond('md') {
+  &.active &__subitems {
+    @include respond($mobile-breakpoint) {
       display: flex;
     }
   }
+
+  &__subitem {
+    display: flex;
+    flex-direction: column;
+    color: var(--sidebar-text);
+    gap: $menu-gap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 }
 
-.bottom-sidebar {
+.sidebar-footer {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: auto;
 }

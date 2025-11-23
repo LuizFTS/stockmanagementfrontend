@@ -1,0 +1,39 @@
+<div class="main">
+  <div class="main__title">
+    <h1>Adicionar Compra</h1>
+  </div>
+  @if (messageDisplayed.message.length > 0) {
+    <stk-message-notification
+      [message]="messageDisplayed.message"
+      [status]="messageDisplayed.status"
+    />
+  }
+  <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
+  <section>
+    <stk-card [padding]="2">
+      <form [formGroup]="purchaseForm" (ngSubmit)="onAddNewPurchase()">
+        @if (currentStep === 1) {
+          <stk-search-supplier-purchase-step
+            (isLoadingChange)="isLoadingChange()"
+            [isLoading]="isLoading"
+            [form]="purchaseForm"
+            (nextStep)="nextStep()"
+            (showMessage)="showMessageHandle($event.message, $event.status)"
+          />
+        }
+        @if (currentStep === 2) {
+          <stk-add-items-purchase-step
+            [isLoading]="isLoading"
+            [form]="purchaseItemForm"
+            [formParent]="purchaseForm"
+            (isLoadingChange)="isLoadingChange()"
+            (back)="back()"
+            (addItem)="addItem($event)"
+            (removeItem)="removeItem($event)"
+            (showMessage)="showMessageHandle($event.message, $event.status)"
+          />
+        }
+      </form>
+    </stk-card>
+  </section>
+</div>

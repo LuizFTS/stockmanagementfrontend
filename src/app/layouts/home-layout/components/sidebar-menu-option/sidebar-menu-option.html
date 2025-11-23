@@ -1,23 +1,21 @@
-@if (icon || text || arrow) {
-  <span [class]="`option-container ${className}`" (click)="onClick()">
+@if (shouldRender) {
+  <button type="button" [class]="containerClasses" (click)="handleClick()">
     @if (icon) {
-      <mat-icon
-        class="option-container__icon"
-        [fontSet]="itemActive ? 'material-icons' : 'material-icons-outlined'"
-        >{{ icon }}</mat-icon
-      >
+      <mat-icon class="option-container__icon" [fontSet]="iconFontSet">{{ icon }}</mat-icon>
     }
+
     @if (text) {
-      <p class="option-container__text">{{ text }}</p>
+      <span class="option-container__text">{{ text }}</span>
     }
+
     @if (arrow) {
       <mat-icon
-        [class]="
-          type === 'default' ? 'option-container__arrow arrowRotate' : 'option-container__arrow'
-        "
-        [fontSet]="itemActive ? 'material-icons' : 'material-icons-outlined'"
-        >{{ arrow }}</mat-icon
+        class="option-container__arrow"
+        [class.arrow-rotate]="itemActive"
+        [fontSet]="iconFontSet"
       >
+        {{ arrow }}
+      </mat-icon>
     }
-  </span>
+  </button>
 }

@@ -5,13 +5,12 @@ import { TransactionItem } from '../../../shared/components/transaction-item/tra
 import { Card } from '../../../shared/components/card/card';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
-import { Button } from '../../../shared/components/button/button';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sale-history-page',
-  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Button, Pagination],
+  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination],
   templateUrl: './sale-history-page.html',
   styleUrl: './sale-history-page.scss',
 })

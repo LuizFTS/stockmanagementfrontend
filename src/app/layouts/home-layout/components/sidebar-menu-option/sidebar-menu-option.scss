@@ -1,66 +1,119 @@
 @use '../../../../../styles/breakpoints' as *;
 @use '../../../../../styles/mixins' as mix;
 
+// ========================================
+// Variables
+// ========================================
+$option-padding: 10px;
+$option-gap: 10px;
+$option-border-radius: 5px;
+$arrow-rotation-collapsed: -90deg;
+$arrow-rotation-expanded: 90deg;
+$arrow-icon-size: 16px;
+$transition-duration: 0.2s;
+$mobile-breakpoint: 'md';
+
+// ========================================
+// Host
+// ========================================
 :host {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
+// ========================================
+// Option Container (Button)
+// ========================================
 .option-container {
   @include mix.flex-center;
-  line-height: 0;
+
+  // Layout
   width: fit-content;
-  gap: 10px;
-  transition: background 0.2s;
-  padding: 10px;
-  border-radius: 5px;
+  gap: $option-gap;
+  padding: $option-padding;
+
+  // Visual
+  border: none;
+  border-radius: $option-border-radius;
+  background: transparent;
+  color: var(--sidebar-text);
   cursor: pointer;
 
-  &__text {
-    flex: 1;
-  }
+  // Transitions
+  transition: background-color $transition-duration ease;
 
-  &__arrow {
-    @include mix.flex-center;
-    transition: transform 0.2s;
-
-    &.arrowRotate {
-      transform: rotate(90deg);
-      font-size: 16px;
-    }
-  }
-
+  // Hover state
   &:hover {
     background-color: var(--sidebar-hover);
   }
 
-  &.itemActive {
+  // Focus state (acessibilidade)
+  &:focus-visible {
+    outline: 2px solid var(--primary-color-l);
+    outline-offset: 2px;
+  }
+
+  // Active item state
+  &.item-active {
     background-color: var(--sidebar-hover);
     font-weight: 500;
+
+    .option-container__arrow {
+      transform: rotate($arrow-rotation-expanded);
+    }
   }
 
-  &.itemActive .option-container__arrow {
-    transform: rotate(-90deg);
-  }
-
-  &.barActive {
+  // Bar active state (sidebar expandida)
+  &.bar-active {
     width: 100%;
+
+    .option-container__text,
+    .option-container__arrow {
+      display: flex;
+    }
   }
 
-  &.barActive .option-container__arrow {
+  // Icon
+  &__icon {
     @include mix.flex-center;
+    flex-shrink: 0;
   }
 
-  &.barActive .option-container__text {
-    display: block;
-    flex: 1;
-  }
-
-  &__arrow,
+  // Text
   &__text {
-    @include respond('md') {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+    text-align: left;
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    // Desktop: esconde quando sidebar colapsada
+    @include respond($mobile-breakpoint) {
       display: none;
+    }
+  }
+
+  // Arrow
+  &__arrow {
+    @include mix.flex-center;
+    flex-shrink: 0;
+    transition: transform $transition-duration ease;
+    transform: rotate($arrow-rotation-collapsed);
+    font-size: $arrow-icon-size;
+
+    // Desktop: esconde quando sidebar colapsada
+    @include respond($mobile-breakpoint) {
+      display: none;
+    }
+
+    // Rotação quando colapsada
+    &.arrow-rotate {
+      transform: rotate($arrow-rotation-collapsed);
     }
   }
 }

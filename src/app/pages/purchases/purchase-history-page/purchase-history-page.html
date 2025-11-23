@@ -6,8 +6,6 @@
 
   <stk-search-input (searchChange)="onSearch($event)" placeholder="Pesquisar por fornecedor" />
 
-  <stk-button [model]="1" (click)="navigate('/purchases/add')">Adicionar compra</stk-button>
-
   <section>
     <stk-card>
       @for (item of filteredPurchases; track $index; let i = $index) {

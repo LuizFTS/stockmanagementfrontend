@@ -1,80 +1,72 @@
+<!-- Backdrop para mobile -->
 <div
-  [class]="active ? 'backdrop active' : 'backdrop'"
-  (click)="onToggleBar(false)"
+  class="backdrop"
+  [class.active]="active"
   [class.fade-in]="active"
   [class.fade-out]="!active"
+  (click)="toggleSidebar(false)"
 ></div>
 
-<nav [class]="active ? 'nav active' : 'nav'">
-  <div [class]="active ? 'menuContainer active' : 'menuContainer'">
-    <div class="menuContainer__header">
-      <h1>stockmanagement</h1>
-      <stk-sidebar-menu-option icon="menu" (action)="onToggleBar(!this.active)" />
-    </div>
-    <ul class="menuContainer__ul">
-      @for (item of menuData; track item.name; let i = $index) {
-        @if (item.name === 'Inicio') {
-          <li
-            [class]="
-              index.itemIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'
-            "
-            (click)="onToggleItem(i)"
-          >
-            <stk-sidebar-menu-option
-              [barActive]="active"
-              [itemActive]="index.itemIndex === i"
-              [icon]="item.icon"
-              [text]="item.name"
-            />
-          </li>
-        } @else {
-          <li
-            [class]="
-              index.itemIndex === i ? 'menuContainer__ul__li active' : 'menuContainer__ul__li'
-            "
-            (click)="onToggleItem(i)"
-          >
-            <stk-sidebar-menu-option
-              [icon]="item.icon"
-              [text]="item.name"
-              [barActive]="active"
-              [itemActive]="index.itemIndex === i"
-              arrow="arrow_back_ios_new"
-            />
-          </li>
-        }
-        @if (item.itens.length > 0 && index.itemIndex === i) {
-          <ul class="menuContainer__ul__sub">
-            @for (sub of item.itens; track sub.item; let ind = $index) {
-              <li
-                class="menuContainer__ul__sub__li"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="onToggleSubItem(ind)"
-              >
-                <stk-sidebar-menu-sub-option
-                  [text]="sub.item"
-                  [path]="sub.path"
-                  [active]="index.itemIndex === i && index.subItemIndex === ind"
-                  (close)="onToggleBar(false)"
-                />
-              </li>
-            }
-          </ul>
-        }
+<!-- Navegação principal -->
+<nav class="nav" [class.active]="active">
+  <!-- Container do menu -->
+  <div class="menu-container" [class.active]="active">
+    <!-- Header -->
+    <header class="menu-container__header">
+      <h1 class="menu-container__header__title">stockmanagement</h1>
+      <stk-sidebar-menu-option icon="menu" (action)="toggleSidebar(!active)" />
+    </header>
+
+    <!-- Lista de seções do menu -->
+    <ul class="menu-container__sections">
+      @for (section of menuData; track section.id; let sectionIndex = $index) {
+        <li class="menu-container__section" [class.active]="isSectionActive(sectionIndex)">
+          <!-- Botão da seção -->
+          <stk-sidebar-menu-option
+            [icon]="section.icon"
+            [text]="section.label"
+            [arrow]="hasArrow(section) ? 'arrow_back_ios_new' : null"
+            [barActive]="active"
+            [itemActive]="isSectionActive(sectionIndex)"
+            (action)="handleSectionClick(sectionIndex)"
+          />
+
+          <!-- Subitens (apenas se não for Home e estiver ativo) -->
+          @if (shouldShowSubItems(sectionIndex)) {
+            <ul class="menu-container__subitems">
+              @for (item of section.items; track item.path; let itemIndex = $index) {
+                <li
+                  class="menu-container__subitem"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  <stk-sidebar-menu-sub-option
+                    [text]="item.label"
+                    [path]="item.path"
+                    [active]="isItemActive(sectionIndex, itemIndex)"
+                    (close)="handleItemClick(itemIndex)"
+                  />
+                </li>
+              }
+            </ul>
+          }
+        </li>
       }
     </ul>
   </div>
-  <div [class]="active ? 'bottom-sidebar active' : 'bottom-sidebar'">
+
+  <!-- Footer da sidebar -->
+  <footer class="sidebar-footer" [class.active]="active">
+    <!-- Botão de perfil -->
     <stk-sidebar-menu-option
       icon="account_circle"
-      [text]="user"
-      arrow="keyboard_arrow_right"
+      [text]="userName"
       [barActive]="active"
-      [itemActive]="index.itemIndex === -1"
-      (action)="onToggleItem(-1)"
-      type=""
+      [itemActive]="isSectionActive(-1)"
+      (action)="handleSectionClick(-1)"
     />
-    <stk-sidebar-menu-option icon="logout" (action)="onLogout()" />
-  </div>
+
+    <!-- Botão de logout -->
+    <stk-sidebar-menu-option icon="logout" (action)="logout()" />
+  </footer>
 </nav>

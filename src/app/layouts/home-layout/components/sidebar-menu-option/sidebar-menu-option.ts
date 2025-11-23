@@ -8,23 +8,46 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './sidebar-menu-option.scss',
 })
 export class SideBarMenuOption {
-  className: string = '';
-
   @Input() icon: string | null = null;
   @Input() text: string | null = null;
   @Input() arrow: string | null = null;
-  @Input() barActive: boolean = false;
-  @Input() itemActive: boolean = false;
-  @Input() type: string = 'default';
-  @Output() action = new EventEmitter();
+  @Input() barActive = false;
+  @Input() itemActive = false;
 
-  onClick() {
-    this.action.emit();
+  @Output() action = new EventEmitter<void>();
+
+  /**
+   * Computa as classes CSS baseadas no estado do componente
+   */
+  get containerClasses(): string {
+    const classes: string[] = ['option-container'];
+
+    if (this.barActive) {
+      classes.push('bar-active');
+    }
+
+    if (this.itemActive) {
+      classes.push('item-active');
+    }
+
+    return classes.join(' ');
   }
 
-  ngOnChanges() {
-    this.className = [this.barActive ? 'barActive' : '', this.itemActive ? 'itemActive' : '']
-      .filter(Boolean)
-      .join(' ');
+  /**
+   * Determina qual conjunto de ícones usar baseado no estado ativo
+   */
+  get iconFontSet(): string {
+    return this.itemActive ? 'material-icons' : 'material-icons-outlined';
+  }
+
+  /**
+   * Verifica se deve renderizar o componente
+   */
+  get shouldRender(): boolean {
+    return !!(this.icon || this.text || this.arrow);
+  }
+
+  handleClick(): void {
+    this.action.emit();
   }
 }

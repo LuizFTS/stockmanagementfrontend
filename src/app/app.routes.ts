@@ -3,7 +3,7 @@ import { HomeLayout } from './layouts/home-layout/home-layout';
 import { LoginPage } from './pages/auth/login-page/login-page';
 import { ProfilePage } from './pages/profile-page/profile-page';
 import { HomePage } from './pages/home-page/home-page';
-import { NewPurchasePage } from './pages/purchases/new-purchase-page/new-purchase-page';
+import { NewPurchasePage } from './pages/purchases/NewPurchase/new-purchase-page/new-purchase-page';
 import { PurchaseHistoryPage } from './pages/purchases/purchase-history-page/purchase-history-page';
 import { NewSalePage } from './pages/sales/new-sale-page/new-sale-page';
 import { SaleHistoryPage } from './pages/sales/sale-history-page/sale-history-page';

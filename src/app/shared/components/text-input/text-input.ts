@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, type ElementRef } from '@angular/core';
 import { ReactiveFormsModule, type AbstractControl } from '@angular/forms';
 
 @Component({
@@ -8,11 +8,18 @@ import { ReactiveFormsModule, type AbstractControl } from '@angular/forms';
   styleUrl: './text-input.scss',
 })
 export class TextInput {
+  @ViewChild('innerInput', { static: true }) innerInput!: ElementRef<HTMLInputElement>;
   @Input() label!: string;
   @Input() type!: string;
   @Input() id!: string;
   @Input() control!: AbstractControl | null;
   @Input() errorMessages!: { [key: string]: string };
+
+  @Output() keydown = new EventEmitter<KeyboardEvent>();
+
+  onKeyDown(event: KeyboardEvent) {
+    this.keydown.emit(event);
+  }
 
   get isValid(): boolean {
     return !!(this.control && !this.control.invalid);
@@ -26,6 +33,10 @@ export class TextInput {
     if (!this.control?.errors || !this.control?.dirty) return null;
     const errorKey = Object.keys(this.control.errors)[0];
     return this.errorMessages[errorKey];
+  }
+
+  focus() {
+    this.innerInput.nativeElement.focus();
   }
 
   handleInput(event: Event) {

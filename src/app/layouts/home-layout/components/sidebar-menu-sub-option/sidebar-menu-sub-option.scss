@@ -1,35 +1,94 @@
 @use '../../../../../styles/mixins' as mix;
 
+// ========================================
+// Variables
+// ========================================
+$option-padding: 10px;
+$option-border-radius: 5px;
+$indicator-width: 4px;
+$indicator-offset: -10px;
+$indicator-border-radius: 5px;
+$transition-duration: 0.2s;
+
+// ========================================
+// Host
+// ========================================
+:host {
+  width: 100%;
+  display: block;
+}
+
+// ========================================
+// Option Container (Button)
+// ========================================
 .option-container {
   @include mix.flex-center;
-  justify-content: left;
-  padding: 20px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.2s;
-  position: relative;
 
+  // Layout
+  position: relative;
+  width: 100%;
+  justify-content: flex-start;
+  padding: $option-padding;
+
+  // Visual
+  border: none;
+  border-radius: $option-border-radius;
+  background: transparent;
+  color: var(--sidebar-text);
+  cursor: pointer;
+  text-align: left;
+
+  // Transitions
+  transition: background-color $transition-duration ease;
+
+  // Indicator (barra lateral)
   &::before {
     content: '';
-    height: 100%;
-    width: 4px;
-    background-color: var(--sidebar-hover);
-    border-radius: 5px;
     position: absolute;
     top: 0;
-    left: -10px;
+    left: $indicator-offset;
+    width: $indicator-width;
+    height: 100%;
+    background-color: var(--sidebar-hover);
+    border-radius: $indicator-border-radius;
+    transition: background-color $transition-duration ease;
   }
 
-  &.active::before {
-    background-color: var(--primary-color-l);
-  }
-
-  &:hover,
-  &.active {
+  // Hover state
+  &:hover {
     background-color: var(--sidebar-hover);
   }
 
-  &.active p {
-    font-weight: 500;
+  // Focus state (acessibilidade)
+  &:focus-visible {
+    outline: 2px solid var(--primary-color-l);
+    outline-offset: 2px;
+  }
+
+  // Active state
+  &.active {
+    background-color: var(--sidebar-hover);
+
+    &::before {
+      background-color: var(--primary-color-l);
+    }
+
+    .option-container__text {
+      font-weight: 500;
+    }
+  }
+
+  // Text
+  &__text {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+    text-align: left;
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 24px;
   }
 }

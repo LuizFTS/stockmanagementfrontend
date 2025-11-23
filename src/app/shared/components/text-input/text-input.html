@@ -1,6 +1,7 @@
 <div class="input-group">
   <label class="input-group__label" for="">{{ label }}</label>
   <input
+    #innerInput
     [type]="type === 'number' ? 'text' : type"
     [id]="id"
     [formControl]="$any(control)"
@@ -9,6 +10,7 @@
     [class.valid]="isValid"
     [class.invalid]="isInvalid"
     (input)="handleInput($event)"
+    (keydown)="onKeyDown($event)"
   />
   @if (currentError) {
     <div class="error-text">{{ currentError }}</div>

@@ -15,6 +15,7 @@ stk-message-notification {
   &__container {
     @include mix.main-layout;
     align-items: flex-start;
+    justify-content: center;
 
     &__form {
       display: flex;

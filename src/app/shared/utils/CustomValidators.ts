@@ -41,4 +41,24 @@ export class CustomValidators {
       return null;
     };
   }
+
+  static quantity(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const rawValue = control.value;
+      if (rawValue === null || rawValue === undefined || rawValue === '') {
+        return null;
+      }
+      const quantity = Number(rawValue);
+
+      if (!Number.isInteger(quantity)) {
+        return { quantityInvalid: true };
+      }
+
+      if (quantity < 1) {
+        return { quantityInvalid: true };
+      }
+
+      return null;
+    };
+  }
 }
