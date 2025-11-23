@@ -14,11 +14,7 @@ import { MessageNotificationComponent } from '../../../shared/components/message
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
 import { Card } from '../../../shared/components/card/card';
 import { BackButton } from '../../../shared/components/back-button/back-button';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'app-change-password-page',
@@ -37,7 +33,7 @@ interface Message {
   styleUrl: './change-password-page.scss',
 })
 export class ChangePasswordPage {
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   isLoading: boolean = false;
   passwordForm: FormGroup;
 

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import type { Product } from '../models/Product.model';
 import { HttpClient } from '@angular/common/http';
-import type { PageableResponse } from '../models/PageableResponse.model';
+import type { PageableResponse } from '../models/response/PageableResponse.model';
 import type { AddProductRequest } from '../models/request/AddProductRequest.model';
-import type { CreatedResponse } from '../models/CreatedResponse.model';
+import type { CreatedResponse } from '../models/response/CreatedResponse.model';
 import type { UpdateProductRequest } from '../models/request/UpdateProductRequest.model';
 
 @Injectable({ providedIn: 'root' })

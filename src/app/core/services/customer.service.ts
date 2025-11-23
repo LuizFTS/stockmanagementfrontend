@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import type { PageableResponse } from '../models/PageableResponse.model';
+import type { PageableResponse } from '../models/response/PageableResponse.model';
 import type { Customer } from '../models/Customer.model';
 import type { AddCustomerRequest } from '../models/request/AddCustomerRequest.model';
 import type { UpdateCustomerRequest } from '../models/request/UpdateCustomerRequest.model';
-import type { CreatedResponse } from '../models/CreatedResponse.model';
+import type { CreatedResponse } from '../models/response/CreatedResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {

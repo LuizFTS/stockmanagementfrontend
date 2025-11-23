@@ -7,11 +7,7 @@ import { Button } from '../../../shared/components/button/button';
 import { TextInput } from '../../../shared/components/text-input/text-input';
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
 import { BackButton } from '../../../shared/components/back-button/back-button';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
 
 interface NewUser {
   firstName: string;
@@ -35,7 +31,7 @@ interface NewUser {
   styleUrl: './register-page.scss',
 })
 export class RegisterPage {
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   newUser: NewUser | null = null;
   isLoading: boolean = false;
 

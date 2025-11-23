@@ -17,11 +17,7 @@ import { TextInput } from '../../../shared/components/text-input/text-input';
 import { Card } from '../../../shared/components/card/card';
 import { BackButton } from '../../../shared/components/back-button/back-button';
 import { Formatter } from '../../../shared/utils/Formatter';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'app-general-information-page',
@@ -30,7 +26,7 @@ interface Message {
   styleUrl: './general-information-page.scss',
 })
 export class GeneralInformationPage {
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   isLoading: boolean = false;
   user: User | null = null;
 

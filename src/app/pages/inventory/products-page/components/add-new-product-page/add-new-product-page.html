@@ -1,6 +1,7 @@
 <div class="main">
   <div class="main__title">
-    <h1>Produtos</h1>
+    <h1>Estoque</h1>
+    <p>Cadastro de produto</p>
   </div>
   @if (messageDisplayed.message.length > 0) {
     <stk-message-notification
@@ -57,6 +58,7 @@
         <stk-button
           [loading]="isLoading"
           [disabled]="createForm.invalid"
+          [model]="1"
           [type]="'submit'"
           [size]="0"
           >Cadastrar

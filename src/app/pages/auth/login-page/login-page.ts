@@ -11,6 +11,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
+import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'app-login-page',
@@ -22,7 +23,7 @@ export class LoginPage {
   private readonly tokenKey: string = 'auth_token';
 
   @ViewChild('emailInput') emailInput!: ElementRef<HTMLInputElement>;
-  messageDisplayed = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   isLoading = false;
   isPasswordVisible: boolean = false;
   loginForm: FormGroup;

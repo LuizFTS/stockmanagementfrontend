@@ -8,11 +8,7 @@ import { BackButton } from '../../../../../shared/components/back-button/back-bu
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import type { Product } from '../../../../../core/models/Product.model';
 import { ProductService } from '../../../../../core/services/product.service';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'app-add-new-product-page',
@@ -23,7 +19,7 @@ interface Message {
 export class AddNewProductPage {
   private router = inject(Router);
 
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   createForm: FormGroup;
   isLoading: boolean = false;
 

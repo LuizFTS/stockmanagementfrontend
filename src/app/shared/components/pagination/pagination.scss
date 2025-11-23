@@ -18,6 +18,8 @@
 
     & span {
       @include mix.flex-center;
+      color: var(--text-color);
+
       height: 24px;
       width: 24px;
       font-size: 14px;
@@ -25,6 +27,9 @@
 
     &.active {
       background: var(--btn-bg-gray);
+    }
+
+    &.active span {
       color: var(--btn-text-gray);
     }
 
@@ -42,6 +47,7 @@
   &__arrow {
     @include mix.flex-center;
     border: 1px solid transparent;
+    color: var(--text-color);
     border-radius: 5px;
     padding: 6px;
     line-height: 0;

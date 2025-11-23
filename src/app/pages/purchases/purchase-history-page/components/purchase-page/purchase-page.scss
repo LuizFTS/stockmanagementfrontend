@@ -30,7 +30,7 @@
       flex-direction: column;
 
       &:not(:last-child) {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid var(--border-color);
       }
     }
   }

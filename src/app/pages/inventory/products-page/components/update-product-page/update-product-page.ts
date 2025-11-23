@@ -12,11 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Product } from '../../../../../core/models/Product.model';
 import { Formatter } from '../../../../../shared/utils/Formatter';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'app-update-product-page',
@@ -28,7 +24,7 @@ export class UpdateProductPage {
   private router = inject(Router);
   private modalService = inject(ConfirmationModalService);
 
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
   isUpdating: boolean = false;

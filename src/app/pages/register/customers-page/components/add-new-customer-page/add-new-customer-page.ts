@@ -8,11 +8,7 @@ import { MessageNotificationComponent } from '../../../../../shared/components/m
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../../../core/services/customer.service';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'stk-add-new-customer-page',
@@ -34,7 +30,7 @@ export class AddNewCustomerPage {
   totalSteps: number = 2;
 
   isLoading: boolean = false;
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
 
   constructor(
     private fb: FormBuilder,

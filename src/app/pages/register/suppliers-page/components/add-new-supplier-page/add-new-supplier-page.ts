@@ -9,11 +9,7 @@ import { SupplierService } from '../../../../../core/services/supplier.service';
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { Router } from '@angular/router';
 import { Formatter } from '../../../../../shared/utils/Formatter';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'app-add-new-supplier-page',
@@ -35,7 +31,7 @@ export class AddNewSupplierPage {
   totalSteps: number = 2;
 
   isLoading: boolean = false;
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
 
   constructor(
     private fb: FormBuilder,

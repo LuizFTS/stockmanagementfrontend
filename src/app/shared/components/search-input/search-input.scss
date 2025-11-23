@@ -18,6 +18,7 @@
   &__icon {
     @include mix.flex-center;
     line-height: 0;
+    color: var(--text-color);
     position: absolute;
     top: 50%;
     left: 10px;

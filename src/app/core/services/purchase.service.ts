@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import type { Purchase } from '../models/Purchase.model';
 import type { Observable } from 'rxjs';
-import type { PageableResponse } from '../models/PageableResponse.model';
+import type { PageableResponse } from '../models/response/PageableResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class PurchaseService {

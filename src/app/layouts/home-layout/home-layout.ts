@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { Sidebar } from './components/sidebar/sidebar';
+import { Button } from '../../shared/components/button/button';
 
 @Component({
   selector: 'app-home-layout',
-  imports: [MatIconModule, RouterOutlet, Sidebar],
+  imports: [MatIconModule, RouterOutlet, Sidebar, Button],
   templateUrl: './home-layout.html',
   styleUrl: './home-layout.scss',
 })

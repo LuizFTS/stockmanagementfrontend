@@ -23,6 +23,6 @@ export class Button {
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
   @Input() type: string = 'button';
-  @Input() model: ButtonModels = ButtonModels.GREEN;
+  @Input() model: ButtonModels = ButtonModels.BLACK;
   @Input() size: ButtonSize = ButtonSize.SMALL;
 }

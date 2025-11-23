@@ -11,11 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 import type { Customer } from '../../../../../core/models/Customer.model';
 import { CustomerService } from '../../../../../core/services/customer.service';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'stk-update-customer-page',
@@ -27,7 +23,7 @@ export class UpdateCustomerPage {
   private router = inject(Router);
   private modalService = inject(ConfirmationModalService);
 
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
   isUpdating: boolean = false;

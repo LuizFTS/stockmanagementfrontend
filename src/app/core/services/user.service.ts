@@ -4,7 +4,7 @@ import type { User } from '../models/User.model';
 import { BehaviorSubject, map, type Observable } from 'rxjs';
 import type { UpdateUser } from '../models/request/UpdateUserRequest.model';
 import type { RegisterUserRequest } from '../models/request/RegisterUserRequest.model';
-import type { PageableResponse } from '../models/PageableResponse.model';
+import type { PageableResponse } from '../models/response/PageableResponse.model';
 import { Formatter } from '../../shared/utils/Formatter';
 
 interface UserCreated {

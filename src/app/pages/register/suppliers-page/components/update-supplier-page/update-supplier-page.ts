@@ -9,11 +9,7 @@ import { SupplierService } from '../../../../../core/services/supplier.service';
 import type { Supplier } from '../../../../../core/models/Supplier.model';
 import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
-
-interface Message {
-  status: string;
-  message: string;
-}
+import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 
 @Component({
   selector: 'app-update-supplier-page',
@@ -25,7 +21,7 @@ export class UpdateSupplierPage {
   private router = inject(Router);
   private modalService = inject(ConfirmationModalService);
 
-  messageDisplayed: Message = { status: '', message: '' };
+  messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
   isUpdating: boolean = false;

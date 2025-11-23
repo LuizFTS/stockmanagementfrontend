@@ -3,7 +3,9 @@
     [class]="isSidebarOpen ? 'main__menuButton active' : 'main__menuButton'"
     (click)="toggleSidebar(true)"
   >
-    <mat-icon>menu</mat-icon>
+    <stk-button [model]="3">
+      <mat-icon>menu</mat-icon>
+    </stk-button>
   </div>
   <stk-sidebar [active]="isSidebarOpen" (opened)="toggleSidebar($event)" />
   <main class="main__container">

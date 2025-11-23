@@ -45,6 +45,8 @@
 @mixin input {
   outline: none;
   border: 1px solid var(--border-color);
+  color: var(--text-color);
+  background-color: var(--card-bg);
   border-radius: 5px;
   min-height: 30px;
   padding-left: 10px;
@@ -163,9 +165,11 @@
   @if $color == 'gray' {
     background-color: var(--btn-bg-gray);
     color: var(--btn-text-gray);
+    border: 1px solid transparent;
 
     &:hover {
       background-color: var(--btn-hover-gray);
+      border: 1px solid var(--border-color);
     }
   }
 
@@ -181,10 +185,10 @@
   @if $color == 'transparent' {
     background-color: transparent;
     border: 1px solid var(--border-color);
-    color: var(--btn-text-transparent);
+    color: var(--text-color);
 
     &:hover {
-      background-color: var(--btn-hover-transparent);
+      background-color: var(--hover-color);
     }
   }
 }

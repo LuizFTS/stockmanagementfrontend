@@ -16,6 +16,7 @@
   <stk-button
     [disabled]="form.get('taxId')?.invalid ?? true"
     (click)="next()"
+    [model]="1"
     [type]="'button'"
     class="container__form__btn"
     >Próximo passo

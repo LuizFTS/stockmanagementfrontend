@@ -1,12 +1,11 @@
 @use '../variables';
 
 body[data-theme='dark'] {
-  --bg-color: #{variables.$gray-9};
+  --bg-color: #{variables.$gray-10};
+  --hover-color: #{variables.$gray-7};
   --text-color: #{variables.$gray-2};
 
-  --text-dark: #{variables.$gray-8};
-
-  --border-color: #{variables.$gray-4};
+  --border-color: #{variables.$gray-7};
 
   --primary-color-l: #{variables.$green-1};
   --primary-color-m: #{variables.$green-2};
@@ -22,11 +21,24 @@ body[data-theme='dark'] {
   --btn-text: #{variables.$gray-2};
   --btn-disabled: #{variables.$gray-6};
 
-  --btn-bg-gray: #{variables.$gray-9};
-  --btn-hover-gray: #{variables.$gray-7};
+  --btn-bg-gray: #{variables.$gray-11};
+  --btn-hover-gray: #{variables.$gray-10};
+  --btn-text-gray: #{variables.$gray-2};
+
+  --btn-bg-transparent: transparent;
+  --btn-hover-transparent: #{variables.$gray-3};
+  --btn-text-transparent: #{variables.$gray-8};
+
+  --btn-bg-light-gray: #{variables.$gray-5};
+  --btn-hover-light-gray: #{variables.$gray-4};
+  --btn-text-light-gray: #{variables.$gray-2};
 
   --btn-bg-red: #{variables.$red-1};
   --btn-hover-red: #{variables.$red-2};
 
-  --card-bg: #{variables.$gray-8};
+  --card-bg: #{variables.$gray-9};
+  --card-hover: #{variables.$gray-10};
+
+  --dark-bg: #{variables.$gray-9};
+  --dark-hover: #{variables.$gray-7};
 }
