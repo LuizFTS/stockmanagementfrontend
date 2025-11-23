@@ -1,19 +1,19 @@
-import { Component, EventEmitter, Input, Output, ViewChild, type ElementRef } from '@angular/core';
-import type { FormArray, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Button } from '../../../../shared/components/button/button';
 import { BackButton } from '../../../../shared/components/back-button/back-button';
 import { TextInput } from '../../../../shared/components/text-input/text-input';
+import { MatIcon } from '@angular/material/icon';
+import type { FormArray, FormGroup } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Formatter } from '../../../../shared/utils/Formatter';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'stk-add-items-purchase-step',
+  selector: 'stk-add-items-sale-step',
   imports: [Button, BackButton, TextInput, MatIcon],
-  templateUrl: './add-items-purchase-step.html',
-  styleUrl: './add-items-purchase-step.scss',
+  templateUrl: './add-items-sale-step.html',
+  styleUrl: './add-items-sale-step.scss',
 })
-export class AddItemsPurchaseStep {
+export class AddItemsSaleStep {
   private _itens: any[] = [];
 
   @ViewChild('productName') productName!: any;
@@ -85,6 +85,7 @@ export class AddItemsPurchaseStep {
 
   private getProductByName() {
     const productName = this.form.get('name')?.value.toLowerCase().trim();
+    const quantity = parseInt(this.form.get('quantity')?.value);
 
     this.productService.get(0, 1, { name: productName }).subscribe({
       next: ({ content }) => {
@@ -96,6 +97,12 @@ export class AddItemsPurchaseStep {
 
         if (this._itens.find((item: any) => item.id === content[0].id)) {
           this.showMessage.emit({ message: 'Produto já adicionado', status: 'error' });
+          this.addItemLoading = false;
+          return;
+        }
+
+        if (content[0].inventoryBalance < quantity) {
+          this.showMessage.emit({ message: 'Quantidade insuficiente em estoque', status: 'error' });
           this.addItemLoading = false;
           return;
         }

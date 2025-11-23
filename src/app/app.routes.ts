@@ -5,7 +5,6 @@ import { ProfilePage } from './pages/profile-page/profile-page';
 import { HomePage } from './pages/home-page/home-page';
 import { NewPurchasePage } from './pages/purchases/NewPurchase/new-purchase-page/new-purchase-page';
 import { PurchaseHistoryPage } from './pages/purchases/purchase-history-page/purchase-history-page';
-import { NewSalePage } from './pages/sales/new-sale-page/new-sale-page';
 import { SaleHistoryPage } from './pages/sales/sale-history-page/sale-history-page';
 import { ProductsPage } from './pages/inventory/products-page/products-page';
 import { InventoryMovementPage } from './pages/inventory/inventory-movement-page/inventory-movement-page';
@@ -22,6 +21,7 @@ import { UpdateCustomerPage } from './pages/register/customers-page/components/u
 import { UpdateProductPage } from './pages/inventory/products-page/components/update-product-page/update-product-page';
 import { PurchasePage } from './pages/purchases/purchase-history-page/components/purchase-page/purchase-page';
 import { SalePage } from './pages/sales/sale-history-page/components/sale-page/sale-page';
+import { NewSalePage } from './pages/sales/NewSale/new-sale-page/new-sale-page';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage },

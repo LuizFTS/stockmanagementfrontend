@@ -1,0 +1,24 @@
+<div class="container" (keyup.enter)="onEnter()">
+  <div class="container__title">
+    <h2>Informações do cliente</h2>
+  </div>
+  <stk-text-input
+    type="text"
+    id="customerTaxId"
+    label="Digite o CPF/CNPJ *"
+    [control]="form.get('customerTaxId')"
+    [errorMessages]="{
+      required: 'CPF/CNPJ é obrigatório',
+      cnpjInvalid: 'CPF/CNPJ inválido',
+    }"
+  />
+  <stk-button
+    [loading]="isLoading"
+    [disabled]="form.get('customerTaxId')?.invalid ?? true"
+    (click)="next()"
+    [model]="1"
+    type="button"
+    class="container__form__btn"
+    >Próximo passo
+  </stk-button>
+</div>

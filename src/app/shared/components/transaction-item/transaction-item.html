@@ -1,8 +1,12 @@
 <div class="item" [class.first-item]="firstItem">
   <div class="item__info">
-    <p>Número da compra: 123</p>
-    <p>{{ nameInfo.type }}: {{ nameInfo.name }}</p>
-    <p>Data da operação: {{ formatDate(date) }}</p>
+    <p>
+      {{ capitalize(nameInfo.type) }}: <strong>{{ capitalize(nameInfo.name) }}</strong>
+    </p>
+    <p>Número da compra: <strong>123</strong></p>
+    <p>
+      Data da operação: <strong>{{ formatDate(date) }}</strong>
+    </p>
   </div>
   <div class="item__details">
     <h3>R${{ formatValue(value) }}</h3>
