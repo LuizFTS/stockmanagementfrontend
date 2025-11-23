@@ -1,0 +1,39 @@
+<div class="main">
+  <div class="main__title">
+    <h1>Adicionar Venda</h1>
+  </div>
+  @if (messageDisplayed.message.length > 0) {
+    <stk-message-notification
+      [message]="messageDisplayed.message"
+      [status]="messageDisplayed.status"
+    />
+  }
+  <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
+  <section>
+    <stk-card [padding]="2">
+      <form [formGroup]="saleForm" (ngSubmit)="onAddNewSale()">
+        @if (currentStep === 1) {
+          <stk-search-customer-sale-step
+            (isLoadingChange)="isLoadingChange()"
+            [isLoading]="isLoading"
+            [form]="saleForm"
+            (nextStep)="nextStep()"
+            (showMessage)="showMessageHandle($event.message, $event.status)"
+          />
+        }
+        @if (currentStep === 2) {
+          <stk-add-items-sale-step
+            [isLoading]="isLoading"
+            [form]="saleItemForm"
+            [formParent]="saleForm"
+            (isLoadingChange)="isLoadingChange()"
+            (back)="back()"
+            (addItem)="addItem($event)"
+            (removeItem)="removeItem($event)"
+            (showMessage)="showMessageHandle($event.message, $event.status)"
+          />
+        }
+      </form>
+    </stk-card>
+  </section>
+</div>

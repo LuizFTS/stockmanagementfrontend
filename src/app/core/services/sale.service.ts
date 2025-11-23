@@ -3,12 +3,18 @@ import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import type { Sale } from '../models/Sale.model';
 import type { PageableResponse } from '../models/response/PageableResponse.model';
+import type { CreatedResponse } from '../models/response/CreatedResponse.model';
+import type { AddSaleRequest } from '../models/request/AddSaleRequest.model';
 
 @Injectable({ providedIn: 'root' })
 export class SaleService {
-  private readonly apiUrl: String = 'http://localhost:8080/api/sales';
+  private readonly apiUrl: string = 'http://localhost:8080/api/sales';
 
   constructor(private http: HttpClient) {}
+
+  create(request: AddSaleRequest): Observable<CreatedResponse<Sale[]>> {
+    return this.http.post<CreatedResponse<Sale[]>>(this.apiUrl, request);
+  }
 
   get(
     page: number,

@@ -102,7 +102,6 @@ export class Sidebar {
 
   toggleSidebar(isOpen: boolean): void {
     this.opened.emit(isOpen);
-    console.log(isOpen);
   }
 
   handleSectionClick(sectionIndex: number): void {

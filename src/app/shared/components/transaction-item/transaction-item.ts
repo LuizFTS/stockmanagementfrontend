@@ -2,6 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Button } from '../button/button';
+import { Formatter } from '../../utils/Formatter';
 
 @Component({
   selector: 'stk-transaction-item',
@@ -19,19 +20,20 @@ export class TransactionItem {
 
   firstItem: boolean = false;
 
-  formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('pt-BR');
-  }
-
   ngOnInit() {
     this.firstItem = this.index === 0;
   }
 
+  formatDate(date: string): string {
+    return Formatter.date(date);
+  }
+
   formatValue(value: number): string {
-    return value.toLocaleString('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+    return Formatter.priceToString(value);
+  }
+
+  capitalize(text: string): string {
+    return Formatter.capitalize(text);
   }
 
   get path(): string {

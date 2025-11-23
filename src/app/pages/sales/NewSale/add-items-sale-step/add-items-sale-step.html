@@ -1,0 +1,70 @@
+<div class="container">
+  <stk-back-button (click)="onBack()" />
+  <div class="container__title">
+    <h2>Adicionar itens</h2>
+  </div>
+  <stk-text-input
+    #productName
+    type="text"
+    id="name"
+    label="Nome do produto *"
+    [control]="form.get('name')"
+    [errorMessages]="{
+      required: 'Nome do produto é obrigatório',
+    }"
+  />
+  <stk-text-input
+    type="number"
+    id="quantity"
+    label="Quantidade *"
+    [control]="form.get('quantity')"
+    [errorMessages]="{
+      required: 'Quantidade é obrigatória',
+      quantityInvalid: 'Quantidade deve ser maior que 0',
+    }"
+  />
+
+  <stk-button
+    [loading]="addItemLoading"
+    [disabled]="isInvalid"
+    [model]="1"
+    type="button"
+    (click)="onAddItem()"
+    class="container__form__btn"
+    >Adicionar item
+  </stk-button>
+  @if (itens.length > 0) {
+    <span class="container__separator"></span>
+    @for (item of itens; track item.id) {
+      <div class="container__itens">
+        <div class="container__itens__info">
+          <h2>{{ capitalize(item.name) }}</h2>
+          <p>
+            Quantidade: <strong>{{ item.quantity }}</strong>
+          </p>
+          <p>
+            Preço: R$<strong>{{ formatPrice(item.price) }}</strong>
+          </p>
+        </div>
+        <stk-button
+          [model]="3"
+          type="button"
+          class="container__form__btn"
+          (click)="onRemoveItem($index)"
+        >
+          <mat-icon>delete</mat-icon>
+        </stk-button>
+      </div>
+      <span class="container__separator"></span>
+    }
+    <h2>Valor Total: R${{ formatPrice(total) }}</h2>
+    <stk-button
+      [loading]="isLoading"
+      [disabled]="formParent.invalid"
+      [model]="1"
+      type="submit"
+      class="container__form__btn"
+      >Finalizar venda
+    </stk-button>
+  }
+</div>
