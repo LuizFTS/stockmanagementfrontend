@@ -1,5 +1,7 @@
 # Stock Management Frontend
 
+[English](README.md) | [Português](README.pt-BR.md)
+
 A modern, comprehensive stock management application built with **Angular 20** and **Angular Material**. This application provides a robust interface for managing inventory, sales, purchases, and business entities.
 
 ## Features
