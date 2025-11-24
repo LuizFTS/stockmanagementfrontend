@@ -90,3 +90,7 @@ The build artifacts will be stored in the `dist/` directory.
 - `src/app/layouts`: Defines the main application layouts (e.g., HomeLayout).
 - `src/app/core`: Core services and singleton objects.
 - `src/app/shared`: Reusable components and utilities.
+
+## License
+
+This project is licensed under the MIT License.
