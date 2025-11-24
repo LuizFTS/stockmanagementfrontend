@@ -1,5 +1,7 @@
 # Stock Management Frontend
 
+[English](README.md) | [Português](README.pt-BR.md)
+
 Uma aplicação moderna e abrangente de gestão de estoque construída com **Angular 20** e **Angular Material**. Esta aplicação fornece uma interface robusta para gerenciar inventário, vendas, compras e entidades comerciais.
 
 ## Funcionalidades
