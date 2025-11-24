@@ -90,3 +90,9 @@ Os artefatos de build serão armazenados no diretório `dist/`.
 - `src/app/layouts`: Define os layouts principais da aplicação (ex: HomeLayout).
 - `src/app/core`: Serviços principais e objetos singleton.
 - `src/app/shared`: Componentes reutilizáveis e utilitários.
+
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT.
+
