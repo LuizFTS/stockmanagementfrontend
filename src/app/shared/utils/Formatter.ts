@@ -17,7 +17,7 @@ export class Formatter {
   static priceToNumber(price: string): number {
     if (price === null || price === undefined) return 0;
 
-    const str = String(price).replace(',', '.').replace('.', '');
+    const str = String(price).replace(',', '|').replace('.', '').replace('|', '.');
 
     return parseFloat(str);
   }

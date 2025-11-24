@@ -61,4 +61,20 @@ export class CustomValidators {
       return null;
     };
   }
+
+  static price(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const rawValue = control.value;
+      if (rawValue === null || rawValue === undefined || rawValue === '') {
+        return null;
+      }
+      const price = Number(rawValue);
+
+      if (price <= 0) {
+        return { priceInvalid: true };
+      }
+
+      return null;
+    };
+  }
 }

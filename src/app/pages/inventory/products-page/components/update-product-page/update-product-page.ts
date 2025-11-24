@@ -13,6 +13,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Product } from '../../../../../core/models/Product.model';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
+import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 
 @Component({
   selector: 'app-update-product-page',
@@ -41,12 +42,17 @@ export class UpdateProductPage {
   }
 
   private createUpdateForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      costPrice: ['', [Validators.required]],
-      salePrice: ['', [Validators.required]],
-    });
+    return this.fb.group(
+      {
+        name: ['', [Validators.required]],
+        description: ['', [Validators.required]],
+        costPrice: ['', [Validators.required, CustomValidators.price()]],
+        salePrice: ['', [Validators.required, CustomValidators.price()]],
+      },
+      {
+        validators: this.pricesValidator,
+      },
+    );
   }
 
   ngOnInit() {
@@ -76,8 +82,8 @@ export class UpdateProductPage {
 
     const updateData = {
       id: this.id,
-      name: formValue.name,
-      description: formValue.description,
+      name: formValue.name.toLowerCase(),
+      description: formValue.description.toLowerCase(),
       costPrice: Formatter.priceToNumber(formValue.costPrice),
       salePrice: Formatter.priceToNumber(formValue.salePrice),
     };
@@ -147,5 +153,14 @@ export class UpdateProductPage {
 
   navigate(path: string) {
     this.router.navigate([path]);
+  }
+
+  private pricesValidator(form: FormGroup) {
+    const costPrice = Formatter.priceToNumber(form.get('costPrice')?.value);
+    const salePrice = Formatter.priceToNumber(form.get('salePrice')?.value);
+
+    if (costPrice > salePrice) {
+      form.get('salePrice')?.setErrors({ pricesInvalid: true });
+    }
   }
 }

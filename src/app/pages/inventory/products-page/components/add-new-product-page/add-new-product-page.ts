@@ -9,6 +9,8 @@ import { MessageNotificationComponent } from '../../../../../shared/components/m
 import type { Product } from '../../../../../core/models/Product.model';
 import { ProductService } from '../../../../../core/services/product.service';
 import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
+import { Formatter } from '../../../../../shared/utils/Formatter';
+import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 
 @Component({
   selector: 'app-add-new-product-page',
@@ -33,12 +35,17 @@ export class AddNewProductPage {
   }
 
   private createCreateForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      costPrice: ['', [Validators.required]],
-      salePrice: ['', [Validators.required]],
-    });
+    return this.fb.group(
+      {
+        name: ['', [Validators.required]],
+        description: ['', [Validators.required]],
+        costPrice: ['', [Validators.required, CustomValidators.price()]],
+        salePrice: ['', [Validators.required, CustomValidators.price()]],
+      },
+      {
+        validators: this.pricesValidator,
+      },
+    );
   }
 
   onCreateProduct() {
@@ -48,10 +55,10 @@ export class AddNewProductPage {
     const formValue = this.createForm.value;
 
     const createData = {
-      name: formValue.name,
-      description: formValue.description,
-      costPrice: formValue.costPrice,
-      salePrice: formValue.salePrice,
+      name: formValue.name.toLowerCase(),
+      description: formValue.description.toLowerCase(),
+      costPrice: Formatter.priceToNumber(formValue.costPrice),
+      salePrice: Formatter.priceToNumber(formValue.salePrice),
     };
 
     this.productService.create(createData).subscribe({
@@ -86,5 +93,14 @@ export class AddNewProductPage {
 
   navigate(path: string) {
     this.router.navigate([path]);
+  }
+
+  private pricesValidator(form: FormGroup) {
+    const costPrice = Formatter.priceToNumber(form.get('costPrice')?.value);
+    const salePrice = Formatter.priceToNumber(form.get('salePrice')?.value);
+
+    if (costPrice > salePrice) {
+      form.get('salePrice')?.setErrors({ pricesInvalid: true });
+    }
   }
 }

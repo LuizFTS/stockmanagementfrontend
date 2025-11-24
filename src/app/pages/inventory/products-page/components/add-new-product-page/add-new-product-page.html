@@ -41,7 +41,7 @@
         [control]="createForm.get('costPrice')"
         [errorMessages]="{
           required: 'Preço de custo é obrigatório',
-          email: 'Preço de custo inválido',
+          priceInvalid: 'Preço de custo deve ser maior que zero',
         }"
       />
       <stk-text-input
@@ -51,7 +51,8 @@
         [control]="createForm.get('salePrice')"
         [errorMessages]="{
           required: 'Preço de venda é obrigatório',
-          email: 'Preço de venda inválido',
+          priceInvalid: 'Preço de venda deve ser maior que zero',
+          pricesInvalid: 'Preço de venda deve ser maior que o preço de custo',
         }"
       />
       <div class="container__btns">

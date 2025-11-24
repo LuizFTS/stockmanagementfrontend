@@ -45,7 +45,7 @@
 }
 
 .item {
-  &__info {
+  &__info div {
     @include respond('md') {
       h2 {
         font-size: 24px;
