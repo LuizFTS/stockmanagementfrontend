@@ -11,6 +11,7 @@ enum ButtonSize {
   SMALL,
   MEDIUM,
   LARGE,
+  ICON_BUTTON,
 }
 
 @Component({

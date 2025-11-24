@@ -24,7 +24,6 @@ import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.m
   styleUrl: './add-new-customer-page.scss',
 })
 export class AddNewCustomerPage {
-  private router = inject(Router);
   customerForm: FormGroup;
   currentStep: number = 1;
   totalSteps: number = 2;
@@ -35,6 +34,7 @@ export class AddNewCustomerPage {
   constructor(
     private fb: FormBuilder,
     private customerService: CustomerService,
+    private router: Router,
   ) {
     this.customerForm = this.newCustomerForm();
   }

@@ -1,17 +1,27 @@
-<div class="input-group">
-  <label class="input-group__label" for="">{{ label }}</label>
-  <input
-    #innerInput
-    [type]="type === 'number' ? 'text' : type"
-    [id]="id"
-    [formControl]="$any(control)"
-    placeholder=" "
-    class="input-group__input"
-    [class.valid]="isValid"
-    [class.invalid]="isInvalid"
-    (input)="handleInput($event)"
-    (keydown)="onKeyDown($event)"
-  />
+<div class="input-container">
+  @if (label) {
+    <label class="input-container__label" for="">{{ label }}</label>
+  }
+  <div class="input-group">
+    @if (type === 'search') {
+      <span class="input-group__icon">
+        <mat-icon>search</mat-icon>
+      </span>
+    }
+    <input
+      #innerInput
+      [type]="inputType"
+      [id]="id"
+      [formControl]="$any(control)"
+      placeholder=" "
+      class="input-group__input"
+      [class.valid]="isValid"
+      [class.invalid]="isInvalid"
+      [class.search]="type === 'search'"
+      (input)="handleInput($event)"
+      (keydown)="onKeyDown($event)"
+    />
+  </div>
   @if (currentError) {
     <div class="error-text">{{ currentError }}</div>
   }

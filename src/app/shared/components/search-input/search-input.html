@@ -1,13 +1,25 @@
-<form class="search" [formGroup]="form" (click)="searchInput.focus()" (ngSubmit)="onSearch()">
-  <span class="search__icon">
-    <mat-icon>search</mat-icon>
-  </span>
-  <input
-    #searchInput
-    type="text"
-    class="search__input"
-    [placeholder]="placeholder"
-    formControlName="search"
+<div class="search" [formGroup]="form" (click)="innerInput.focus()" (ngSubmit)="onSearch()">
+  <stk-text-input
+    #innerInput
+    type="search"
+    [id]="name"
+    [label]="label"
+    [control]="form.get(name)"
+    [errorMessages]="{
+      required: 'Digite a pesquisa',
+    }"
   />
-  <stk-button type="submit" [model]="1">Pesquisar</stk-button>
-</form>
+  @if (hasButton) {
+    <stk-button type="submit" [model]="1">Pesquisar</stk-button>
+  }
+</div>
+
+@if (showSuggestions && suggestions.length > 0) {
+  <div class="autocomplete">
+    @for (item of suggestions; track $index) {
+      <div class="autocomplete__item" (mousedown)="selectSuggestion(item)">
+        {{ item }}
+      </div>
+    }
+  </div>
+}

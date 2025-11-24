@@ -18,7 +18,7 @@ import { CustomValidators } from '../../../../shared/utils/CustomValidators';
 import type { AddPurchaseRequest } from '../../../../core/models/request/AddPurchaseRequest.model';
 import { ConfirmationModalService } from '../../../../core/services/confirmation-modal.service';
 
-interface PurchaseItem {
+export interface PurchaseItem {
   id: string;
   name: string;
   quantity: string;
@@ -94,6 +94,7 @@ export class NewPurchasePage {
   }
 
   async onAddNewPurchase() {
+    console.log(this.purchaseForm.value);
     if (this.purchaseForm.invalid) return;
 
     const confirmed = await this.modalService.open({

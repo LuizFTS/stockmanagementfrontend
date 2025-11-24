@@ -19,8 +19,6 @@ import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
   styleUrl: './add-new-product-page.scss',
 })
 export class AddNewProductPage {
-  private router = inject(Router);
-
   messageDisplayed: ResponseStatus = { status: '', message: '' };
   createForm: FormGroup;
   isLoading: boolean = false;
@@ -30,6 +28,7 @@ export class AddNewProductPage {
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private router: Router,
   ) {
     this.createForm = this.createCreateForm();
   }

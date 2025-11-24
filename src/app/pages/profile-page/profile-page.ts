@@ -24,7 +24,7 @@ const MENU_PROFILE: Menu[] = [
 export class ProfilePage {
   menuData: Menu[] = MENU_PROFILE;
 
-  private router = inject(Router);
+  constructor(private router: Router) {}
 
   navigate(path: string) {
     this.router.navigate([path]);

@@ -6,10 +6,12 @@ import {
   type OnChanges,
   type SimpleChanges,
 } from '@angular/core';
+import { Button } from '../button/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'stk-confirm-modal',
-  imports: [],
+  imports: [Button, MatIcon],
   templateUrl: './confirm-modal.html',
   styleUrl: './confirm-modal.scss',
 })

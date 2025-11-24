@@ -18,9 +18,6 @@ import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.m
   styleUrl: './update-supplier-page.scss',
 })
 export class UpdateSupplierPage {
-  private router = inject(Router);
-  private modalService = inject(ConfirmationModalService);
-
   messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
@@ -33,6 +30,8 @@ export class UpdateSupplierPage {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private supplierService: SupplierService,
+    private router: Router,
+    private modalService: ConfirmationModalService,
   ) {
     this.updateForm = this.createUpdateForm();
     this.id = this.route.snapshot.params['id'];

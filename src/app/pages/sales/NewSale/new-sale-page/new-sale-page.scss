@@ -3,7 +3,6 @@
 
 :host {
   @include mix.main-host;
-  height: 100%;
 }
 
 .main {
@@ -16,7 +15,6 @@
   & section {
     width: 100%;
     flex: 1;
-    overflow: auto;
     position: relative;
   }
 }

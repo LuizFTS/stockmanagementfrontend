@@ -6,6 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import type { FormArray, FormGroup } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Formatter } from '../../../../shared/utils/Formatter';
+import type { SaleItem } from '../new-sale-page/new-sale-page';
 
 @Component({
   selector: 'stk-add-items-sale-step',
@@ -14,7 +15,7 @@ import { Formatter } from '../../../../shared/utils/Formatter';
   styleUrl: './add-items-sale-step.scss',
 })
 export class AddItemsSaleStep {
-  private _itens: any[] = [];
+  private _itens: SaleItem[] = [];
 
   @ViewChild('productName') productName!: any;
   @Input() form!: FormGroup;

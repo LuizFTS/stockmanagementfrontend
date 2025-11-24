@@ -14,7 +14,7 @@ import { Validators } from '@angular/forms';
 import { SaleService } from '../../../../core/services/sale.service';
 import type { AddSaleRequest } from '../../../../core/models/request/AddSaleRequest.model';
 
-interface SaleItem {
+export interface SaleItem {
   id: string;
   name: string;
   quantity: string;

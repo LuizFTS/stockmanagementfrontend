@@ -1,14 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Card } from '../../../shared/components/card/card';
 import type { Product } from '../../../core/models/Product.model';
 import { ProductService } from '../../../core/services/product.service';
 import { ProductItem } from './components/product-item/product-item';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, type FormGroup } from '@angular/forms';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
+import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'app-products-page',
@@ -17,8 +18,7 @@ import { Router } from '@angular/router';
   styleUrl: './products-page.scss',
 })
 export class ProductsPage {
-  private router = inject(Router);
-  searchControl = new FormControl('');
+  searchForm: FormGroup;
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
@@ -28,7 +28,16 @@ export class ProductsPage {
   totalItems: number = 1;
   filter: string = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    public productService: ProductService,
+    private layout: HomeLayout,
+    private router: Router,
+    private fb: FormBuilder,
+  ) {
+    this.searchForm = this.fb.group({
+      search: [''],
+    });
+  }
 
   ngOnInit() {
     this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
@@ -41,6 +50,9 @@ export class ProductsPage {
 
   changePage(page: number) {
     if (this.currentPage === page) return;
+
+    this.layout.scrollToTop();
+
     this.currentPage = page;
     this.getProducts(page, this.pageSize, { filter: this.filter });
   }

@@ -3,10 +3,15 @@
     <h1>Estoque</h1>
     <p>Produtos cadastrados</p>
   </div>
-  <stk-search-input
-    (searchChange)="onSearch($event)"
-    placeholder="Pesquisar por nome ou descrição"
-  />
+  <form class="main__form">
+    <stk-search-input
+      placeholder="Pesquisar por nome ou descrição"
+      [autocompleteFn]="productService.autocomplete.bind(productService)"
+      (searchChange)="onSearch($event)"
+      [form]="searchForm"
+      name="search"
+    />
+  </form>
   <stk-button [model]="1" (click)="navigate('/inventory/products/add')">
     Cadastrar produto
   </stk-button>

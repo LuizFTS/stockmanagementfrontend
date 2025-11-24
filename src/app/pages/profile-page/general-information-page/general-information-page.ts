@@ -1,16 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import type { User } from '../../../core/models/User.model';
 import { UserService } from '../../../core/services/user.service';
-import {
-  ReactiveFormsModule,
-  Validators,
-  FormBuilder,
-  FormGroup,
-  EmailValidator,
-  FormControl,
-} from '@angular/forms';
+import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Button } from '../../../shared/components/button/button';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 import { TextInput } from '../../../shared/components/text-input/text-input';
@@ -32,11 +24,10 @@ export class GeneralInformationPage {
 
   userForm: FormGroup;
 
-  private router = inject(Router);
-
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
+    private router: Router,
   ) {
     this.userForm = this.updateUserForm();
   }

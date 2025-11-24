@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import type { Customer } from '../../../core/models/Customer.model';
 import { CustomerService } from '../../../core/services/customer.service';
+import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'app-customers-page',
@@ -17,7 +18,6 @@ import { CustomerService } from '../../../core/services/customer.service';
   styleUrl: './customers-page.scss',
 })
 export class CustomersPage {
-  private router = inject(Router);
   searchControl = new FormControl('');
 
   customers: Customer[] = [];
@@ -28,7 +28,11 @@ export class CustomersPage {
   totalItems: number = 1;
   filter: string = '';
 
-  constructor(private customerService: CustomerService) {}
+  constructor(
+    private customerService: CustomerService,
+    private layout: HomeLayout,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.getCustomers(this.currentPage, this.pageSize, { filter: this.filter });
@@ -41,6 +45,9 @@ export class CustomersPage {
 
   changePage(page: number) {
     if (this.currentPage === page) return;
+
+    this.layout.scrollToTop();
+
     this.currentPage = page;
     this.getCustomers(this.currentPage, this.pageSize, { filter: this.filter });
   }

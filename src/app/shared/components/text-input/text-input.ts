@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output, ViewChild, type ElementRef } from '@angular/core';
 import { ReactiveFormsModule, type AbstractControl } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'stk-text-input',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatIcon],
   templateUrl: './text-input.html',
   styleUrl: './text-input.scss',
 })
@@ -33,6 +34,11 @@ export class TextInput {
     if (!this.control?.errors || !this.control?.dirty) return null;
     const errorKey = Object.keys(this.control.errors)[0];
     return this.errorMessages[errorKey];
+  }
+
+  get inputType() {
+    if (this.type === 'number' || this.type === 'search') return 'text';
+    return this.type;
   }
 
   focus() {

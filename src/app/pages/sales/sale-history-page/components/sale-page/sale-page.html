@@ -6,7 +6,7 @@
 
   <stk-back-button (click)="navigate('/sales/history')" />
 
-  <div class="main__purchase-info">
+  <div class="main__sale-info">
     <p>
       Cliente: <strong>{{ capitalize(sale?.customer?.name ?? '') }}</strong>
     </p>
@@ -20,10 +20,10 @@
       Itens: <strong>{{ sale?.itens?.length }}</strong>
     </p>
   </div>
-  <div class="main__purchase-items">
+  <div class="main__sale-items">
     <stk-card>
       @for (item of sale?.itens; track $index) {
-        <div class="main__purchase-items__item">
+        <div class="main__sale-items__item">
           <p>
             Produto: <strong>{{ capitalize(item.name) }}</strong>
           </p>

@@ -1,8 +1,28 @@
 @use '../../../../styles/breakpoints' as *;
 @use '../../../../styles/mixins' as mix;
 
+:host {
+  height: 100%;
+}
+
+.input-container {
+  @include mix.input-container;
+}
+
 .input-group {
   @include mix.input-group;
+
+  &__icon {
+    @include mix.flex-center;
+    line-height: 0;
+    color: var(--text-color);
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    cursor: text;
+    z-index: 10;
+  }
 
   &__label {
     font-size: 14px;
@@ -17,6 +37,10 @@
 
     &.invalid {
       border-color: #f44336;
+    }
+
+    &.search {
+      padding: 10px 34px;
     }
   }
 

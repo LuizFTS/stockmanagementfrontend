@@ -13,7 +13,9 @@
     >
       <div class="modal__header">
         <h2>{{ title }}</h2>
-        <button class="close-btn" (click)="onCancel()">&times;</button>
+        <stk-button class="modal__header__close-btn" [model]="3" [size]="3" (click)="onCancel()">
+          <mat-icon>close</mat-icon>
+        </stk-button>
       </div>
 
       <div class="modal__body">
@@ -21,12 +23,12 @@
       </div>
 
       <div class="modal__footer">
-        <button class="btn btn-cancel" (click)="onCancel()">
+        <stk-button [model]="3" (click)="onCancel()">
           {{ cancelText }}
-        </button>
-        <button class="btn btn-confirm" (click)="onConfirm()">
+        </stk-button>
+        <stk-button (click)="onConfirm()">
           {{ confirmText }}
-        </button>
+        </stk-button>
       </div>
     </div>
   </div>

@@ -28,11 +28,10 @@ export class LoginPage {
   isPasswordVisible: boolean = false;
   loginForm: FormGroup;
 
-  private router = inject(Router);
-
   constructor(
     private auth: AuthService,
     private fb: FormBuilder,
+    private router: Router,
   ) {
     this.loginForm = this.createLoginForm();
   }

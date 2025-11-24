@@ -43,4 +43,8 @@
   @include respond('md') {
     max-width: 300px;
   }
+
+  &.icon-btn {
+    @include mix.btn-size('icon-btn');
+  }
 }

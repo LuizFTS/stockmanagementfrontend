@@ -11,7 +11,6 @@ import { Formatter } from '../../../../../shared/utils/Formatter';
   styleUrl: './product-item.scss',
 })
 export class ProductItem implements OnChanges {
-  private router = inject(Router);
   @Input() id: string = '';
   @Input() name: string = '';
   @Input() description: string = '';
@@ -23,6 +22,8 @@ export class ProductItem implements OnChanges {
   @Input() index: number = 0;
 
   firstItem: boolean = false;
+
+  constructor(private router: Router) {}
 
   ngOnChanges() {
     this.firstItem = this.index === 0;

@@ -3,8 +3,16 @@
   <div class="container__title">
     <h2>Adicionar itens</h2>
   </div>
-  <stk-text-input
+  <stk-search-input
     #productName
+    placeholder="Nome do produto"
+    [autocompleteFn]="productService.autocomplete.bind(productService)"
+    (searchChange)="onSearchProduct($event)"
+    [form]="form"
+    name="name"
+    [hasButton]="false"
+  />
+  <!-- <stk-text-input
     type="text"
     id="name"
     label="Nome do produto *"
@@ -12,7 +20,7 @@
     [errorMessages]="{
       required: 'Nome do produto é obrigatório',
     }"
-  />
+  /> -->
   <stk-text-input
     type="number"
     id="quantity"

@@ -8,7 +8,7 @@
     </stk-button>
   </div>
   <stk-sidebar [active]="isSidebarOpen" (opened)="toggleSidebar($event)" />
-  <main class="main__container">
+  <main #mainContainer class="main__container">
     <router-outlet></router-outlet>
   </main>
 </div>

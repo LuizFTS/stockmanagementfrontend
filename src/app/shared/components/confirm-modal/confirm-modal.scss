@@ -6,7 +6,7 @@
   }
 
   &__content {
-    background: white;
+    background: var(--card-bg);
     border-radius: 5px;
     width: 90%;
     max-width: 500px;
@@ -32,18 +32,23 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-color);
 
     & h2 {
       margin: 0;
       font-size: 1.5rem;
-      color: #1f2937;
+      color: var(--text-color);
+    }
+
+    &__close-btn mat-icon {
+      @include mix.icon-size(16px);
+      @include mix.flex-center;
     }
   }
 
   &__body {
     padding: 20px;
-    color: #4b5563;
+    color: var(--text-color);
     font-size: 1rem;
     line-height: 1.5;
   }
@@ -53,51 +58,6 @@
     justify-content: flex-end;
     gap: 10px;
     padding: 20px;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--border-color);
   }
-}
-
-.close-btn {
-  background: none;
-  font-size: 2rem;
-  color: #6b7280;
-  cursor: pointer;
-  line-height: 0;
-  padding: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  border: 1px solid var(--border-color);
-}
-
-.close-btn:hover {
-  background-color: var(--btn-hover-gray);
-  color: var(--btn-text-gray);
-}
-
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-cancel {
-  background-color: #e5e7eb;
-  color: #1f2937;
-}
-
-.btn-cancel:hover {
-  background-color: #d1d5db;
-}
-
-.btn-confirm {
-  background-color: var(--btn-bg);
-  color: white;
-}
-
-.btn-confirm:hover {
-  background-color: var(--btn-hover);
 }

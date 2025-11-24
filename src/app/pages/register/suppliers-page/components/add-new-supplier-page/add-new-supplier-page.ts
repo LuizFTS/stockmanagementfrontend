@@ -25,7 +25,6 @@ import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.m
   styleUrl: './add-new-supplier-page.scss',
 })
 export class AddNewSupplierPage {
-  private router = inject(Router);
   supplierForm: FormGroup;
   currentStep: number = 1;
   totalSteps: number = 2;
@@ -36,6 +35,7 @@ export class AddNewSupplierPage {
   constructor(
     private fb: FormBuilder,
     private supplierService: SupplierService,
+    private router: Router,
   ) {
     this.supplierForm = this.newSupplierForm();
   }

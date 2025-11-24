@@ -13,13 +13,13 @@ import { BackButton } from '../../../../../shared/components/back-button/back-bu
   styleUrl: './purchase-page.scss',
 })
 export class PurchasePage {
-  private router = inject(Router);
   id: string = '';
   purchase: Purchase | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private purchaseService: PurchaseService,
+    private router: Router,
   ) {
     this.id = this.route.snapshot.params['id'];
   }

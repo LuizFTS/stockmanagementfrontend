@@ -9,6 +9,7 @@ import { Pagination } from '../../../shared/components/pagination/pagination';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
+import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'app-suppliers-page',
@@ -17,7 +18,6 @@ import { Router } from '@angular/router';
   styleUrl: './suppliers-page.scss',
 })
 export class SuppliersPage {
-  private router = inject(Router);
   searchControl = new FormControl('');
 
   suppliers: Supplier[] = [];
@@ -28,7 +28,11 @@ export class SuppliersPage {
   totalItems: number = 1;
   filter: string = '';
 
-  constructor(private supplierService: SupplierService) {}
+  constructor(
+    private supplierService: SupplierService,
+    private layout: HomeLayout,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
@@ -41,6 +45,9 @@ export class SuppliersPage {
 
   changePage(page: number) {
     if (this.currentPage === page) return;
+
+    this.layout.scrollToTop();
+
     this.currentPage = page;
     this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
   }

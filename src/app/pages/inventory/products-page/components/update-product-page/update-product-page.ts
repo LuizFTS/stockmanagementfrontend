@@ -22,9 +22,6 @@ import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
   styleUrl: './update-product-page.scss',
 })
 export class UpdateProductPage {
-  private router = inject(Router);
-  private modalService = inject(ConfirmationModalService);
-
   messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
@@ -37,6 +34,8 @@ export class UpdateProductPage {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private productService: ProductService,
+    private router: Router,
+    private modalService: ConfirmationModalService,
   ) {
     this.updateForm = this.createUpdateForm();
   }

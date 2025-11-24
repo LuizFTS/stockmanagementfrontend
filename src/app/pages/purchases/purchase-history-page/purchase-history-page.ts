@@ -7,6 +7,7 @@ import { SearchInput } from '../../../shared/components/search-input/search-inpu
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Router } from '@angular/router';
 import { Pagination } from '../../../shared/components/pagination/pagination';
+import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'app-purchase-history-page',
@@ -15,7 +16,6 @@ import { Pagination } from '../../../shared/components/pagination/pagination';
   styleUrl: './purchase-history-page.scss',
 })
 export class PurchaseHistoryPage {
-  private router = inject(Router);
   purchases: Purchase[] = [];
   filteredPurchases: Purchase[] = [];
 
@@ -24,7 +24,11 @@ export class PurchaseHistoryPage {
   totalItems: number = 1;
   filter: string = '';
 
-  constructor(private purchaseService: PurchaseService) {}
+  constructor(
+    private purchaseService: PurchaseService,
+    private layout: HomeLayout,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.getPurchases(1, 10);
@@ -37,6 +41,9 @@ export class PurchaseHistoryPage {
 
   changePage(page: number) {
     if (this.currentPage === page) return;
+
+    this.layout.scrollToTop();
+
     this.currentPage = page;
     this.getPurchases(this.currentPage, this.pageSize, { filter: this.filter });
   }

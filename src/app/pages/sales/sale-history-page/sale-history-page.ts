@@ -7,6 +7,7 @@ import { SearchInput } from '../../../shared/components/search-input/search-inpu
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { Router } from '@angular/router';
+import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'app-sale-history-page',
@@ -15,8 +16,6 @@ import { Router } from '@angular/router';
   styleUrl: './sale-history-page.scss',
 })
 export class SaleHistoryPage {
-  private router = inject(Router);
-
   sales: Sale[] = [];
   filteredSales: Sale[] = [];
 
@@ -25,7 +24,11 @@ export class SaleHistoryPage {
   totalItems: number = 1;
   filter: string = '';
 
-  constructor(private saleService: SaleService) {}
+  constructor(
+    private saleService: SaleService,
+    private layout: HomeLayout,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.getSales(1, 10);
@@ -38,6 +41,9 @@ export class SaleHistoryPage {
 
   changePage(page: number) {
     if (this.currentPage === page) return;
+
+    this.layout.scrollToTop();
+
     this.currentPage = page;
     this.getSales(this.currentPage, this.pageSize, { filter: this.filter });
   }

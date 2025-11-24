@@ -13,13 +13,13 @@ import type { Sale } from '../../../../../core/models/Sale.model';
   styleUrl: './sale-page.scss',
 })
 export class SalePage {
-  private router = inject(Router);
   id: string = '';
   sale: Sale | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private saleService: SaleService,
+    private router: Router,
   ) {
     this.id = this.route.snapshot.params['id'];
   }
