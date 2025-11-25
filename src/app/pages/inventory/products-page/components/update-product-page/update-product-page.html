@@ -1,72 +1,50 @@
-<div class="main">
-  <div class="main__title">
-    <h1>Estoque</h1>
-    <p>Detalhes do produto</p>
-  </div>
-
-  <stk-card [padding]="2">
-    <form class="container" [formGroup]="updateForm" (ngSubmit)="onUpdateProduct()">
-      <stk-back-button (click)="navigate('/inventory/products')" />
-      <div class="container__title">
-        <h2>Atualizar cadastro do produto</h2>
-      </div>
-      <stk-text-input
-        type="text"
-        id="name"
-        label="Digite o nome *"
-        [control]="updateForm.get('name')"
-        [errorMessages]="{
-          required: 'Nome é obrigatório',
-        }"
-      />
-      <stk-text-input
-        type="text"
-        id="description"
-        label="Digite a descrição *"
-        [control]="updateForm.get('description')"
-        [errorMessages]="{
-          required: 'Descrição é obrigatória',
-        }"
-      />
-      <stk-text-input
-        type="number"
-        id="costPrice"
-        label="Digite o preço de custo *"
-        [control]="updateForm.get('costPrice')"
-        [errorMessages]="{
-          required: 'Preço de custo é obrigatório',
-          priceInvalid: 'Preço de custo deve ser maior que zero',
-        }"
-      />
-      <stk-text-input
-        type="number"
-        id="salePrice"
-        label="Digite o preço de venda *"
-        [control]="updateForm.get('salePrice')"
-        [errorMessages]="{
-          required: 'Preço de venda é obrigatório',
-          priceInvalid: 'Preço de venda deve ser maior que zero',
-          pricesInvalid: 'Preço de venda deve ser maior que o preço de custo',
-        }"
-      />
-      <div class="container__btns">
-        <stk-button
-          [loading]="isDeactivating"
-          type="button"
-          (click)="deactivate()"
-          [size]="0"
-          [model]="2"
-          >Desativar
-        </stk-button>
-        <stk-button
-          [loading]="isUpdating"
-          [model]="1"
-          [disabled]="updateForm.invalid"
-          type="submit"
-          [size]="0"
-          >Atualizar
-        </stk-button>
-      </div>
-    </form>
-  </stk-card>
-</div>
+<stk-update-form-layout
+  title="Estoque"
+  subtitle="Detalhes do produto"
+  backPath="/inventory/products"
+  [form]="updateForm"
+  [isUpdating]="isUpdating"
+  [isDeactivating]="isDeactivating"
+  (submit)="onUpdateProduct()"
+  (deactivate)="deactivate()"
+>
+  <stk-text-input
+    type="text"
+    id="name"
+    label="Digite o nome *"
+    [control]="updateForm.get('name')"
+    [errorMessages]="{
+      required: 'Nome é obrigatório',
+    }"
+  />
+  <stk-text-input
+    type="text"
+    id="description"
+    label="Digite a descrição *"
+    [control]="updateForm.get('description')"
+    [errorMessages]="{
+      required: 'Descrição é obrigatória',
+    }"
+  />
+  <stk-text-input
+    type="number"
+    id="costPrice"
+    label="Digite o preço de custo *"
+    [control]="updateForm.get('costPrice')"
+    [errorMessages]="{
+      required: 'Preço de custo é obrigatório',
+      priceInvalid: 'Preço de custo deve ser maior que zero',
+    }"
+  />
+  <stk-text-input
+    type="number"
+    id="salePrice"
+    label="Digite o preço de venda *"
+    [control]="updateForm.get('salePrice')"
+    [errorMessages]="{
+      required: 'Preço de venda é obrigatório',
+      priceInvalid: 'Preço de venda deve ser maior que zero',
+      pricesInvalid: 'Preço de venda deve ser maior que o preço de custo',
+    }"
+  />
+</stk-update-form-layout>

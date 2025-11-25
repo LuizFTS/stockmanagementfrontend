@@ -1,9 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
-import { Button } from '../../../../../shared/components/button/button';
-import { Card } from '../../../../../shared/components/card/card';
+import { Component } from '@angular/core';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
-import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import { ReactiveFormsModule, type FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
@@ -14,10 +10,11 @@ import { Product } from '../../../../../core/models/Product.model';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';
+import { UpdateFormLayout } from '../../../../../layouts/update-form-layout/update-form-layout';
 
 @Component({
   selector: 'app-update-product-page',
-  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule],
+  imports: [TextInput, ReactiveFormsModule, UpdateFormLayout],
   templateUrl: './update-product-page.html',
   styleUrl: './update-product-page.scss',
 })

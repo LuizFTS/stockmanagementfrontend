@@ -1,19 +1,15 @@
 import { Component } from '@angular/core';
-import { Card } from '../../../shared/components/card/card';
 import type { Product } from '../../../core/models/Product.model';
 import { ProductService } from '../../../core/services/api/product.service';
 import { ProductItem } from './components/product-item/product-item';
 import { ReactiveFormsModule, FormBuilder, type FormGroup } from '@angular/forms';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
-import { SearchInput } from '../../../shared/components/search-input/search-input';
-import { Pagination } from '../../../shared/components/pagination/pagination';
-import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
-
+import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
 @Component({
   selector: 'app-products-page',
-  imports: [Card, ProductItem, ReactiveFormsModule, ItensNotFound, SearchInput, Pagination, Button],
+  imports: [ProductItem, ReactiveFormsModule, ItensNotFound, ListPageLayout],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
 })

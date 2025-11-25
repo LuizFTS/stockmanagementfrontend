@@ -1,8 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Button } from '../../../../../shared/components/button/button';
-import { Card } from '../../../../../shared/components/card/card';
+import { Component } from '@angular/core';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
-import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
@@ -11,10 +8,11 @@ import { ConfirmationModalService } from '../../../../../core/services/confirmat
 import type { Customer } from '../../../../../core/models/Customer.model';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';
+import { UpdateFormLayout } from '../../../../../layouts/update-form-layout/update-form-layout';
 
 @Component({
   selector: 'stk-update-customer-page',
-  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule],
+  imports: [TextInput, ReactiveFormsModule, UpdateFormLayout],
   templateUrl: './update-customer-page.html',
   styleUrl: './update-customer-page.scss',
 })

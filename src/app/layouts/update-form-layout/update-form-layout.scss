@@ -1,0 +1,33 @@
+@use '../../../styles/mixins' as mix;
+
+:host {
+  @include mix.main-host;
+}
+.main {
+  @include mix.main-layout;
+
+  &__title {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  &__subtitle {
+    margin: 25px 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: relative;
+
+  &__btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+}

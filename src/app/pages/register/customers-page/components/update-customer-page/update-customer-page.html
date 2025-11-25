@@ -1,52 +1,30 @@
-<div class="main">
-  <div class="main__title">
-    <h1>Clientes</h1>
-  </div>
-
-  <stk-card [padding]="2">
-    <form class="container" [formGroup]="updateForm" (ngSubmit)="onUpdateCustomer()">
-      <stk-back-button (click)="navigate('/customers')" />
-      <div class="container__title">
-        <h2>Atualizar cadastro do cliente</h2>
-      </div>
-      <stk-text-input
-        type="text"
-        id="phone"
-        label="Digite o telefone *"
-        [control]="updateForm.get('phone')"
-        [errorMessages]="{
-          required: 'Celular é obrigatório',
-        }"
-      />
-      <stk-text-input
-        type="text"
-        id="email"
-        label="Digite o email *"
-        [control]="updateForm.get('email')"
-        [errorMessages]="{
-          required: 'E-mail é obrigatório',
-          email: 'E-mail inválido',
-        }"
-      />
-      <div class="container__btns">
-        <stk-button
-          [loading]="isDeactivating"
-          [disabled]="updateForm.invalid"
-          [type]="'button'"
-          (click)="deactivate()"
-          [size]="0"
-          [model]="2"
-          >Desativar
-        </stk-button>
-        <stk-button
-          [loading]="isUpdating"
-          [disabled]="updateForm.invalid"
-          [model]="1"
-          [type]="'submit'"
-          [size]="0"
-          >Atualizar
-        </stk-button>
-      </div>
-    </form>
-  </stk-card>
-</div>
+<stk-update-form-layout
+  title="Clientes"
+  subtitle="Atualizar cadastro do cliente"
+  backPath="/customers"
+  [form]="updateForm"
+  [isUpdating]="isUpdating"
+  [isDeactivating]="isDeactivating"
+  (submit)="onUpdateCustomer()"
+  (deactivate)="deactivate()"
+>
+  <stk-text-input
+    type="text"
+    id="phone"
+    label="Digite o telefone *"
+    [control]="updateForm.get('phone')"
+    [errorMessages]="{
+      required: 'Celular é obrigatório',
+    }"
+  />
+  <stk-text-input
+    type="text"
+    id="email"
+    label="Digite o email *"
+    [control]="updateForm.get('email')"
+    [errorMessages]="{
+      required: 'E-mail é obrigatório',
+      email: 'E-mail inválido',
+    }"
+  />
+</stk-update-form-layout>

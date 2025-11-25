@@ -1,0 +1,33 @@
+<div class="main">
+  <div class="main__title">
+    <h1>{{ title }}</h1>
+  </div>
+
+  <stk-card [padding]="2">
+    <stk-back-button (click)="navigate()" />
+    <div class="main__subtitle">
+      <h2>{{ subtitle }}</h2>
+    </div>
+    <form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ng-content></ng-content>
+      <div class="container__btns">
+        <stk-button
+          [loading]="isDeactivating"
+          type="button"
+          (click)="onDeactivate()"
+          [size]="0"
+          [model]="2"
+          >Desativar
+        </stk-button>
+        <stk-button
+          [loading]="isUpdating"
+          [model]="1"
+          [disabled]="form.invalid"
+          type="submit"
+          [size]="0"
+          >Atualizar
+        </stk-button>
+      </div>
+    </form>
+  </stk-card>
+</div>

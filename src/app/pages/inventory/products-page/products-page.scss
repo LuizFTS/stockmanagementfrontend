@@ -4,20 +4,3 @@
 :host {
   @include mix.main-host;
 }
-
-.main {
-  @include mix.main-layout;
-
-  &__title {
-    width: 100%;
-  }
-
-  &__form {
-    width: 100%;
-  }
-
-  & section {
-    width: 100%;
-    flex: 1;
-  }
-}

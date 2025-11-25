@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Button } from '../../../../../shared/components/button/button';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
-import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Card } from '../../../../../shared/components/card/card';
 import { SupplierService } from '../../../../../core/services/api/supplier.service';
 import type { Supplier } from '../../../../../core/models/Supplier.model';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';
+import { UpdateFormLayout } from '../../../../../layouts/update-form-layout/update-form-layout';
 
 @Component({
   selector: 'app-update-supplier-page',
-  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule],
+  imports: [TextInput, ReactiveFormsModule, UpdateFormLayout],
   templateUrl: './update-supplier-page.html',
   styleUrl: './update-supplier-page.scss',
 })

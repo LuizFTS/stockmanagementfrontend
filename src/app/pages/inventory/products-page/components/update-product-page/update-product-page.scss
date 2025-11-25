@@ -14,36 +14,4 @@ stk-message-notification {
 
 .main {
   @include mix.main-layout;
-
-  &__title {
-    width: 100%;
-    max-width: 700px;
-  }
-}
-
-.container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  position: relative;
-
-  &__title {
-    & h2 {
-      font-size: 24px;
-      font-weight: 600;
-    }
-  }
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  &__btns {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
 }

@@ -1,45 +1,32 @@
-<div class="main">
-  <div class="main__title">
-    <h1>Estoque</h1>
-    <p>Produtos cadastrados</p>
-  </div>
-  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
-    <stk-search-input
-      placeholder="Pesquisar por nome do produto"
-      [autocompleteFn]="productService.autocomplete.bind(productService)"
-      (searchChange)="onSearch($event)"
-      [form]="searchForm"
-      name="search"
-      [hasButton]="false"
+<stk-list-page-layout
+  [autoCompleteService]="productService"
+  title="Estoque"
+  subtitle="Produtos cadastrados"
+  [searchForm]="searchForm"
+  searchPlaceholder="Pesquisar por nome do produto"
+  searchName="search"
+  navigatePathToAdd="/inventory/products/add"
+  addButtonText="Cadastrar produto"
+  [page]="currentPage"
+  [pageSize]="pageSize"
+  [totalItems]="totalItems"
+  (searchChange)="onSearch($event)"
+  (pageChange)="changePage($event)"
+  (pageSizeChange)="changePageSize($event)"
+>
+  @for (item of filteredProducts; track item.id; let i = $index) {
+    <stk-product-item
+      [id]="item.id"
+      [name]="item.name"
+      [description]="item.description"
+      [costPrice]="item.costPrice"
+      [salePrice]="item.salePrice"
+      [createdAt]="item.createdAt"
+      [saldo]="item.inventoryBalance"
+      [index]="i"
     />
-  </form>
-  <stk-button [model]="1" (click)="navigate('/inventory/products/add')">
-    Cadastrar produto
-  </stk-button>
-  <section>
-    <stk-card>
-      @for (item of filteredProducts; track item.id; let i = $index) {
-        <stk-product-item
-          [id]="item.id"
-          [name]="item.name"
-          [description]="item.description"
-          [costPrice]="item.costPrice"
-          [salePrice]="item.salePrice"
-          [createdAt]="item.createdAt"
-          [saldo]="item.inventoryBalance"
-          [index]="i"
-        />
-      }
-      @if (filteredProducts.length === 0) {
-        <stk-itens-not-found text="Nenhum produto encontrado" />
-      }
-    </stk-card>
-  </section>
-  <stk-pagination
-    [totalItems]="totalItems"
-    [pageSize]="pageSize"
-    [currentPage]="currentPage"
-    (pageChange)="changePage($event)"
-    (pageSizeChange)="changePageSize($event)"
-  />
-</div>
+  }
+  @if (filteredProducts.length === 0) {
+    <stk-itens-not-found text="Nenhum produto encontrado" />
+  }
+</stk-list-page-layout>
