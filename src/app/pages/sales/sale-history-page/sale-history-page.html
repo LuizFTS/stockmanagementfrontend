@@ -1,41 +1,28 @@
-<div class="main">
-  <div class="main__title">
-    <h1>Vendas</h1>
-    <p>Histórico de vendas</p>
-  </div>
-
-  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
-    <stk-search-input
-      (searchChange)="onSearch($event)"
-      [autocompleteFn]="customerService.autocomplete.bind(customerService)"
-      [form]="searchForm"
-      name="search"
-      [hasButton]="false"
-      placeholder="Pesquisar por cliente"
+<stk-list-page-layout
+  [autoCompleteService]="customerService"
+  title="Vendas"
+  subtitle="Histórico de vendas"
+  [searchForm]="searchForm"
+  searchPlaceholder="Digite o nome ou CPF/CNPJ"
+  searchName="search"
+  [hasAddButton]="false"
+  [page]="currentPage"
+  [pageSize]="pageSize"
+  [totalItems]="totalItems"
+  (searchChange)="onSearch($event)"
+  (pageChange)="changePage($event)"
+  (pageSizeChange)="changePageSize($event)"
+>
+  @for (item of filteredSales; track $index; let i = $index) {
+    <stk-transaction-item
+      [id]="item.id"
+      [date]="item.createdAt"
+      [nameInfo]="{ type: 'Cliente', name: item.customer.name }"
+      [value]="item.totalValue"
+      [index]="i"
     />
-  </form>
-
-  <section>
-    <stk-card>
-      @for (item of filteredSales; track $index; let i = $index) {
-        <stk-transaction-item
-          [id]="item.id"
-          [date]="item.createdAt"
-          [nameInfo]="{ type: 'Cliente', name: item.customer.name }"
-          [value]="item.totalValue"
-          [index]="i"
-        />
-      }
-      @if (filteredSales.length === 0) {
-        <stk-itens-not-found text="Nenhuma venda encontrado" />
-      }
-    </stk-card>
-  </section>
-  <stk-pagination
-    [totalItems]="totalItems"
-    [pageSize]="pageSize"
-    [currentPage]="currentPage"
-    (pageChange)="changePage($event)"
-    (pageSizeChange)="changePageSize($event)"
-  />
-</div>
+  }
+  @if (filteredSales.length === 0) {
+    <stk-itens-not-found text="Nenhuma venda encontrado" />
+  }
+</stk-list-page-layout>

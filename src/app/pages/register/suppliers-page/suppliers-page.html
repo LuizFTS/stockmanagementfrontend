@@ -1,44 +1,30 @@
-<div class="main">
-  <div class="main__title">
-    <h1>Fornecedores</h1>
-    <p>Gerencie os fornecedores</p>
-  </div>
-
-  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
-    <stk-search-input
-      placeholder="Digite o nome ou CNPJ"
-      [autocompleteFn]="supplierService.autocomplete.bind(supplierService)"
-      (searchChange)="onSearch($event)"
-      [form]="searchForm"
-      name="search"
-      [hasButton]="false"
+<stk-list-page-layout
+  [autoCompleteService]="supplierService"
+  title="Fornecedores"
+  subtitle="Gerencie os fornecedores"
+  [searchForm]="searchForm"
+  searchPlaceholder="Digite o nome ou CNPJ"
+  searchName="search"
+  navigatePathToAdd="/suppliers/add"
+  addButtonText="Cadastrar fornecedor"
+  [page]="currentPage"
+  [pageSize]="pageSize"
+  [totalItems]="totalItems"
+  (searchChange)="onSearch($event)"
+  (pageChange)="changePage($event)"
+  (pageSizeChange)="changePageSize($event)"
+>
+  @for (item of filteredSuppliers; track item.id; let i = $index) {
+    <stk-supplier-item
+      [id]="item.id"
+      [name]="item.name"
+      [taxId]="item.taxId"
+      [phone]="item.phone"
+      [email]="item.email"
+      [index]="i"
     />
-  </form>
-
-  <stk-button [model]="1" (click)="navigate('/suppliers/add')"> Cadastrar fornecedor </stk-button>
-
-  <section>
-    <stk-card>
-      @for (item of filteredSuppliers; track item.id; let i = $index) {
-        <stk-supplier-item
-          [id]="item.id"
-          [name]="item.name"
-          [taxId]="item.taxId"
-          [phone]="item.phone"
-          [email]="item.email"
-          [index]="i"
-        />
-      }
-      @if (filteredSuppliers.length === 0) {
-        <stk-itens-not-found text="Nenhum fornecedor encontrado" />
-      }
-    </stk-card>
-  </section>
-  <stk-pagination
-    [totalItems]="totalItems"
-    [pageSize]="pageSize"
-    [currentPage]="currentPage"
-    (pageChange)="changePage($event)"
-    (pageSizeChange)="changePageSize($event)"
-  />
-</div>
+  }
+  @if (filteredSuppliers.length === 0) {
+    <stk-itens-not-found text="Nenhum fornecedor encontrado" />
+  }
+</stk-list-page-layout>

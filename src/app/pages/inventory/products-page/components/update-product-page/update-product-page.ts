@@ -7,7 +7,7 @@ import { BackButton } from '../../../../../shared/components/back-button/back-bu
 import { ReactiveFormsModule, type FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
-import { ProductService } from '../../../../../core/services/product.service';
+import { ProductService } from '../../../../../core/services/api/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Product } from '../../../../../core/models/Product.model';
@@ -91,9 +91,7 @@ export class UpdateProductPage {
       next: () => {
         this.responseMessageService.success('Cadastrado atualizado!');
 
-        setTimeout(() => {
-          this.navigate('/inventory/products');
-        }, 2000);
+        this.navigate('/inventory/products');
         this.isUpdating = false;
       },
       error: (err) => {
@@ -117,9 +115,7 @@ export class UpdateProductPage {
       next: () => {
         this.responseMessageService.success('Produto desativado!');
 
-        setTimeout(() => {
-          this.navigate('/products');
-        }, 3000);
+        this.navigate('/inventory/products');
         this.isDeactivating = false;
       },
       error: (err) => {

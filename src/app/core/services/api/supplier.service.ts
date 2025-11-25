@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import type { PageableResponse } from '../models/response/PageableResponse.model';
-import type { Supplier } from '../models/Supplier.model';
-import type { AddSupplierRequest } from '../models/request/AddSupplierRequest.model';
-import type { CreatedResponse } from '../models/response/CreatedResponse.model';
-import type { UpdateSupplierRequest } from '../models/request/UpdateSupplierRequest.model';
+import type { PageableResponse } from '../../models/response/PageableResponse.model';
+import type { Supplier } from '../../models/Supplier.model';
+import type { AddSupplierRequest } from '../../models/request/AddSupplierRequest.model';
+import type { CreatedResponse } from '../../models/response/CreatedResponse.model';
+import type { UpdateSupplierRequest } from '../../models/request/UpdateSupplierRequest.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplierService {

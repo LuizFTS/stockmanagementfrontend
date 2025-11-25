@@ -1,5 +1,5 @@
 import { Component, Input, type SimpleChanges } from '@angular/core';
-import { HomeLayout } from '../../../layouts/home-layout/home-layout';
+import { HomeLayoutService } from '../../../core/services/home-layout.service';
 
 @Component({
   selector: 'stk-message-notification',
@@ -15,13 +15,13 @@ export class MessageNotificationComponent {
   shouldRender = false;
   isAnimating = false;
 
-  constructor(private layout: HomeLayout) {}
+  constructor(private layoutService: HomeLayoutService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['isOpen']) {
       if (this.isOpen) {
         this.shouldRender = true;
-        this.layout.scrollToTop();
+        this.layoutService.triggerScrollTop();
 
         setTimeout(() => {
           this.isAnimating = true;

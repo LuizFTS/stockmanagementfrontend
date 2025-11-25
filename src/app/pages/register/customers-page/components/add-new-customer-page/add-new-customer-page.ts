@@ -5,7 +5,7 @@ import { Card } from '../../../../../shared/components/card/card';
 import { CustomerGeneralInformation } from '../customer-general-information/customer-general-information';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustomerService } from '../../../../../core/services/customer.service';
+import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 

@@ -1,41 +1,28 @@
-<main class="main">
-  <div class="main__title">
-    <h1>Compras</h1>
-    <p>Histórico de compras</p>
-  </div>
-
-  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
-    <stk-search-input
-      (searchChange)="onSearch($event)"
-      [autocompleteFn]="supplierService.autocomplete.bind(supplierService)"
-      [form]="searchForm"
-      name="search"
-      [hasButton]="false"
-      placeholder="Pesquisar por fornecedor"
+<stk-list-page-layout
+  [autoCompleteService]="supplierService"
+  title="Compras"
+  subtitle="Histórico de compras"
+  [searchForm]="searchForm"
+  searchPlaceholder="Digite o nome ou CNPJ"
+  searchName="search"
+  [hasAddButton]="false"
+  [page]="currentPage"
+  [pageSize]="pageSize"
+  [totalItems]="totalItems"
+  (searchChange)="onSearch($event)"
+  (pageChange)="changePage($event)"
+  (pageSizeChange)="changePageSize($event)"
+>
+  @for (purchase of filteredPurchases; track $index; let i = $index) {
+    <stk-transaction-item
+      [id]="purchase.id"
+      [date]="purchase.createdAt"
+      [nameInfo]="{ type: 'Fornecedor', name: purchase.supplier.name }"
+      [value]="purchase.totalValue"
+      [index]="i"
     />
-  </form>
-
-  <section>
-    <stk-card>
-      @for (item of filteredPurchases; track $index; let i = $index) {
-        <stk-transaction-item
-          [id]="item.id"
-          [date]="item.createdAt"
-          [nameInfo]="{ type: 'Fornecedor', name: item.supplier.name }"
-          [value]="item.totalValue"
-          [index]="i"
-        />
-      }
-      @if (filteredPurchases.length === 0) {
-        <stk-itens-not-found text="Nenhuma compra encontrado" />
-      }
-    </stk-card>
-  </section>
-  <stk-pagination
-    [totalItems]="totalItems"
-    [pageSize]="pageSize"
-    [currentPage]="currentPage"
-    (pageChange)="changePage($event)"
-    (pageSizeChange)="changePageSize($event)"
-  />
-</main>
+  }
+  @if (filteredPurchases.length === 0) {
+    <stk-itens-not-found text="Nenhuma compra encontrado" />
+  }
+</stk-list-page-layout>

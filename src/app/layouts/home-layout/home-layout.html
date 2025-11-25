@@ -9,6 +9,12 @@
   </div>
   <stk-sidebar [active]="isSidebarOpen" (opened)="toggleSidebar($event)" />
   <main #mainContainer class="main__container">
+    <stk-message-notification
+      [isOpen]="responseMessageService.isOpen()"
+      [message]="responseMessageService.message()"
+      [status]="responseMessageService.status()"
+    />
+
     <router-outlet></router-outlet>
   </main>
 </div>

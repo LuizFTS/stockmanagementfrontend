@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import type { Purchase } from '../../../../../core/models/Purchase.model';
-import { PurchaseService } from '../../../../../core/services/purchase.service';
+import { PurchaseService } from '../../../../../core/services/api/purchase.service';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import { Card } from '../../../../../shared/components/card/card';
 import { BackButton } from '../../../../../shared/components/back-button/back-button';

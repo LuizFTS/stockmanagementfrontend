@@ -1,27 +1,16 @@
-import { Component, inject } from '@angular/core';
-import { Card } from '../../../shared/components/card/card';
+import { Component } from '@angular/core';
 import { CustomerItem } from './components/customer-item/customer-item';
-import { SearchInput } from '../../../shared/components/search-input/search-input';
-import { Pagination } from '../../../shared/components/pagination/pagination';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
-import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
 import { FormBuilder, type FormGroup, ReactiveFormsModule } from '@angular/forms';
 import type { Customer } from '../../../core/models/Customer.model';
-import { CustomerService } from '../../../core/services/customer.service';
+import { CustomerService } from '../../../core/services/api/customer.service';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
+import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
 
 @Component({
   selector: 'app-customers-page',
-  imports: [
-    Card,
-    CustomerItem,
-    Pagination,
-    ItensNotFound,
-    Button,
-    ReactiveFormsModule,
-    SearchInput,
-  ],
+  imports: [CustomerItem, ItensNotFound, ReactiveFormsModule, ListPageLayout],
   templateUrl: './customers-page.html',
   styleUrl: './customers-page.scss',
 })

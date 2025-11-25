@@ -1,8 +1,8 @@
 import { Component, DestroyRef, EventEmitter, inject, Input, Output } from '@angular/core';
 import { NavigationEnd, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { SideBarMenuOption } from '../sidebar-menu-option/sidebar-menu-option';
-import { UserService } from '../../../../core/services/user.service';
-import { AuthService } from '../../../../core/services/auth.service';
+import { UserService } from '../../../../core/services/api/user.service';
+import { AuthService } from '../../../../core/services/api/auth.service';
 import { SidebarMenuSubOption } from '../sidebar-menu-sub-option/sidebar-menu-sub-option';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';

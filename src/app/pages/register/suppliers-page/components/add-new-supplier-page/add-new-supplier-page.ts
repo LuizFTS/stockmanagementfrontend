@@ -5,7 +5,7 @@ import { Stepper } from '../../../../../shared/components/stepper/stepper';
 import { SupplierTaxId } from '../supplier-tax-id/supplier-tax-id';
 import { Card } from '../../../../../shared/components/card/card';
 import { SupplierGeneralInformation } from '../supplier-general-information/supplier-general-information';
-import { SupplierService } from '../../../../../core/services/supplier.service';
+import { SupplierService } from '../../../../../core/services/api/supplier.service';
 import { Router } from '@angular/router';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';

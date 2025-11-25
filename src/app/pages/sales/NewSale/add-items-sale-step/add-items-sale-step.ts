@@ -5,7 +5,7 @@ import { TextInput } from '../../../../shared/components/text-input/text-input';
 import { SearchInput } from '../../../../shared/components/search-input/search-input';
 import { MatIcon } from '@angular/material/icon';
 import type { FormArray, FormGroup } from '@angular/forms';
-import { ProductService } from '../../../../core/services/product.service';
+import { ProductService } from '../../../../core/services/api/product.service';
 import { Formatter } from '../../../../shared/utils/Formatter';
 import type { SaleItem } from '../new-sale-page/new-sale-page';
 import { ResponseMessageService } from '../../../../core/services/response-message.service';

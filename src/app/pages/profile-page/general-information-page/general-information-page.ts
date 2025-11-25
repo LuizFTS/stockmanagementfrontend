@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import type { User } from '../../../core/models/User.model';
-import { UserService } from '../../../core/services/user.service';
+import { UserService } from '../../../core/services/api/user.service';
 import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Button } from '../../../shared/components/button/button';
 import { TextInput } from '../../../shared/components/text-input/text-input';

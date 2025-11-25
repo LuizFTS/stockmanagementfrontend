@@ -1,0 +1,35 @@
+<div class="main">
+  <div class="main__title">
+    <h1>{{ title }}</h1>
+    @if (subtitle) {
+      <p>{{ subtitle }}</p>
+    }
+  </div>
+
+  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit($event)">
+    <stk-search-input
+      [placeholder]="searchPlaceholder"
+      [autocompleteFn]="autoCompleteService.autocomplete.bind(autoCompleteService)"
+      (searchChange)="onSearch($event)"
+      [form]="searchForm"
+      [name]="searchName"
+      [hasButton]="false"
+    />
+  </form>
+  @if (hasAddButton) {
+    <stk-button [model]="1" (click)="navigate()">{{ addButtonText }}</stk-button>
+  }
+
+  <section>
+    <stk-card>
+      <ng-content></ng-content>
+    </stk-card>
+  </section>
+  <stk-pagination
+    [totalItems]="totalItems"
+    [pageSize]="pageSize"
+    [currentPage]="page"
+    (pageChange)="changePage($event)"
+    (pageSizeChange)="changePageSize($event)"
+  />
+</div>

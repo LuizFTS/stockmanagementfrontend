@@ -6,7 +6,7 @@ import { Card } from '../../../../../shared/components/card/card';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
 import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import type { Product } from '../../../../../core/models/Product.model';
-import { ProductService } from '../../../../../core/services/product.service';
+import { ProductService } from '../../../../../core/services/api/product.service';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';

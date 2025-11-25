@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
-import type { Sale } from '../models/Sale.model';
-import type { PageableResponse } from '../models/response/PageableResponse.model';
-import type { CreatedResponse } from '../models/response/CreatedResponse.model';
-import type { AddSaleRequest } from '../models/request/AddSaleRequest.model';
+import type { Sale } from '../../models/Sale.model';
+import type { PageableResponse } from '../../models/response/PageableResponse.model';
+import type { CreatedResponse } from '../../models/response/CreatedResponse.model';
+import type { AddSaleRequest } from '../../models/request/AddSaleRequest.model';
 
 @Injectable({ providedIn: 'root' })
 export class SaleService {

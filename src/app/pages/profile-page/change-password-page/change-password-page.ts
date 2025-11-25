@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
-import { UserService } from '../../../core/services/user.service';
+import { UserService } from '../../../core/services/api/user.service';
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
 import { Card } from '../../../shared/components/card/card';
 import { BackButton } from '../../../shared/components/back-button/back-button';

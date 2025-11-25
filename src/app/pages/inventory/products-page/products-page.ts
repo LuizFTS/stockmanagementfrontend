@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Card } from '../../../shared/components/card/card';
 import type { Product } from '../../../core/models/Product.model';
-import { ProductService } from '../../../core/services/product.service';
+import { ProductService } from '../../../core/services/api/product.service';
 import { ProductItem } from './components/product-item/product-item';
 import { ReactiveFormsModule, FormBuilder, type FormGroup } from '@angular/forms';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';

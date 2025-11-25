@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
 import type { Purchase } from '../../../core/models/Purchase.model';
-import { PurchaseService } from '../../../core/services/purchase.service';
+import { PurchaseService } from '../../../core/services/api/purchase.service';
 import { TransactionItem } from '../../../shared/components/transaction-item/transaction-item';
-import { Card } from '../../../shared/components/card/card';
-import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Router } from '@angular/router';
-import { Pagination } from '../../../shared/components/pagination/pagination';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { SupplierService } from '../../../core/services/supplier.service';
+import { SupplierService } from '../../../core/services/api/supplier.service';
+import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
 
 @Component({
   selector: 'app-purchase-history-page',
-  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination, ReactiveFormsModule],
+  imports: [TransactionItem, ItensNotFound, ReactiveFormsModule, ListPageLayout],
   templateUrl: './purchase-history-page.html',
   styleUrl: './purchase-history-page.scss',
 })

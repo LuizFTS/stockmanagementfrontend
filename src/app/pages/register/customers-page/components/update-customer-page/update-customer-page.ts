@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 import type { Customer } from '../../../../../core/models/Customer.model';
-import { CustomerService } from '../../../../../core/services/customer.service';
+import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 
 @Component({

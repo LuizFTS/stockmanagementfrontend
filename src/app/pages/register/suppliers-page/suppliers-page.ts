@@ -1,27 +1,16 @@
-import { Component, inject } from '@angular/core';
-import { Card } from '../../../shared/components/card/card';
+import { Component } from '@angular/core';
 import { SupplierItem } from './components/supplier-item/supplier-item';
-import { SearchInput } from '../../../shared/components/search-input/search-input';
-import { FormControl, type FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { type FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import type { Supplier } from '../../../core/models/Supplier.model';
-import { SupplierService } from '../../../core/services/supplier.service';
-import { Pagination } from '../../../shared/components/pagination/pagination';
+import { SupplierService } from '../../../core/services/api/supplier.service';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
-import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
+import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
 
 @Component({
   selector: 'app-suppliers-page',
-  imports: [
-    Card,
-    SupplierItem,
-    SearchInput,
-    Pagination,
-    ItensNotFound,
-    Button,
-    ReactiveFormsModule,
-  ],
+  imports: [SupplierItem, ItensNotFound, ReactiveFormsModule, ListPageLayout],
   templateUrl: './suppliers-page.html',
   styleUrl: './suppliers-page.scss',
 })

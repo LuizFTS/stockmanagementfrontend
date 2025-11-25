@@ -1,15 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
-import { AuthService } from './core/services/auth.service';
+import { AuthService } from './core/services/api/auth.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmModal } from './shared/components/confirm-modal/confirm-modal';
 import { ConfirmationModalService } from './core/services/confirmation-modal.service';
-import { MessageNotificationComponent } from './shared/components/message-notification-component/message-notification-component';
 import { ResponseMessageService } from './core/services/response-message.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatDialogModule, ConfirmModal, MessageNotificationComponent],
+  imports: [RouterOutlet, MatDialogModule, ConfirmModal],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

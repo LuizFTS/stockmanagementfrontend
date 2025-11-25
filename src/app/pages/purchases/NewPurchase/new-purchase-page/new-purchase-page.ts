@@ -11,7 +11,7 @@ import {
   type FormArray,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PurchaseService } from '../../../../core/services/purchase.service';
+import { PurchaseService } from '../../../../core/services/api/purchase.service';
 import { CustomValidators } from '../../../../shared/utils/CustomValidators';
 import type { AddPurchaseRequest } from '../../../../core/models/request/AddPurchaseRequest.model';
 import { ConfirmationModalService } from '../../../../core/services/confirmation-modal.service';

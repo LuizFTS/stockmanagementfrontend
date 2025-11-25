@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import type { Purchase } from '../models/Purchase.model';
+import type { Purchase } from '../../models/Purchase.model';
 import type { Observable } from 'rxjs';
-import type { PageableResponse } from '../models/response/PageableResponse.model';
-import type { AddPurchaseRequest } from '../models/request/AddPurchaseRequest.model';
-import type { CreatedResponse } from '../models/response/CreatedResponse.model';
+import type { PageableResponse } from '../../models/response/PageableResponse.model';
+import type { AddPurchaseRequest } from '../../models/request/AddPurchaseRequest.model';
+import type { CreatedResponse } from '../../models/response/CreatedResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class PurchaseService {

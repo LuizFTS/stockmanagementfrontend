@@ -3,7 +3,7 @@ import { Card } from '../../../../../shared/components/card/card';
 import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SaleService } from '../../../../../core/services/sale.service';
+import { SaleService } from '../../../../../core/services/api/sale.service';
 import type { Sale } from '../../../../../core/models/Sale.model';
 
 @Component({

@@ -9,7 +9,7 @@ import { CustomValidators } from '../../../../shared/utils/CustomValidators';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { SaleService } from '../../../../core/services/sale.service';
+import { SaleService } from '../../../../core/services/api/sale.service';
 import type { AddSaleRequest } from '../../../../core/models/request/AddSaleRequest.model';
 import { HomeLayout } from '../../../../layouts/home-layout/home-layout';
 import { ResponseMessageService } from '../../../../core/services/response-message.service';

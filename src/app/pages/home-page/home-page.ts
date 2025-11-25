@@ -1,5 +1,5 @@
 import { Component, type OnInit } from '@angular/core';
-import { UserService } from '../../core/services/user.service';
+import { UserService } from '../../core/services/api/user.service';
 import type { User } from '../../core/models/User.model';
 import { Card } from '../../shared/components/card/card';
 

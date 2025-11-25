@@ -1,43 +1,30 @@
-<div class="main">
-  <div class="main__title">
-    <h1>Clientes</h1>
-    <p>Gerencie os clientes</p>
-  </div>
-
-  <form class="main__form">
-    <stk-search-input
-      placeholder="Digite o nome ou CPF/CNPJ"
-      [autocompleteFn]="customerService.autocomplete.bind(customerService)"
-      (searchChange)="onSearch($event)"
-      [form]="searchForm"
-      name="search"
-      [hasButton]="false"
+<stk-list-page-layout
+  [autoCompleteService]="customerService"
+  title="Clientes"
+  subtitle="Gerencie os clientes"
+  [searchForm]="searchForm"
+  searchPlaceholder="Digite o nome ou CPF/CNPJ"
+  searchName="search"
+  navigatePathToAdd="/customers/add"
+  addButtonText="Cadastrar cliente"
+  [page]="currentPage"
+  [pageSize]="pageSize"
+  [totalItems]="totalItems"
+  (searchChange)="onSearch($event)"
+  (pageChange)="changePage($event)"
+  (pageSizeChange)="changePageSize($event)"
+>
+  @for (item of filteredCustomers; track item.id; let i = $index) {
+    <stk-customer-item
+      [id]="item.id"
+      [name]="item.name"
+      [taxId]="item.taxId"
+      [phone]="item.phone"
+      [email]="item.email"
+      [index]="i"
     />
-  </form>
-  <stk-button [model]="1" (click)="navigate('/customers/add')"> Cadastrar cliente </stk-button>
-
-  <section>
-    <stk-card>
-      @for (item of filteredCustomers; track item.id; let i = $index) {
-        <stk-customer-item
-          [id]="item.id"
-          [name]="item.name"
-          [taxId]="item.taxId"
-          [phone]="item.phone"
-          [email]="item.email"
-          [index]="i"
-        />
-      }
-      @if (filteredCustomers.length === 0) {
-        <stk-itens-not-found text="Nenhum cliente encontrado" />
-      }
-    </stk-card>
-  </section>
-  <stk-pagination
-    [totalItems]="totalItems"
-    [pageSize]="pageSize"
-    [currentPage]="currentPage"
-    (pageChange)="changePage($event)"
-    (pageSizeChange)="changePageSize($event)"
-  />
-</div>
+  }
+  @if (filteredCustomers.length === 0) {
+    <stk-itens-not-found text="Nenhum cliente encontrado" />
+  }
+</stk-list-page-layout>

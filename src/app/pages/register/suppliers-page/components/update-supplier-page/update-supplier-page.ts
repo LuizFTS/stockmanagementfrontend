@@ -5,7 +5,7 @@ import { TextInput } from '../../../../../shared/components/text-input/text-inpu
 import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Card } from '../../../../../shared/components/card/card';
-import { SupplierService } from '../../../../../core/services/supplier.service';
+import { SupplierService } from '../../../../../core/services/api/supplier.service';
 import type { Supplier } from '../../../../../core/models/Supplier.model';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 import { ResponseMessageService } from '../../../../../core/services/response-message.service';

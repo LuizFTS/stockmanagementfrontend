@@ -2,6 +2,7 @@
 
 :host {
   @include mix.main-host;
+  height: fit-content;
 }
 
 .card {

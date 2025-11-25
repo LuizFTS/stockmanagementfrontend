@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import type { FormGroup } from '@angular/forms';
 import { Button } from '../../../../shared/components/button/button';
-import { SupplierService } from '../../../../core/services/supplier.service';
+import { SupplierService } from '../../../../core/services/api/supplier.service';
 import { SearchInput } from '../../../../shared/components/search-input/search-input';
 import { ResponseMessageService } from '../../../../core/services/response-message.service';
 

@@ -3,7 +3,7 @@ import type { FormArray, FormGroup } from '@angular/forms';
 import { Button } from '../../../../shared/components/button/button';
 import { BackButton } from '../../../../shared/components/back-button/back-button';
 import { TextInput } from '../../../../shared/components/text-input/text-input';
-import { ProductService } from '../../../../core/services/product.service';
+import { ProductService } from '../../../../core/services/api/product.service';
 import { Formatter } from '../../../../shared/utils/Formatter';
 import { MatIcon } from '@angular/material/icon';
 import type { PurchaseItem } from '../new-purchase-page/new-purchase-page';

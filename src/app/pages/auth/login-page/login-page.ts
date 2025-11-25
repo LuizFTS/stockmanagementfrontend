@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild, type ElementRef } from '@angular/core';
+import { Component, ViewChild, type ElementRef } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -7,11 +7,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../core/services/api/auth.service';
 import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
-import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
+import { ResponseMessageService } from '../../../core/services/response-message.service';
 
 @Component({
   selector: 'app-login-page',
@@ -23,7 +23,6 @@ export class LoginPage {
   private readonly tokenKey: string = 'auth_token';
 
   @ViewChild('emailInput') emailInput!: ElementRef<HTMLInputElement>;
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
   isLoading = false;
   isPasswordVisible: boolean = false;
   loginForm: FormGroup;
@@ -32,6 +31,7 @@ export class LoginPage {
     private auth: AuthService,
     private fb: FormBuilder,
     private router: Router,
+    public responseMessageService: ResponseMessageService,
   ) {
     this.loginForm = this.createLoginForm();
   }
@@ -55,21 +55,11 @@ export class LoginPage {
           this.router.navigate(['/home']);
         },
         error: (err) => {
-          this.messageDisplayed = {
-            status: 'error',
-            message: err.error.message ?? 'Tente novamente mais tarde',
-          };
+          this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
           this.isLoading = false;
-          this.showMessageHandle();
         },
       });
     }
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   passwordVisible() {

@@ -1,13 +1,12 @@
 <div class="login_page">
+  <stk-message-notification
+    [isOpen]="responseMessageService.isOpen()"
+    [message]="responseMessageService.message()"
+    [status]="responseMessageService.status()"
+  />
   <div class="login_page__container">
     <h1>stockmanagement</h1>
     <form class="login_page__container__form" [formGroup]="loginForm" (ngSubmit)="login()">
-      @if (messageDisplayed.message.length > 0) {
-        <stk-message-notification
-          [status]="messageDisplayed.status"
-          [message]="messageDisplayed.message"
-        />
-      }
       <div class="login_page__container__form__input-group">
         <input
           type="text"

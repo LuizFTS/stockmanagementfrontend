@@ -1,19 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import type { Sale } from '../../../core/models/Sale.model';
-import { SaleService } from '../../../core/services/sale.service';
+import { SaleService } from '../../../core/services/api/sale.service';
 import { TransactionItem } from '../../../shared/components/transaction-item/transaction-item';
-import { Card } from '../../../shared/components/card/card';
-import { SearchInput } from '../../../shared/components/search-input/search-input';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
-import { Pagination } from '../../../shared/components/pagination/pagination';
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { CustomerService } from '../../../core/services/customer.service';
+import { CustomerService } from '../../../core/services/api/customer.service';
+import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
 
 @Component({
   selector: 'app-sale-history-page',
-  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination, ReactiveFormsModule],
+  imports: [TransactionItem, ItensNotFound, ReactiveFormsModule, ListPageLayout],
   templateUrl: './sale-history-page.html',
   styleUrl: './sale-history-page.scss',
 })

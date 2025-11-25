@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
-import { UserService } from '../../../core/services/user.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { UserService } from '../../../core/services/api/user.service';
+import { AuthService } from '../../../core/services/api/auth.service';
 import { Button } from '../../../shared/components/button/button';
 import { TextInput } from '../../../shared/components/text-input/text-input';
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
