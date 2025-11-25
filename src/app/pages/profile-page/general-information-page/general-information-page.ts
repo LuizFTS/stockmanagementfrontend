@@ -4,21 +4,19 @@ import type { User } from '../../../core/models/User.model';
 import { UserService } from '../../../core/services/user.service';
 import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Button } from '../../../shared/components/button/button';
-import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 import { TextInput } from '../../../shared/components/text-input/text-input';
 import { Card } from '../../../shared/components/card/card';
 import { BackButton } from '../../../shared/components/back-button/back-button';
 import { Formatter } from '../../../shared/utils/Formatter';
-import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
+import { ResponseMessageService } from '../../../core/services/response-message.service';
 
 @Component({
   selector: 'app-general-information-page',
-  imports: [ReactiveFormsModule, Button, BackButton, MessageNotificationComponent, TextInput, Card],
+  imports: [ReactiveFormsModule, Button, BackButton, TextInput, Card],
   templateUrl: './general-information-page.html',
   styleUrl: './general-information-page.scss',
 })
 export class GeneralInformationPage {
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
   isLoading: boolean = false;
   user: User | null = null;
 
@@ -28,6 +26,7 @@ export class GeneralInformationPage {
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.userForm = this.updateUserForm();
   }
@@ -65,29 +64,16 @@ export class GeneralInformationPage {
 
       this.userService.changeUserInformation(updateData).subscribe({
         next: () => {
-          this.messageDisplayed = {
-            status: 'success',
-            message: 'Dados alterados com sucesso!',
-          };
+          this.responseMessageService.success('Dados alterados com sucesso!');
           this.isLoading = false;
           this.userService.loadUser();
         },
         error: (err) => {
-          this.messageDisplayed = {
-            status: 'error',
-            message: err.error.message ?? 'Tente novamente mais tarde',
-          };
+          this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
           this.isLoading = false;
         },
       });
     }
-    this.showMessageHandle();
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   navigate(path: string) {

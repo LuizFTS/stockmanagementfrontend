@@ -8,6 +8,7 @@ import { Formatter } from '../../../../shared/utils/Formatter';
 import { MatIcon } from '@angular/material/icon';
 import type { PurchaseItem } from '../new-purchase-page/new-purchase-page';
 import { SearchInput } from '../../../../shared/components/search-input/search-input';
+import { ResponseMessageService } from '../../../../core/services/response-message.service';
 
 @Component({
   selector: 'stk-add-items-purchase-step',
@@ -24,13 +25,15 @@ export class AddItemsPurchaseStep {
   @Input() isLoading: boolean = false;
 
   @Output() back = new EventEmitter<void>();
-  @Output() showMessage = new EventEmitter<{ message: string; status: string }>();
   @Output() addItem = new EventEmitter<any>();
   @Output() removeItem = new EventEmitter<number>();
 
   addItemLoading: boolean = false;
 
-  constructor(public productService: ProductService) {}
+  constructor(
+    public productService: ProductService,
+    public responseMessageService: ResponseMessageService,
+  ) {}
 
   ngOnInit() {
     const formArray = this.formParent.get('itens') as FormArray;
@@ -95,13 +98,13 @@ export class AddItemsPurchaseStep {
     this.productService.get(0, 1, { name: productName }).subscribe({
       next: ({ content }) => {
         if (content.length === 0) {
-          this.showMessage.emit({ message: 'Produto não encontrado', status: 'error' });
+          this.responseMessageService.error('Produto não encontrado');
           this.addItemLoading = false;
           return;
         }
 
         if (this._itens.find((item: any) => item.id === content[0].id)) {
-          this.showMessage.emit({ message: 'Produto já adicionado', status: 'error' });
+          this.responseMessageService.error('Produto já adicionado');
           this.addItemLoading = false;
           return;
         }
@@ -120,7 +123,7 @@ export class AddItemsPurchaseStep {
         this.addItemLoading = false;
       },
       error: (err) => {
-        this.showMessage.emit({ message: err.error.message, status: 'error' });
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.addItemLoading = false;
       },
     });

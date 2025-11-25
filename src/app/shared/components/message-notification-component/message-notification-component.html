@@ -1,3 +1,5 @@
-<div [class]="data.status === 'error' ? 'message message__error' : 'message message__success'">
-  {{ data.message }}
-</div>
+@if (shouldRender) {
+  <div [class]="status === 'error' ? 'message message__error' : 'message message__success'">
+    {{ message }}
+  </div>
+}

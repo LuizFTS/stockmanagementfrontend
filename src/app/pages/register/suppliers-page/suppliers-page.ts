@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Card } from '../../../shared/components/card/card';
 import { SupplierItem } from './components/supplier-item/supplier-item';
 import { SearchInput } from '../../../shared/components/search-input/search-input';
-import { FormControl } from '@angular/forms';
+import { FormControl, type FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import type { Supplier } from '../../../core/models/Supplier.model';
 import { SupplierService } from '../../../core/services/supplier.service';
 import { Pagination } from '../../../shared/components/pagination/pagination';
@@ -13,12 +13,20 @@ import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'app-suppliers-page',
-  imports: [Card, SupplierItem, SearchInput, Pagination, ItensNotFound, Button],
+  imports: [
+    Card,
+    SupplierItem,
+    SearchInput,
+    Pagination,
+    ItensNotFound,
+    Button,
+    ReactiveFormsModule,
+  ],
   templateUrl: './suppliers-page.html',
   styleUrl: './suppliers-page.scss',
 })
 export class SuppliersPage {
-  searchControl = new FormControl('');
+  searchForm: FormGroup;
 
   suppliers: Supplier[] = [];
   filteredSuppliers: Supplier[] = [];
@@ -29,10 +37,15 @@ export class SuppliersPage {
   filter: string = '';
 
   constructor(
-    private supplierService: SupplierService,
+    public supplierService: SupplierService,
     private layout: HomeLayout,
     private router: Router,
-  ) {}
+    private fb: FormBuilder,
+  ) {
+    this.searchForm = this.fb.group({
+      search: [''],
+    });
+  }
 
   ngOnInit() {
     this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
@@ -40,6 +53,11 @@ export class SuppliersPage {
 
   onSearch(term: string) {
     this.filter = term?.toLowerCase() ?? '';
+    this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
+  }
+
+  onSearchSubmit() {
+    this.filter = this.searchForm.value.search?.toLowerCase() ?? '';
     this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });
   }
 

@@ -48,6 +48,11 @@ export class ProductsPage {
     this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
   }
 
+  onSearchSubmit() {
+    this.filter = this.searchForm.value.search?.toLowerCase() ?? '';
+    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
+  }
+
   changePage(page: number) {
     if (this.currentPage === page) return;
 

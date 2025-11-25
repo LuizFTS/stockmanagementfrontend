@@ -2,19 +2,18 @@
   <div class="container__title">
     <h2>Informações do fornecedor</h2>
   </div>
-  <stk-text-input
-    type="text"
-    id="supplierTaxId"
-    label="Digite o CNPJ *"
-    [control]="form.get('supplierTaxId')"
-    [errorMessages]="{
-      required: 'CNPJ é obrigatório',
-      cnpjInvalid: 'CNPJ inválido',
-    }"
+  <stk-search-input
+    placeholder="Digite o nome ou CNPJ do fornecedor"
+    [autocompleteFn]="supplierService.autocomplete.bind(supplierService)"
+    (searchChange)="onSearch($event)"
+    [form]="form"
+    name="supplierName"
+    [hasButton]="false"
   />
+
   <stk-button
     [loading]="isLoading"
-    [disabled]="form.get('supplierTaxId')?.invalid ?? true"
+    [disabled]="form.get('supplierName')?.invalid ?? true"
     (click)="next()"
     [model]="1"
     type="button"

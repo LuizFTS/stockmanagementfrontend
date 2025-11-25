@@ -53,4 +53,10 @@ export class CustomerService {
 
     return this.http.delete<void>(`${this.apiUrl}?${query}`);
   }
+
+  autocomplete(query: string) {
+    return this.http.get<String[]>(`${this.apiUrl}/autocomplete`, {
+      params: { q: query, limit: 10 },
+    });
+  }
 }

@@ -3,8 +3,17 @@
     <h1>Clientes</h1>
     <p>Gerencie os clientes</p>
   </div>
-  <stk-search-input placeholder="Digite o nome ou CNPJ" (searchChange)="onSearch($event)" />
 
+  <form class="main__form">
+    <stk-search-input
+      placeholder="Digite o nome ou CPF/CNPJ"
+      [autocompleteFn]="customerService.autocomplete.bind(customerService)"
+      (searchChange)="onSearch($event)"
+      [form]="searchForm"
+      name="search"
+      [hasButton]="false"
+    />
+  </form>
   <stk-button [model]="1" (click)="navigate('/customers/add')"> Cadastrar cliente </stk-button>
 
   <section>

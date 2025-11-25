@@ -6,19 +6,27 @@ import { Pagination } from '../../../shared/components/pagination/pagination';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Button } from '../../../shared/components/button/button';
 import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, type FormGroup, ReactiveFormsModule } from '@angular/forms';
 import type { Customer } from '../../../core/models/Customer.model';
 import { CustomerService } from '../../../core/services/customer.service';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'app-customers-page',
-  imports: [Card, CustomerItem, SearchInput, Pagination, ItensNotFound, Button],
+  imports: [
+    Card,
+    CustomerItem,
+    Pagination,
+    ItensNotFound,
+    Button,
+    ReactiveFormsModule,
+    SearchInput,
+  ],
   templateUrl: './customers-page.html',
   styleUrl: './customers-page.scss',
 })
 export class CustomersPage {
-  searchControl = new FormControl('');
+  searchForm: FormGroup;
 
   customers: Customer[] = [];
   filteredCustomers: Customer[] = [];
@@ -29,10 +37,15 @@ export class CustomersPage {
   filter: string = '';
 
   constructor(
-    private customerService: CustomerService,
+    public customerService: CustomerService,
     private layout: HomeLayout,
     private router: Router,
-  ) {}
+    private fb: FormBuilder,
+  ) {
+    this.searchForm = this.fb.group({
+      search: [''],
+    });
+  }
 
   ngOnInit() {
     this.getCustomers(this.currentPage, this.pageSize, { filter: this.filter });
@@ -40,6 +53,11 @@ export class CustomersPage {
 
   onSearch(term: string) {
     this.filter = term?.toLowerCase() ?? '';
+    this.getCustomers(this.currentPage, this.pageSize, { filter: this.filter });
+  }
+
+  onSearchSubmit() {
+    this.filter = this.searchForm.value.search?.toLowerCase() ?? '';
     this.getCustomers(this.currentPage, this.pageSize, { filter: this.filter });
   }
 

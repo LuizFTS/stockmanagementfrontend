@@ -3,13 +3,14 @@
     <h1>Estoque</h1>
     <p>Produtos cadastrados</p>
   </div>
-  <form class="main__form">
+  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
     <stk-search-input
-      placeholder="Pesquisar por nome ou descrição"
+      placeholder="Pesquisar por nome do produto"
       [autocompleteFn]="productService.autocomplete.bind(productService)"
       (searchChange)="onSearch($event)"
       [form]="searchForm"
       name="search"
+      [hasButton]="false"
     />
   </form>
   <stk-button [model]="1" (click)="navigate('/inventory/products/add')">

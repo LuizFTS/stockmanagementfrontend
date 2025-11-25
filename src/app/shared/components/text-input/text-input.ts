@@ -13,6 +13,7 @@ export class TextInput {
   @Input() label!: string;
   @Input() type!: string;
   @Input() id!: string;
+  @Input() placeholder: string = '';
   @Input() control!: AbstractControl | null;
   @Input() errorMessages!: { [key: string]: string };
 

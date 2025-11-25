@@ -2,12 +2,6 @@
   <div class="main__title">
     <h1>Fornecedores</h1>
   </div>
-  @if (messageDisplayed.message.length > 0) {
-    <stk-message-notification
-      [message]="messageDisplayed.message"
-      [status]="messageDisplayed.status"
-    />
-  }
 
   <stk-card [padding]="2">
     <form class="container" [formGroup]="updateForm" (ngSubmit)="onUpdateSupplier()">

@@ -8,10 +8,12 @@ import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { CustomerService } from '../../../core/services/customer.service';
 
 @Component({
   selector: 'app-sale-history-page',
-  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination],
+  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination, ReactiveFormsModule],
   templateUrl: './sale-history-page.html',
   styleUrl: './sale-history-page.scss',
 })
@@ -19,16 +21,24 @@ export class SaleHistoryPage {
   sales: Sale[] = [];
   filteredSales: Sale[] = [];
 
+  searchForm: FormGroup;
+
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 1;
   filter: string = '';
 
   constructor(
+    public customerService: CustomerService,
     private saleService: SaleService,
     private layout: HomeLayout,
     private router: Router,
-  ) {}
+    private fb: FormBuilder,
+  ) {
+    this.searchForm = this.fb.group({
+      search: [''],
+    });
+  }
 
   ngOnInit() {
     this.getSales(1, 10);
@@ -36,6 +46,11 @@ export class SaleHistoryPage {
 
   onSearch(term: string) {
     this.filter = term?.toLowerCase() ?? '';
+    this.getSales(this.currentPage, this.pageSize, { filter: this.filter });
+  }
+
+  onSearchSubmit() {
+    this.filter = this.searchForm.value.search?.toLowerCase() ?? '';
     this.getSales(this.currentPage, this.pageSize, { filter: this.filter });
   }
 

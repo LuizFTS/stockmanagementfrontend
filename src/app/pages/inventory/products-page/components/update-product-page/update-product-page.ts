@@ -12,17 +12,16 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Product } from '../../../../../core/models/Product.model';
 import { Formatter } from '../../../../../shared/utils/Formatter';
-import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
+import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 
 @Component({
   selector: 'app-update-product-page',
-  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule, MessageNotificationComponent],
+  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule],
   templateUrl: './update-product-page.html',
   styleUrl: './update-product-page.scss',
 })
 export class UpdateProductPage {
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
   isUpdating: boolean = false;
@@ -36,6 +35,7 @@ export class UpdateProductPage {
     private productService: ProductService,
     private router: Router,
     private modalService: ConfirmationModalService,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.updateForm = this.createUpdateForm();
   }
@@ -89,10 +89,7 @@ export class UpdateProductPage {
 
     this.productService.update(updateData).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Cadastrado atualizado!',
-        };
+        this.responseMessageService.success('Cadastrado atualizado!');
 
         setTimeout(() => {
           this.navigate('/inventory/products');
@@ -100,21 +97,10 @@ export class UpdateProductPage {
         this.isUpdating = false;
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isUpdating = false;
       },
     });
-
-    this.showMessageHandle();
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   async deactivate() {
@@ -129,10 +115,7 @@ export class UpdateProductPage {
     this.isDeactivating = true;
     this.productService.deactivate({ id: this.id }).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Produto desativado!',
-        };
+        this.responseMessageService.success('Produto desativado!');
 
         setTimeout(() => {
           this.navigate('/products');
@@ -140,14 +123,10 @@ export class UpdateProductPage {
         this.isDeactivating = false;
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isDeactivating = false;
       },
     });
-    this.showMessageHandle();
   }
 
   navigate(path: string) {

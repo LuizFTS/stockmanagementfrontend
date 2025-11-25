@@ -10,13 +10,13 @@ import {
   type FormGroup,
   type FormArray,
 } from '@angular/forms';
-import { MessageNotificationComponent } from '../../../../shared/components/message-notification-component/message-notification-component';
 import { Router } from '@angular/router';
-import type { ResponseStatus } from '../../../../core/models/ResponseStatus.model';
 import { PurchaseService } from '../../../../core/services/purchase.service';
 import { CustomValidators } from '../../../../shared/utils/CustomValidators';
 import type { AddPurchaseRequest } from '../../../../core/models/request/AddPurchaseRequest.model';
 import { ConfirmationModalService } from '../../../../core/services/confirmation-modal.service';
+import { HomeLayout } from '../../../../layouts/home-layout/home-layout';
+import { ResponseMessageService } from '../../../../core/services/response-message.service';
 
 export interface PurchaseItem {
   id: string;
@@ -27,14 +27,7 @@ export interface PurchaseItem {
 
 @Component({
   selector: 'app-new-purchase-page',
-  imports: [
-    Stepper,
-    SearchSupplierPurchaseStep,
-    Card,
-    AddItemsPurchaseStep,
-    ReactiveFormsModule,
-    MessageNotificationComponent,
-  ],
+  imports: [Stepper, SearchSupplierPurchaseStep, Card, AddItemsPurchaseStep, ReactiveFormsModule],
   templateUrl: './new-purchase-page.html',
   styleUrl: './new-purchase-page.scss',
 })
@@ -45,13 +38,14 @@ export class NewPurchasePage {
   totalSteps: number = 2;
 
   isLoading: boolean = false;
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
 
   constructor(
     private fb: FormBuilder,
     private purchaseService: PurchaseService,
     private router: Router,
     private modalService: ConfirmationModalService,
+    private layout: HomeLayout,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.purchaseForm = this.newPurchaseForm();
     this.purchaseItemForm = this.newPurchaseItemForm();
@@ -59,7 +53,7 @@ export class NewPurchasePage {
 
   private newPurchaseForm(): FormGroup {
     return this.fb.group({
-      supplierTaxId: ['', [Validators.required, CustomValidators.cnpj()]],
+      supplierName: ['', [Validators.required]],
       supplierId: ['', [Validators.required]],
       itens: this.fb.array([]),
     });
@@ -108,7 +102,6 @@ export class NewPurchasePage {
 
     this.isLoading = true;
 
-    console.log(this.purchaseForm.value);
     const formValue = this.purchaseForm.value;
 
     const payload: AddPurchaseRequest = {
@@ -121,37 +114,20 @@ export class NewPurchasePage {
 
     this.purchaseService.create(payload).subscribe({
       next: (response) => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Compra realizada!',
-        };
+        this.responseMessageService.success('Compra realizada!');
 
-        console.log(response);
+        this.layout.scrollToTop();
 
         setTimeout(() => {
           this.navigate(`/purchases/${response.content[0].id}`);
         }, 2000);
         this.isLoading = false;
-        this.showMessageHandle();
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isLoading = false;
-        this.showMessageHandle();
       },
     });
-  }
-
-  showMessageHandle(message?: string, status?: string) {
-    if (message && status) {
-      this.messageDisplayed = { status, message };
-    }
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   nextStep() {

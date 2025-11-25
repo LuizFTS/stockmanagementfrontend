@@ -2,19 +2,19 @@
   <div class="container__title">
     <h2>Informações do cliente</h2>
   </div>
-  <stk-text-input
-    type="text"
-    id="customerTaxId"
-    label="Digite o CPF/CNPJ *"
-    [control]="form.get('customerTaxId')"
-    [errorMessages]="{
-      required: 'CPF/CNPJ é obrigatório',
-      cnpjInvalid: 'CPF/CNPJ inválido',
-    }"
+
+  <stk-search-input
+    placeholder="Digite o nome ou CPF/CNPJ do cliente"
+    [autocompleteFn]="customerService.autocomplete.bind(customerService)"
+    (searchChange)="onSearch($event)"
+    [form]="form"
+    name="customerName"
+    [hasButton]="false"
   />
+
   <stk-button
     [loading]="isLoading"
-    [disabled]="form.get('customerTaxId')?.invalid ?? true"
+    [disabled]="form.get('customerName')?.invalid ?? true"
     (click)="next()"
     [model]="1"
     type="button"

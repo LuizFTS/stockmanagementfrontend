@@ -10,11 +10,10 @@ import {
 import { RouterModule } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
 import { UserService } from '../../../core/services/user.service';
-import { MessageNotificationComponent } from '../../../shared/components/message-notification-component/message-notification-component';
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
 import { Card } from '../../../shared/components/card/card';
 import { BackButton } from '../../../shared/components/back-button/back-button';
-import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
+import { ResponseMessageService } from '../../../core/services/response-message.service';
 
 @Component({
   selector: 'app-change-password-page',
@@ -24,7 +23,6 @@ import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
     FormsModule,
     Button,
     BackButton,
-    MessageNotificationComponent,
     ReactiveFormsModule,
     PasswordInput,
     Card,
@@ -33,13 +31,13 @@ import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
   styleUrl: './change-password-page.scss',
 })
 export class ChangePasswordPage {
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
   isLoading: boolean = false;
   passwordForm: FormGroup;
 
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.passwordForm = this.changePasswordForm();
   }
@@ -73,29 +71,14 @@ export class ChangePasswordPage {
       .changeUserPassword(formValue.currentPassword, formValue.newPassword)
       .subscribe({
         next: () => {
-          this.messageDisplayed = {
-            status: 'success',
-            message: 'Senha alterada com sucesso!',
-          };
+          this.responseMessageService.success('Senha alterada com sucesso!');
           this.isLoading = false;
         },
         error: (err) => {
-          this.messageDisplayed = {
-            status: 'error',
-            message: err.error.message ?? 'Tente novamente mais tarde',
-          };
+          this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
           this.isLoading = false;
         },
       });
-    this.showMessageHandle();
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed.message = '';
-      this.messageDisplayed.status = '';
-    }, 5000);
-    this.isLoading = false;
   }
 
   private passwordsMatchValidator(form: FormGroup) {

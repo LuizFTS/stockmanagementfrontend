@@ -5,21 +5,19 @@ import { Button } from '../../../../../shared/components/button/button';
 import { Card } from '../../../../../shared/components/card/card';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
 import { BackButton } from '../../../../../shared/components/back-button/back-button';
-import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import type { Product } from '../../../../../core/models/Product.model';
 import { ProductService } from '../../../../../core/services/product.service';
-import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
+import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 
 @Component({
   selector: 'app-add-new-product-page',
-  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule, MessageNotificationComponent],
+  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule],
   templateUrl: './add-new-product-page.html',
   styleUrl: './add-new-product-page.scss',
 })
 export class AddNewProductPage {
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
   createForm: FormGroup;
   isLoading: boolean = false;
 
@@ -29,6 +27,7 @@ export class AddNewProductPage {
     private fb: FormBuilder,
     private productService: ProductService,
     private router: Router,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.createForm = this.createCreateForm();
   }
@@ -62,10 +61,7 @@ export class AddNewProductPage {
 
     this.productService.create(createData).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Produto cadastrado!',
-        };
+        this.responseMessageService.success('Produto cadastrado!');
 
         setTimeout(() => {
           this.navigate('/inventory/products');
@@ -73,21 +69,10 @@ export class AddNewProductPage {
         this.isLoading = false;
       },
       error: ({ error }) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(error.message ?? 'Tente novamente mais tarde');
         this.isLoading = false;
       },
     });
-
-    this.showMessageHandle();
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   navigate(path: string) {

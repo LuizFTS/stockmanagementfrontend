@@ -3,6 +3,7 @@
     #innerInput
     type="search"
     [id]="name"
+    [placeholder]="placeholder"
     [label]="label"
     [control]="form.get(name)"
     [errorMessages]="{
@@ -18,7 +19,7 @@
   <div class="autocomplete">
     @for (item of suggestions; track $index) {
       <div class="autocomplete__item" (mousedown)="selectSuggestion(item)">
-        {{ item }}
+        {{ formatCapitalize(item) }}
       </div>
     }
   </div>

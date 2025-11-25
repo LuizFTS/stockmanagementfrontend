@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
+import { Component, Input, type SimpleChanges } from '@angular/core';
+import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 
 @Component({
   selector: 'stk-message-notification',
@@ -8,14 +8,28 @@ import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
   styleUrl: './message-notification-component.scss',
 })
 export class MessageNotificationComponent {
+  @Input() isOpen = false;
   @Input() message: string = '';
   @Input() status: string = '';
-  data: ResponseStatus = { status: '', message: '' };
 
-  ngOnInit() {
-    this.data = {
-      message: this.message,
-      status: this.status,
-    };
+  shouldRender = false;
+  isAnimating = false;
+
+  constructor(private layout: HomeLayout) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['isOpen']) {
+      if (this.isOpen) {
+        this.shouldRender = true;
+        this.layout.scrollToTop();
+
+        setTimeout(() => {
+          this.isAnimating = true;
+        }, 10);
+      } else {
+        this.isAnimating = false;
+        this.shouldRender = false;
+      }
+    }
   }
 }

@@ -4,22 +4,14 @@ import { CustomerTaxId } from '../customer-tax-id/customer-tax-id';
 import { Card } from '../../../../../shared/components/card/card';
 import { CustomerGeneralInformation } from '../customer-general-information/customer-general-information';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../../../core/services/customer.service';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
-import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
+import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 
 @Component({
   selector: 'stk-add-new-customer-page',
-  imports: [
-    Stepper,
-    CustomerTaxId,
-    Card,
-    CustomerGeneralInformation,
-    ReactiveFormsModule,
-    MessageNotificationComponent,
-  ],
+  imports: [Stepper, CustomerTaxId, Card, CustomerGeneralInformation, ReactiveFormsModule],
   templateUrl: './add-new-customer-page.html',
   styleUrl: './add-new-customer-page.scss',
 })
@@ -29,12 +21,12 @@ export class AddNewCustomerPage {
   totalSteps: number = 2;
 
   isLoading: boolean = false;
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
 
   constructor(
     private fb: FormBuilder,
     private customerService: CustomerService,
     private router: Router,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.customerForm = this.newCustomerForm();
   }
@@ -63,10 +55,7 @@ export class AddNewCustomerPage {
 
     this.customerService.create(updateData).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Cliente cadastrado!',
-        };
+        this.responseMessageService.success('Cliente cadastrado!');
 
         setTimeout(() => {
           this.navigate('/customers');
@@ -74,20 +63,10 @@ export class AddNewCustomerPage {
         this.isLoading = false;
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isLoading = false;
       },
     });
-    this.showMessageHandle();
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   nextStep() {

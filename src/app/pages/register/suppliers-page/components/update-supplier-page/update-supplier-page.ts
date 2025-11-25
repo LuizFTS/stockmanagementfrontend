@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from '../../../../../shared/components/button/button';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
@@ -7,18 +7,16 @@ import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angula
 import { Card } from '../../../../../shared/components/card/card';
 import { SupplierService } from '../../../../../core/services/supplier.service';
 import type { Supplier } from '../../../../../core/models/Supplier.model';
-import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
-import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
+import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 
 @Component({
   selector: 'app-update-supplier-page',
-  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule, MessageNotificationComponent],
+  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule],
   templateUrl: './update-supplier-page.html',
   styleUrl: './update-supplier-page.scss',
 })
 export class UpdateSupplierPage {
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
   isUpdating: boolean = false;
@@ -32,6 +30,7 @@ export class UpdateSupplierPage {
     private supplierService: SupplierService,
     private router: Router,
     private modalService: ConfirmationModalService,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.updateForm = this.createUpdateForm();
     this.id = this.route.snapshot.params['id'];
@@ -72,10 +71,7 @@ export class UpdateSupplierPage {
 
     this.supplierService.update(updateData).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Cadastrado atualizado!',
-        };
+        this.responseMessageService.success('Cadastrado atualizado!');
 
         setTimeout(() => {
           this.navigate('/suppliers');
@@ -83,21 +79,10 @@ export class UpdateSupplierPage {
         this.isUpdating = false;
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isUpdating = false;
       },
     });
-
-    this.showMessageHandle();
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   async deactivate() {
@@ -112,10 +97,7 @@ export class UpdateSupplierPage {
     this.isDeactivating = true;
     this.supplierService.deactivate({ id: this.id }).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Fornecedor desativado!',
-        };
+        this.responseMessageService.success('Fornecedor desativado!');
 
         setTimeout(() => {
           this.navigate('/suppliers');
@@ -123,14 +105,10 @@ export class UpdateSupplierPage {
         this.isDeactivating = false;
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isDeactivating = false;
       },
     });
-    this.showMessageHandle();
   }
 
   navigate(path: string) {

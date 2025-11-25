@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import type { FormGroup } from '@angular/forms';
 import { Button } from '../../../../shared/components/button/button';
-import { TextInput } from '../../../../shared/components/text-input/text-input';
 import { SupplierService } from '../../../../core/services/supplier.service';
+import { SearchInput } from '../../../../shared/components/search-input/search-input';
+import { ResponseMessageService } from '../../../../core/services/response-message.service';
 
 @Component({
   selector: 'stk-search-supplier-purchase-step',
-  imports: [Button, TextInput],
+  imports: [Button, SearchInput],
   templateUrl: './search-supplier-purchase-step.html',
   styleUrl: './search-supplier-purchase-step.scss',
 })
@@ -16,32 +17,38 @@ export class SearchSupplierPurchaseStep {
 
   @Output() nextStep = new EventEmitter<void>();
   @Output() isLoadingChange = new EventEmitter<boolean>();
-  @Output() showMessage = new EventEmitter<{ message: string; status: string }>();
 
-  constructor(private supplierService: SupplierService) {}
+  constructor(
+    public supplierService: SupplierService,
+    public responseMessageService: ResponseMessageService,
+  ) {}
 
   next() {
-    if (this.form.get('supplierTaxId')?.invalid) return;
+    if (this.form.get('supplierName')?.invalid) return;
     this.isLoadingChange.emit(true);
-    this.getSupplierByTaxId();
+    this.getSupplierByName();
   }
 
   onEnter() {
-    if (this.form.get('supplierTaxId')?.valid) {
+    if (this.form.get('supplierName')?.valid) {
       this.nextStep.emit();
     }
   }
 
-  private getSupplierByTaxId() {
-    const taxId = this.form.get('supplierTaxId')?.value.replace(/\D/g, '');
+  onSearch(term: string) {
+    this.form.patchValue({ supplierName: term });
+  }
 
-    this.supplierService.get(0, 1, { taxId: taxId }).subscribe({
+  private getSupplierByName() {
+    const name = this.form.get('supplierName')?.value;
+
+    this.supplierService.get(0, 1, { name: name }).subscribe({
       next: (response) => {
         this.form.patchValue({ supplierId: response.content[0].id });
         this.nextStep.emit();
       },
       error: (err) => {
-        this.showMessage.emit({ message: err.error.message, status: 'error' });
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
       },
     });
     this.isLoadingChange.emit(false);

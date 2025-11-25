@@ -2,12 +2,6 @@
   <div class="main__title">
     <h1>Adicionar Compra</h1>
   </div>
-  @if (messageDisplayed.message.length > 0) {
-    <stk-message-notification
-      [message]="messageDisplayed.message"
-      [status]="messageDisplayed.status"
-    />
-  }
   <stk-stepper [currentStep]="currentStep" [totalSteps]="totalSteps" />
   <section>
     <stk-card [padding]="2">
@@ -18,7 +12,6 @@
             [isLoading]="isLoading"
             [form]="purchaseForm"
             (nextStep)="nextStep()"
-            (showMessage)="showMessageHandle($event.message, $event.status)"
           />
         }
         @if (currentStep === 2) {
@@ -30,7 +23,6 @@
             (back)="back()"
             (addItem)="addItem($event)"
             (removeItem)="removeItem($event)"
-            (showMessage)="showMessageHandle($event.message, $event.status)"
           />
         }
       </form>

@@ -4,23 +4,21 @@ import { Card } from '../../../../../shared/components/card/card';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
 import { BackButton } from '../../../../../shared/components/back-button/back-button';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MessageNotificationComponent } from '../../../../../shared/components/message-notification-component/message-notification-component';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 import type { Customer } from '../../../../../core/models/Customer.model';
 import { CustomerService } from '../../../../../core/services/customer.service';
-import type { ResponseStatus } from '../../../../../core/models/ResponseStatus.model';
+import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 
 @Component({
   selector: 'stk-update-customer-page',
-  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule, MessageNotificationComponent],
+  imports: [Button, Card, TextInput, BackButton, ReactiveFormsModule],
   templateUrl: './update-customer-page.html',
   styleUrl: './update-customer-page.scss',
 })
 export class UpdateCustomerPage {
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
   updateForm: FormGroup;
   isDeactivating: boolean = false;
   isUpdating: boolean = false;
@@ -34,6 +32,7 @@ export class UpdateCustomerPage {
     private customerService: CustomerService,
     private router: Router,
     private modalService: ConfirmationModalService,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.updateForm = this.createUpdateForm();
     this.id = this.route.snapshot.params['id'];
@@ -74,10 +73,7 @@ export class UpdateCustomerPage {
 
     this.customerService.update(updateData).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Cadastrado atualizado!',
-        };
+        this.responseMessageService.success('Cadastrado atualizado!');
 
         setTimeout(() => {
           this.navigate('/customers');
@@ -85,21 +81,10 @@ export class UpdateCustomerPage {
         this.isUpdating = false;
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isUpdating = false;
       },
     });
-
-    this.showMessageHandle();
-  }
-
-  showMessageHandle() {
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   async deactivate() {
@@ -114,10 +99,7 @@ export class UpdateCustomerPage {
     this.isDeactivating = true;
     this.customerService.deactivate({ id: this.id }).subscribe({
       next: () => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Cliente desativado!',
-        };
+        this.responseMessageService.success('Cliente desativado!');
 
         setTimeout(() => {
           this.navigate('/customers');
@@ -125,14 +107,10 @@ export class UpdateCustomerPage {
         this.isDeactivating = false;
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isDeactivating = false;
       },
     });
-    this.showMessageHandle();
   }
 
   navigate(path: string) {

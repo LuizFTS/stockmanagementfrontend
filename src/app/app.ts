@@ -4,20 +4,23 @@ import { AuthService } from './core/services/auth.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmModal } from './shared/components/confirm-modal/confirm-modal';
 import { ConfirmationModalService } from './core/services/confirmation-modal.service';
+import { MessageNotificationComponent } from './shared/components/message-notification-component/message-notification-component';
+import { ResponseMessageService } from './core/services/response-message.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatDialogModule, ConfirmModal],
+  imports: [RouterOutlet, MatDialogModule, ConfirmModal, MessageNotificationComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('stockmanagementfrontend');
-  modalService = inject(ConfirmationModalService);
 
   constructor(
     private auth: AuthService,
     private router: Router,
+    public responseMessageService: ResponseMessageService,
+    public modalService: ConfirmationModalService,
   ) {}
 
   ngOnInit() {

@@ -2,34 +2,38 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { Button } from '../../../../shared/components/button/button';
 import { BackButton } from '../../../../shared/components/back-button/back-button';
 import { TextInput } from '../../../../shared/components/text-input/text-input';
+import { SearchInput } from '../../../../shared/components/search-input/search-input';
 import { MatIcon } from '@angular/material/icon';
 import type { FormArray, FormGroup } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Formatter } from '../../../../shared/utils/Formatter';
 import type { SaleItem } from '../new-sale-page/new-sale-page';
+import { ResponseMessageService } from '../../../../core/services/response-message.service';
 
 @Component({
   selector: 'stk-add-items-sale-step',
-  imports: [Button, BackButton, TextInput, MatIcon],
+  imports: [Button, BackButton, TextInput, MatIcon, SearchInput],
   templateUrl: './add-items-sale-step.html',
   styleUrl: './add-items-sale-step.scss',
 })
 export class AddItemsSaleStep {
   private _itens: SaleItem[] = [];
 
-  @ViewChild('productName') productName!: any;
+  @ViewChild(SearchInput) child!: SearchInput;
   @Input() form!: FormGroup;
   @Input() formParent!: FormGroup;
   @Input() isLoading: boolean = false;
 
   @Output() back = new EventEmitter<void>();
-  @Output() showMessage = new EventEmitter<{ message: string; status: string }>();
   @Output() addItem = new EventEmitter<any>();
   @Output() removeItem = new EventEmitter<number>();
 
   addItemLoading: boolean = false;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    public productService: ProductService,
+    private responseMessageService: ResponseMessageService,
+  ) {}
 
   ngOnInit() {
     const formArray = this.formParent.get('itens') as FormArray;
@@ -37,6 +41,12 @@ export class AddItemsSaleStep {
 
     formArray.valueChanges.subscribe((value) => {
       this._itens = value;
+    });
+  }
+
+  onSearchProduct(term: string) {
+    this.form.patchValue({
+      name: term,
     });
   }
 
@@ -91,19 +101,19 @@ export class AddItemsSaleStep {
     this.productService.get(0, 1, { name: productName }).subscribe({
       next: ({ content }) => {
         if (content.length === 0) {
-          this.showMessage.emit({ message: 'Produto não encontrado', status: 'error' });
+          this.responseMessageService.error('Produto não encontrado');
           this.addItemLoading = false;
           return;
         }
 
         if (this._itens.find((item: any) => item.id === content[0].id)) {
-          this.showMessage.emit({ message: 'Produto já adicionado', status: 'error' });
+          this.responseMessageService.error('Produto já adicionado');
           this.addItemLoading = false;
           return;
         }
 
         if (content[0].inventoryBalance < quantity) {
-          this.showMessage.emit({ message: 'Quantidade insuficiente em estoque', status: 'error' });
+          this.responseMessageService.error('Quantidade insuficiente em estoque');
           this.addItemLoading = false;
           return;
         }
@@ -118,11 +128,11 @@ export class AddItemsSaleStep {
 
         this.form.reset();
 
-        this.productName.focus();
+        this.child.focus();
         this.addItemLoading = false;
       },
       error: (err) => {
-        this.showMessage.emit({ message: err.error.message, status: 'error' });
+        this.responseMessageService.error(err.error.message);
         this.addItemLoading = false;
       },
     });

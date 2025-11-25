@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import type { Purchase } from '../../../core/models/Purchase.model';
 import { PurchaseService } from '../../../core/services/purchase.service';
 import { TransactionItem } from '../../../shared/components/transaction-item/transaction-item';
@@ -8,16 +8,20 @@ import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-
 import { Router } from '@angular/router';
 import { Pagination } from '../../../shared/components/pagination/pagination';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { SupplierService } from '../../../core/services/supplier.service';
 
 @Component({
   selector: 'app-purchase-history-page',
-  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination],
+  imports: [TransactionItem, Card, SearchInput, ItensNotFound, Pagination, ReactiveFormsModule],
   templateUrl: './purchase-history-page.html',
   styleUrl: './purchase-history-page.scss',
 })
 export class PurchaseHistoryPage {
   purchases: Purchase[] = [];
   filteredPurchases: Purchase[] = [];
+
+  searchForm: FormGroup;
 
   currentPage: number = 1;
   pageSize: number = 10;
@@ -26,9 +30,15 @@ export class PurchaseHistoryPage {
 
   constructor(
     private purchaseService: PurchaseService,
+    public supplierService: SupplierService,
     private layout: HomeLayout,
     private router: Router,
-  ) {}
+    private fb: FormBuilder,
+  ) {
+    this.searchForm = this.fb.group({
+      search: [''],
+    });
+  }
 
   ngOnInit() {
     this.getPurchases(1, 10);
@@ -36,6 +46,11 @@ export class PurchaseHistoryPage {
 
   onSearch(term: string) {
     this.filter = term?.toLowerCase() ?? '';
+    this.getPurchases(this.currentPage, this.pageSize, { filter: this.filter });
+  }
+
+  onSearchSubmit() {
+    this.filter = this.searchForm.value.search?.toLowerCase() ?? '';
     this.getPurchases(this.currentPage, this.pageSize, { filter: this.filter });
   }
 

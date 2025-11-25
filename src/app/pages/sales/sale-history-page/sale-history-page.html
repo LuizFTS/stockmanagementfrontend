@@ -4,7 +4,16 @@
     <p>Histórico de vendas</p>
   </div>
 
-  <stk-search-input (searchChange)="onSearch($event)" placeholder="Pesquisar por cliente" />
+  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
+    <stk-search-input
+      (searchChange)="onSearch($event)"
+      [autocompleteFn]="customerService.autocomplete.bind(customerService)"
+      [form]="searchForm"
+      name="search"
+      [hasButton]="false"
+      placeholder="Pesquisar por cliente"
+    />
+  </form>
 
   <section>
     <stk-card>

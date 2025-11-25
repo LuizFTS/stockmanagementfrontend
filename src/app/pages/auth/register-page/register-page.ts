@@ -8,6 +8,7 @@ import { TextInput } from '../../../shared/components/text-input/text-input';
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
 import { BackButton } from '../../../shared/components/back-button/back-button';
 import type { ResponseStatus } from '../../../core/models/ResponseStatus.model';
+import { Router } from '@angular/router';
 
 interface NewUser {
   firstName: string;
@@ -31,6 +32,7 @@ interface NewUser {
   styleUrl: './register-page.scss',
 })
 export class RegisterPage {
+  private readonly tokenKey: string = 'auth_token';
   messageDisplayed: ResponseStatus = { status: '', message: '' };
   newUser: NewUser | null = null;
   isLoading: boolean = false;
@@ -41,6 +43,7 @@ export class RegisterPage {
     private userService: UserService,
     private auth: AuthService,
     private fb: FormBuilder,
+    private router: Router,
   ) {
     this.newUserForm = this.createNewUserForm();
   }
@@ -79,7 +82,12 @@ export class RegisterPage {
     this.userService.registerUser(registerData).subscribe({
       next: () => {
         this.isLoading = false;
-        this.auth.login(registerData.email, registerData.password);
+        this.auth.login(registerData.email, registerData.password).subscribe({
+          next: (response) => {
+            localStorage.setItem(this.tokenKey, response.token);
+            this.router.navigate(['/home']);
+          },
+        });
       },
       error: (err) => {
         this.messageDisplayed = {

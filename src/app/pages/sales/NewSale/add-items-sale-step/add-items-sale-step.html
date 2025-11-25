@@ -1,22 +1,20 @@
 <div class="container">
   <stk-back-button (click)="onBack()" />
   <div class="container__title">
-    <h2>Adicionar itens</h2>
+    <h2>Adicionar item</h2>
   </div>
-  <stk-text-input
-    #productName
-    type="text"
-    id="name"
-    label="Nome do produto *"
-    [control]="form.get('name')"
-    [errorMessages]="{
-      required: 'Nome do produto é obrigatório',
-    }"
+  <stk-search-input
+    placeholder="Nome do produto"
+    [autocompleteFn]="productService.autocomplete.bind(productService)"
+    (searchChange)="onSearchProduct($event)"
+    [form]="form"
+    name="name"
+    [hasButton]="false"
   />
   <stk-text-input
     type="number"
     id="quantity"
-    label="Quantidade *"
+    placeholder="Quantidade"
     [control]="form.get('quantity')"
     [errorMessages]="{
       required: 'Quantidade é obrigatória',

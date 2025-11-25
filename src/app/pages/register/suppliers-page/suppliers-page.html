@@ -3,7 +3,17 @@
     <h1>Fornecedores</h1>
     <p>Gerencie os fornecedores</p>
   </div>
-  <stk-search-input placeholder="Digite o nome ou CNPJ" (searchChange)="onSearch($event)" />
+
+  <form class="main__form" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
+    <stk-search-input
+      placeholder="Digite o nome ou CNPJ"
+      [autocompleteFn]="supplierService.autocomplete.bind(supplierService)"
+      (searchChange)="onSearch($event)"
+      [form]="searchForm"
+      name="search"
+      [hasButton]="false"
+    />
+  </form>
 
   <stk-button [model]="1" (click)="navigate('/suppliers/add')"> Cadastrar fornecedor </stk-button>
 

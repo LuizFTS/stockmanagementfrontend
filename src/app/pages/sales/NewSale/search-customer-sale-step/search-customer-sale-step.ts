@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Button } from '../../../../shared/components/button/button';
-import { TextInput } from '../../../../shared/components/text-input/text-input';
 import type { FormGroup } from '@angular/forms';
 import { CustomerService } from '../../../../core/services/customer.service';
+import { SearchInput } from '../../../../shared/components/search-input/search-input';
+import { ResponseMessageService } from '../../../../core/services/response-message.service';
 
 @Component({
   selector: 'stk-search-customer-sale-step',
-  imports: [Button, TextInput],
+  imports: [Button, SearchInput],
   templateUrl: './search-customer-sale-step.html',
   styleUrl: './search-customer-sale-step.scss',
 })
@@ -16,32 +17,40 @@ export class SearchCustomerSaleStep {
 
   @Output() nextStep = new EventEmitter<void>();
   @Output() isLoadingChange = new EventEmitter<boolean>();
-  @Output() showMessage = new EventEmitter<{ message: string; status: string }>();
 
-  constructor(private customerService: CustomerService) {}
+  filter: string = '';
+
+  constructor(
+    public customerService: CustomerService,
+    private responseMessageService: ResponseMessageService,
+  ) {}
 
   next() {
-    if (this.form.get('customerTaxId')?.invalid) return;
+    if (this.form.get('customerName')?.invalid) return;
     this.isLoadingChange.emit(true);
-    this.getCustomerByTaxId();
+    this.getCustomerByName();
+  }
+
+  onSearch(term: string) {
+    this.form.patchValue({ customerName: term });
   }
 
   onEnter() {
-    if (this.form.get('customerTaxId')?.valid) {
+    if (this.form.get('customerName')?.valid) {
       this.nextStep.emit();
     }
   }
 
-  private getCustomerByTaxId() {
-    const taxId = this.form.get('customerTaxId')?.value.replace(/\D/g, '');
+  private getCustomerByName() {
+    const name = this.form.get('customerName')?.value;
 
-    this.customerService.get(0, 1, { taxId: taxId }).subscribe({
+    this.customerService.get(0, 1, { name: name }).subscribe({
       next: (response) => {
         this.form.patchValue({ customerId: response.content[0].id });
         this.nextStep.emit();
       },
       error: (err) => {
-        this.showMessage.emit({ message: err.error.message, status: 'error' });
+        this.responseMessageService.error(err.error.message);
       },
     });
     this.isLoadingChange.emit(false);

@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, Output, ViewChild, type ElementRef } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { Button } from '../button/button';
 import { debounceTime, distinctUntilChanged, filter, switchMap, type Observable } from 'rxjs';
 import { TextInput } from '../text-input/text-input';
+import { Formatter } from '../../utils/Formatter';
 
 @Component({
   selector: 'stk-search-input',
-  imports: [MatIcon, ReactiveFormsModule, MatIconModule, Button, TextInput],
+  imports: [ReactiveFormsModule, MatIconModule, Button, TextInput],
   templateUrl: './search-input.html',
   styleUrl: './search-input.scss',
 })
@@ -80,5 +81,9 @@ export class SearchInput {
     setTimeout(() => {
       this.showSuggestions = false;
     }, 200);
+  }
+
+  formatCapitalize(text: string) {
+    return Formatter.capitalize(text);
   }
 }

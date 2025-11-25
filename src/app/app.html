@@ -8,3 +8,8 @@
   (confirm)="modalService.confirm()"
   (cancel)="modalService.cancel()"
 />
+<stk-message-notification
+  [isOpen]="responseMessageService.isOpen()"
+  [message]="responseMessageService.message()"
+  [status]="responseMessageService.status()"
+/>

@@ -4,15 +4,15 @@ import { SearchCustomerSaleStep } from '../search-customer-sale-step/search-cust
 import { AddItemsSaleStep } from '../add-items-sale-step/add-items-sale-step';
 import { ReactiveFormsModule, type FormGroup, type FormArray } from '@angular/forms';
 import { Card } from '../../../../shared/components/card/card';
-import { MessageNotificationComponent } from '../../../../shared/components/message-notification-component/message-notification-component';
 import { ConfirmationModalService } from '../../../../core/services/confirmation-modal.service';
 import { CustomValidators } from '../../../../shared/utils/CustomValidators';
-import { ResponseStatus } from '../../../../core/models/ResponseStatus.model';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { SaleService } from '../../../../core/services/sale.service';
 import type { AddSaleRequest } from '../../../../core/models/request/AddSaleRequest.model';
+import { HomeLayout } from '../../../../layouts/home-layout/home-layout';
+import { ResponseMessageService } from '../../../../core/services/response-message.service';
 
 export interface SaleItem {
   id: string;
@@ -23,14 +23,7 @@ export interface SaleItem {
 
 @Component({
   selector: 'app-new-sale-page',
-  imports: [
-    Stepper,
-    SearchCustomerSaleStep,
-    Card,
-    AddItemsSaleStep,
-    ReactiveFormsModule,
-    MessageNotificationComponent,
-  ],
+  imports: [Stepper, SearchCustomerSaleStep, Card, AddItemsSaleStep, ReactiveFormsModule],
   templateUrl: './new-sale-page.html',
   styleUrl: './new-sale-page.scss',
 })
@@ -41,13 +34,14 @@ export class NewSalePage {
   totalSteps: number = 2;
 
   isLoading: boolean = false;
-  messageDisplayed: ResponseStatus = { status: '', message: '' };
 
   constructor(
     private fb: FormBuilder,
     private saleService: SaleService,
     private router: Router,
     private modalService: ConfirmationModalService,
+    private layout: HomeLayout,
+    private responseMessageService: ResponseMessageService,
   ) {
     this.saleForm = this.newSaleForm();
     this.saleItemForm = this.newSaleItemForm();
@@ -55,7 +49,7 @@ export class NewSalePage {
 
   private newSaleForm(): FormGroup {
     return this.fb.group({
-      customerTaxId: ['', [Validators.required, CustomValidators.cpfOrCnpj()]],
+      customerName: ['', [Validators.required]],
       customerId: ['', [Validators.required]],
       itens: this.fb.array([]),
     });
@@ -116,37 +110,20 @@ export class NewSalePage {
 
     this.saleService.create(payload).subscribe({
       next: (response) => {
-        this.messageDisplayed = {
-          status: 'success',
-          message: 'Venda realizada!',
-        };
+        this.responseMessageService.success('Venda realizada!');
 
-        console.log(response);
+        this.layout.scrollToTop();
 
         setTimeout(() => {
           this.navigate(`/sales/${response.content[0].id}`);
         }, 2000);
         this.isLoading = false;
-        this.showMessageHandle();
       },
       error: (err) => {
-        this.messageDisplayed = {
-          status: 'error',
-          message: err.error.message ?? 'Tente novamente mais tarde',
-        };
+        this.responseMessageService.error(err.error.message ?? 'Tente novamente mais tarde');
         this.isLoading = false;
-        this.showMessageHandle();
       },
     });
-  }
-
-  showMessageHandle(message?: string, status?: string) {
-    if (message && status) {
-      this.messageDisplayed = { status, message };
-    }
-    setTimeout(() => {
-      this.messageDisplayed = { status: '', message: '' };
-    }, 5000);
   }
 
   nextStep() {
