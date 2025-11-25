@@ -1,4 +1,54 @@
 <div class="main">
-  <h1>Estoque</h1>
-  <p>Movimentação do estoque</p>
+  <div class="main__title">
+    <h1>Estoque</h1>
+    <p>Movimentação do estoque</p>
+  </div>
+
+  <form class="main__form" [formGroup]="searchProductForm" (ngSubmit)="onSearchSubmit()">
+    <div>
+      <stk-search-input
+        placeholder="Pesquisar por nome do produto"
+        [autocompleteFn]="productService.autocomplete.bind(productService)"
+        (searchChange)="onSearch($event)"
+        [form]="searchProductForm"
+        name="search"
+        [hasButton]="false"
+      />
+
+      <div class="main__form__period">
+        <div class="main__form__period-start">
+          <p>Período inicial</p>
+          <div class="main__form__period-start__selects">
+            <stk-select-input
+              [selectedOption]="monthStart"
+              [options]="months"
+              (optionSelected)="selectMonthStart($event)"
+            />
+            <stk-select-input
+              [selectedOption]="yearStart"
+              [options]="years"
+              (optionSelected)="selectYearStart($event)"
+            />
+          </div>
+        </div>
+
+        <div class="main__form__period-end">
+          <p>Período final</p>
+          <div class="main__form__period-end__selects">
+            <stk-select-input
+              [selectedOption]="monthEnd"
+              [options]="months"
+              (optionSelected)="selectMonthEnd($event)"
+            />
+            <stk-select-input
+              [selectedOption]="yearEnd"
+              [options]="years"
+              (optionSelected)="selectYearEnd($event)"
+            />
+          </div>
+        </div>
+        <stk-button type="submit" [loading]="false" [disabled]="false">Consultar</stk-button>
+      </div>
+    </div>
+  </form>
 </div>
