@@ -4,11 +4,12 @@ import { SearchSupplierPurchaseStep } from '../search-supplier-purchase-step/sea
 import { Card } from '../../../../shared/components/card/card';
 import { AddItemsPurchaseStep } from '../add-items-purchase-step/add-items-purchase-step';
 import {
+  FormArray,
   ReactiveFormsModule,
   Validators,
   FormBuilder,
-  type FormGroup,
-  type FormArray,
+  FormGroup,
+  FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PurchaseService } from '../../../../core/services/api/purchase.service';
@@ -32,41 +33,31 @@ export interface PurchaseItem {
   styleUrl: './new-purchase-page.scss',
 })
 export class NewPurchasePage {
-  purchaseForm: FormGroup;
-  purchaseItemForm: FormGroup;
+  purchaseForm: FormGroup = new FormGroup({
+    supplierName: new FormControl<string>('', { validators: Validators.required }),
+    supplierId: new FormControl<string>('', { validators: Validators.required }),
+    itens: new FormArray([]),
+  });
+
+  purchaseItemForm: FormGroup = new FormGroup({
+    name: new FormControl<string>('', { validators: Validators.required }),
+    id: new FormControl<string>('', { validators: Validators.required }),
+    quantity: new FormControl<string>('', { validators: Validators.required }),
+    price: new FormControl<string>('', { validators: Validators.required }),
+  });
+
   currentStep: number = 1;
   totalSteps: number = 2;
 
   isLoading: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
     private purchaseService: PurchaseService,
     private router: Router,
     private modalService: ConfirmationModalService,
     private layout: HomeLayout,
     private responseMessageService: ResponseMessageService,
-  ) {
-    this.purchaseForm = this.newPurchaseForm();
-    this.purchaseItemForm = this.newPurchaseItemForm();
-  }
-
-  private newPurchaseForm(): FormGroup {
-    return this.fb.group({
-      supplierName: ['', [Validators.required]],
-      supplierId: ['', [Validators.required]],
-      itens: this.fb.array([]),
-    });
-  }
-
-  private newPurchaseItemForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      id: ['', [Validators.required]],
-      quantity: ['', [Validators.required, CustomValidators.quantity()]],
-      price: ['', [Validators.required]],
-    });
-  }
+  ) {}
 
   get itens(): FormArray {
     return this.purchaseForm.get('itens') as FormArray;
@@ -74,11 +65,11 @@ export class NewPurchasePage {
 
   addItem(item: any) {
     this.itens.push(
-      this.fb.group({
-        name: [item.name, [Validators.required]],
-        id: [item.id, [Validators.required]],
-        quantity: [item.quantity, [Validators.required, CustomValidators.quantity()]],
-        price: [item.price, [Validators.required]],
+      new FormGroup({
+        name: new FormControl<string>(item.name, { validators: Validators.required }),
+        id: new FormControl<string>(item.id, { validators: Validators.required }),
+        quantity: new FormControl<string>(item.quantity, { validators: Validators.required }),
+        price: new FormControl<string>(item.price, { validators: Validators.required }),
       }),
     );
   }
@@ -118,9 +109,7 @@ export class NewPurchasePage {
 
         this.layout.scrollToTop();
 
-        setTimeout(() => {
-          this.navigate(`/purchases/${response.content[0].id}`);
-        }, 2000);
+        this.navigate(`/purchases/${response.content[0].id}`);
         this.isLoading = false;
       },
       error: (err) => {

@@ -1,4 +1,4 @@
 export enum InventoryMovementType {
-  'ENTRADA',
-  'SAIDA',
+  ENTRADA,
+  SAIDA,
 }

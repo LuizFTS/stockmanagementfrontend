@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CustomerItem } from './components/customer-item/customer-item';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Router } from '@angular/router';
-import { FormBuilder, type FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Validators, FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
 import type { Customer } from '../../../core/models/Customer.model';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
@@ -15,7 +15,9 @@ import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layo
   styleUrl: './customers-page.scss',
 })
 export class CustomersPage {
-  searchForm: FormGroup;
+  searchForm: FormGroup = new FormGroup({
+    search: new FormControl<string>('', { validators: Validators.required }),
+  });
 
   customers: Customer[] = [];
   filteredCustomers: Customer[] = [];
@@ -29,12 +31,7 @@ export class CustomersPage {
     public customerService: CustomerService,
     private layout: HomeLayout,
     private router: Router,
-    private fb: FormBuilder,
-  ) {
-    this.searchForm = this.fb.group({
-      search: [''],
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.getCustomers(this.currentPage, this.pageSize, { filter: this.filter });

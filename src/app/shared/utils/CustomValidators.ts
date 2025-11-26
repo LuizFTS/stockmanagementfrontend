@@ -77,4 +77,20 @@ export class CustomValidators {
       return null;
     };
   }
+
+  static passwordsMatchValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const pass = control.get('newPassword')?.value;
+      const confirm = control.get('confirmPassword')?.value;
+      return pass === confirm ? null : { passwordsNotMatching: true };
+    };
+  }
+
+  static periodValidator(): ValidatorFn {
+    return (form: AbstractControl) => {
+      const startPeriod = parseInt(form.get('startPeriod')?.value);
+      const endPeriod = parseInt(form.get('endPeriod')?.value);
+      return startPeriod <= endPeriod ? null : { periodNotValid: true };
+    };
+  }
 }

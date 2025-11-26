@@ -1,0 +1,64 @@
+@use '../../../../../../styles/breakpoints' as *;
+@use '../../../../../../styles/mixins' as mix;
+
+:host {
+  @include mix.main-host;
+}
+
+.form {
+  width: 100%;
+
+  &__container {
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    @include respond('md') {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+
+    & > div {
+      position: relative;
+    }
+
+    &__period {
+      margin-top: 25px;
+      display: flex;
+      gap: 20px;
+      width: 100%;
+
+      &-start {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        &__selects {
+          display: flex;
+          gap: 5px;
+        }
+      }
+      &-end {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        flex: 1;
+
+        &__selects {
+          display: flex;
+          gap: 5px;
+        }
+      }
+    }
+  }
+}
+
+.error-text {
+  @include mix.error-text;
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  z-index: -1;
+}

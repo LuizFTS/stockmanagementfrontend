@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import type { Product } from '../../../core/models/Product.model';
 import { ProductService } from '../../../core/services/api/product.service';
 import { ProductItem } from './components/product-item/product-item';
-import { ReactiveFormsModule, FormBuilder, type FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, type FormGroup, Validators } from '@angular/forms';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
@@ -31,7 +31,7 @@ export class ProductsPage {
     private fb: FormBuilder,
   ) {
     this.searchForm = this.fb.group({
-      search: [''],
+      search: ['', [Validators.required]],
     });
   }
 

@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
-import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  FormControl,
+} from '@angular/forms';
 import { SupplierService } from '../../../../../core/services/api/supplier.service';
 import type { Supplier } from '../../../../../core/models/Supplier.model';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
@@ -15,7 +21,10 @@ import { UpdateFormLayout } from '../../../../../layouts/update-form-layout/upda
   styleUrl: './update-supplier-page.scss',
 })
 export class UpdateSupplierPage {
-  updateForm: FormGroup;
+  updateForm: FormGroup = new FormGroup({
+    phone: new FormControl<string>('', { validators: Validators.required }),
+    email: new FormControl<string>('', { validators: [Validators.required, Validators.email] }),
+  });
   isDeactivating: boolean = false;
   isUpdating: boolean = false;
   id: string = '';
@@ -24,21 +33,12 @@ export class UpdateSupplierPage {
 
   constructor(
     private route: ActivatedRoute,
-    private fb: FormBuilder,
     private supplierService: SupplierService,
     private router: Router,
     private modalService: ConfirmationModalService,
     private responseMessageService: ResponseMessageService,
   ) {
-    this.updateForm = this.createUpdateForm();
     this.id = this.route.snapshot.params['id'];
-  }
-
-  private createUpdateForm(): FormGroup {
-    return this.fb.group({
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-    });
   }
 
   ngOnInit() {
@@ -71,9 +71,7 @@ export class UpdateSupplierPage {
       next: () => {
         this.responseMessageService.success('Cadastrado atualizado!');
 
-        setTimeout(() => {
-          this.navigate('/suppliers');
-        }, 2000);
+        this.navigate('/suppliers');
         this.isUpdating = false;
       },
       error: (err) => {
@@ -97,9 +95,7 @@ export class UpdateSupplierPage {
       next: () => {
         this.responseMessageService.success('Fornecedor desativado!');
 
-        setTimeout(() => {
-          this.navigate('/suppliers');
-        }, 3000);
+        this.navigate('/suppliers');
         this.isDeactivating = false;
       },
       error: (err) => {

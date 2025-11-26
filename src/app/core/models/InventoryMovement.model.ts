@@ -1,4 +1,3 @@
-import type { InventoryMovementType } from '../enums/InventoryMovementType.enum';
 import type { Product } from './Product.model';
 
 export interface InventoryMovement {
@@ -6,6 +5,6 @@ export interface InventoryMovement {
   product: Product;
   balance: number;
   previousBalance: number;
-  type: InventoryMovementType;
+  type: string;
   createdAt: string;
 }

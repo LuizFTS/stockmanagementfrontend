@@ -1,143 +1,94 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { SearchInput } from '../../../shared/components/search-input/search-input';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../core/services/api/product.service';
-import { SelectInput } from '../../../shared/components/select-input/select-input';
-import { Button } from '../../../shared/components/button/button';
 import { InventoryService } from '../../../core/services/api/inventory.service';
 import type { InventoryMovement } from '../../../core/models/InventoryMovement.model';
+import { ResponseMessageService } from '../../../core/services/response-message.service';
+import { CustomValidators } from '../../../shared/utils/CustomValidators';
+import { FilterComponent } from './components/filter-component/filter-component';
+import { InventoryItemComponent } from './components/inventory-item-component/inventory-item-component';
+import { Card } from '../../../shared/components/card/card';
+import { Formatter } from '../../../shared/utils/Formatter';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-inventory-movement-page',
-  imports: [SearchInput, ReactiveFormsModule, SelectInput, Button],
+  imports: [ReactiveFormsModule, FilterComponent, InventoryItemComponent, Card, MatIcon],
   templateUrl: './inventory-movement-page.html',
   styleUrl: './inventory-movement-page.scss',
 })
 export class InventoryMovementPage {
-  searchProductForm: FormGroup;
-
-  monthStart: string = this.currentMonth;
-  yearStart: string = this.currentYear;
-
-  monthEnd: string = this.currentMonth;
-  yearEnd: string = this.currentYear;
-
   inventoryMovements: InventoryMovement[] = [];
-
+  isLoading: boolean = false;
   filter: string = '';
 
   constructor(
-    private fb: FormBuilder,
     public productService: ProductService,
     private inventoryService: InventoryService,
-  ) {
-    this.searchProductForm = this.fb.group({
-      search: [''],
-      productId: [''],
-      startPeriod: [this.startPeriod],
-      endPeriod: [this.endPeriod],
-    });
-  }
+    private ResponseMessageService: ResponseMessageService,
+  ) {}
 
-  onSearch(term: string) {
-    this.filter = term?.toLowerCase() ?? '';
-    this.getProducts(0, 1, { filter: this.filter });
-  }
+  searchProductForm = new FormGroup(
+    {
+      search: new FormControl<string>('', { validators: Validators.required }),
+      productId: new FormControl<string>('', { validators: Validators.required }),
+      startPeriod: new FormControl<string>('', { validators: Validators.required }),
+      endPeriod: new FormControl<string>('', { validators: Validators.required }),
+    },
+    {
+      validators: CustomValidators.periodValidator(),
+    },
+  );
 
   onSearchSubmit() {
+    if (this.searchProductForm.invalid) return;
+    this.isLoading = true;
+
+    const productId = this.searchProductForm.value.productId;
+    const startPeriod = this.searchProductForm.value.startPeriod;
+    const endPeriod = this.searchProductForm.value.endPeriod;
+
+    if (!productId || !startPeriod || !endPeriod) return;
+
     const data = {
-      productId: this.searchProductForm.value.productId,
-      startPeriod: this.searchProductForm.value.startPeriod,
-      endPeriod: this.searchProductForm.value.endPeriod,
+      productId,
+      startPeriod,
+      endPeriod,
     };
 
     this.inventoryService.get(data.productId, data.startPeriod, data.endPeriod).subscribe({
       next: (response) => {
         this.inventoryMovements = response.content;
         console.log(this.inventoryMovements);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.ResponseMessageService.error(
+          err.error.message ?? 'Erro ao buscar movimentação do estoque',
+        );
+        this.isLoading = false;
       },
     });
   }
 
-  get months(): string[] {
-    return Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0'));
+  currentMovementValue(previousBalance: number, currentBalance: number) {
+    if (currentBalance > previousBalance) return currentBalance - previousBalance;
+    return previousBalance - currentBalance;
   }
 
-  get currentMonth(): string {
-    const date = new Date().getMonth() + 1;
-    return date.toString().padStart(2, '0');
+  formatDate(date: string) {
+    return Formatter.date(date);
   }
 
-  selectMonthStart(month: string) {
-    this.monthStart = month;
-    this.searchProductForm.patchValue({
-      ...this.searchProductForm.value,
-      startPeriod: this.startPeriod,
-    });
+  formatHour(date: string) {
+    return Formatter.hours(date);
   }
 
-  selectMonthEnd(month: string) {
-    this.monthEnd = month;
-    this.searchProductForm.patchValue({
-      ...this.searchProductForm.value,
-      endPeriod: this.endPeriod,
-    });
+  formatCurrence(value: number) {
+    return Formatter.priceToString(value);
   }
 
-  get currentYear(): string {
-    const date = new Date();
-    return date.getFullYear().toString();
-  }
-
-  get years(): string[] {
-    const currentYear = new Date().getFullYear();
-    const years: string[] = [];
-    for (let i = 0; i <= 5; i++) {
-      years.push((currentYear - i).toString());
-    }
-    return years;
-  }
-
-  selectYearStart(year: string) {
-    this.yearStart = year;
-    this.searchProductForm.patchValue({
-      ...this.searchProductForm.value,
-      startPeriod: this.startPeriod,
-    });
-  }
-
-  selectYearEnd(year: string) {
-    this.yearEnd = year;
-    this.searchProductForm.patchValue({
-      ...this.searchProductForm.value,
-      endPeriod: this.endPeriod,
-    });
-  }
-
-  get startPeriod() {
-    return `${this.monthStart}${this.yearStart}`;
-  }
-
-  get endPeriod() {
-    return `${this.monthEnd}${this.yearEnd}`;
-  }
-
-  private getProducts(
-    page: number,
-    pageSize: number,
-    opts?: {
-      filter?: string;
-      id?: string;
-      name?: string;
-    },
-  ) {
-    this.productService.get(page, pageSize, opts).subscribe({
-      next: (response) => {
-        this.searchProductForm.patchValue({
-          ...this.searchProductForm.value,
-          productId: response.content[0].id,
-        });
-      },
-    });
+  formatCapitalize(text: string) {
+    return Formatter.capitalize(text);
   }
 }

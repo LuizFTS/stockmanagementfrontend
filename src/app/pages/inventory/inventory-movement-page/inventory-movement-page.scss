@@ -10,43 +10,93 @@
     width: 100%;
   }
 
-  &__form {
-    width: 100%;
-
-    &__period {
-      margin-top: 25px;
-      display: flex;
-      align-items: end;
-      gap: 20px;
-      width: 100%;
-
-      &-start {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-
-        &__selects {
-          display: flex;
-          gap: 5px;
-        }
-      }
-      &-end {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        flex: 1;
-
-        &__selects {
-          display: flex;
-          gap: 5px;
-        }
-      }
-    }
-  }
-
   & section {
     width: 100%;
     flex: 1;
     position: relative;
+  }
+}
+
+stk-card {
+  margin-top: 20px;
+}
+
+.inventory-movement__product {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  padding: 20px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &__icon {
+      @include mix.flex-center;
+      width: 50px;
+      height: 50px;
+      color: var(--primary-color-l);
+
+      & mat-icon {
+        @include mix.icon-size(36px);
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+      gap: 0.5rem;
+
+      & h2 {
+        font-size: 24px;
+      }
+
+      & p {
+        color: var(--text-color-l);
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &__cost {
+      & h3 {
+        color: var(--text-color-l);
+        font-weight: 400;
+      }
+
+      & p {
+        font-weight: bold;
+      }
+    }
+    &__sale {
+      & h3 {
+        color: var(--text-color-l);
+        font-weight: 400;
+      }
+
+      & p {
+        font-weight: bold;
+        color: var(--primary-color-m);
+      }
+    }
+  }
+}
+.inventory-movement__table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
   }
 }

@@ -5,7 +5,13 @@ import { TransactionItem } from '../../../shared/components/transaction-item/tra
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
-import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
 
@@ -19,24 +25,21 @@ export class SaleHistoryPage {
   sales: Sale[] = [];
   filteredSales: Sale[] = [];
 
-  searchForm: FormGroup;
-
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 1;
   filter: string = '';
+
+  searchForm: FormGroup = new FormGroup({
+    search: new FormControl<string>('', { validators: Validators.required }),
+  });
 
   constructor(
     public customerService: CustomerService,
     private saleService: SaleService,
     private layout: HomeLayout,
     private router: Router,
-    private fb: FormBuilder,
-  ) {
-    this.searchForm = this.fb.group({
-      search: [''],
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.getSales(1, 10);

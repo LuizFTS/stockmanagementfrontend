@@ -6,6 +6,9 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  FormControl,
+  type AbstractControl,
+  type ValidatorFn,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
@@ -14,6 +17,7 @@ import { PasswordInput } from '../../../shared/components/password-input/passwor
 import { Card } from '../../../shared/components/card/card';
 import { BackButton } from '../../../shared/components/back-button/back-button';
 import { ResponseMessageService } from '../../../core/services/response-message.service';
+import { CustomValidators } from '../../../shared/utils/CustomValidators';
 
 @Component({
   selector: 'app-change-password-page',
@@ -32,34 +36,22 @@ import { ResponseMessageService } from '../../../core/services/response-message.
 })
 export class ChangePasswordPage {
   isLoading: boolean = false;
-  passwordForm: FormGroup;
+  passwordForm: FormGroup = new FormGroup(
+    {
+      newPassword: new FormControl<string>('', {
+        validators: [Validators.minLength(8), Validators.maxLength(25)],
+      }),
+      confirmPassword: new FormControl<string>('', {
+        validators: [Validators.minLength(8), Validators.maxLength(25)],
+      }),
+    },
+    { validators: CustomValidators.passwordsMatchValidator() },
+  );
 
   constructor(
     private userService: UserService,
-    private fb: FormBuilder,
     private responseMessageService: ResponseMessageService,
-  ) {
-    this.passwordForm = this.changePasswordForm();
-  }
-
-  private changePasswordForm(): FormGroup {
-    return this.fb.group(
-      {
-        currentPassword: [
-          '',
-          [Validators.required, Validators.minLength(8), Validators.maxLength(25)],
-        ],
-        newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
-        confirmPassword: [
-          '',
-          [Validators.required, Validators.minLength(8), Validators.maxLength(25)],
-        ],
-      },
-      {
-        validators: this.passwordsMatchValidator,
-      },
-    );
-  }
+  ) {}
 
   onChangePassword() {
     if (this.passwordForm.invalid) return;
@@ -79,11 +71,5 @@ export class ChangePasswordPage {
           this.isLoading = false;
         },
       });
-  }
-
-  private passwordsMatchValidator(form: FormGroup) {
-    const pass = form.get('newPassword')?.value;
-    const confirm = form.get('confirmPassword')?.value;
-    return pass === confirm ? null : { passwordsNotMatching: true };
   }
 }

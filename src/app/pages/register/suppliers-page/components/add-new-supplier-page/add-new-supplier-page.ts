@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  FormControl,
+} from '@angular/forms';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
 import { Stepper } from '../../../../../shared/components/stepper/stepper';
 import { SupplierTaxId } from '../supplier-tax-id/supplier-tax-id';
@@ -17,29 +23,24 @@ import { ResponseMessageService } from '../../../../../core/services/response-me
   styleUrl: './add-new-supplier-page.scss',
 })
 export class AddNewSupplierPage {
-  supplierForm: FormGroup;
+  supplierForm: FormGroup = new FormGroup({
+    name: new FormControl<string>('', { validators: Validators.required }),
+    phone: new FormControl<string>('', { validators: Validators.required }),
+    email: new FormControl<string>('', { validators: [Validators.required, Validators.email] }),
+    taxId: new FormControl<string>('', {
+      validators: [Validators.required, CustomValidators.cnpj()],
+    }),
+  });
   currentStep: number = 1;
   totalSteps: number = 2;
 
   isLoading: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
     private supplierService: SupplierService,
     private router: Router,
     private responseMessageService: ResponseMessageService,
-  ) {
-    this.supplierForm = this.newSupplierForm();
-  }
-
-  private newSupplierForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      taxId: ['', [Validators.required, CustomValidators.cnpj()]],
-    });
-  }
+  ) {}
 
   onAddNewSupplier() {
     if (this.supplierForm.invalid) return;
@@ -58,9 +59,7 @@ export class AddNewSupplierPage {
       next: () => {
         this.responseMessageService.success('Fornecedor cadastrado!');
 
-        setTimeout(() => {
-          this.navigate('/suppliers');
-        }, 3000);
+        this.navigate('/suppliers');
         this.isLoading = false;
       },
       error: (err) => {

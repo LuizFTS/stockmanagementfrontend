@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SupplierItem } from './components/supplier-item/supplier-item';
-import { type FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import type { Supplier } from '../../../core/models/Supplier.model';
 import { SupplierService } from '../../../core/services/api/supplier.service';
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
@@ -15,7 +15,9 @@ import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layo
   styleUrl: './suppliers-page.scss',
 })
 export class SuppliersPage {
-  searchForm: FormGroup;
+  searchForm: FormGroup = new FormGroup({
+    search: new FormControl<string>('', { validators: Validators.required }),
+  });
 
   suppliers: Supplier[] = [];
   filteredSuppliers: Supplier[] = [];
@@ -29,12 +31,7 @@ export class SuppliersPage {
     public supplierService: SupplierService,
     private layout: HomeLayout,
     private router: Router,
-    private fb: FormBuilder,
-  ) {
-    this.searchForm = this.fb.group({
-      search: [''],
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.getSuppliers(this.currentPage, this.pageSize, { filter: this.filter });

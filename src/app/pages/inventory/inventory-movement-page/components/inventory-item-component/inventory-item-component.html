@@ -1,0 +1,18 @@
+<div class="inventory-item">
+  <div class="inventory-item__title">
+    <h2>{{ inventoryMovement.product.name }}</h2>
+    <p>{{ inventoryMovement.product.description }}</p>
+  </div>
+
+  <div class="inventory-item__price">
+    <p>{{ inventoryMovement.product.costPrice }}</p>
+    <p>{{ inventoryMovement.product.salePrice }}</p>
+  </div>
+
+  <div class="inventory-item__date">
+    <p>{{ inventoryMovement.type }}</p>
+    <p>{{ inventoryMovement.createdAt }}</p>
+    <p>{{ inventoryMovement.previousBalance }}</p>
+    <p>{{ inventoryMovement.balance }}</p>
+  </div>
+</div>

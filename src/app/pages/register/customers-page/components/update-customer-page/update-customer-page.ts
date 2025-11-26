@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TextInput } from '../../../../../shared/components/text-input/text-input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,7 +17,10 @@ import { UpdateFormLayout } from '../../../../../layouts/update-form-layout/upda
   styleUrl: './update-customer-page.scss',
 })
 export class UpdateCustomerPage {
-  updateForm: FormGroup;
+  updateForm: FormGroup = new FormGroup({
+    phone: new FormControl<string>('', { validators: Validators.required }),
+    email: new FormControl<string>('', { validators: [Validators.required, Validators.email] }),
+  });
   isDeactivating: boolean = false;
   isUpdating: boolean = false;
   id: string = '';
@@ -26,21 +29,12 @@ export class UpdateCustomerPage {
 
   constructor(
     private route: ActivatedRoute,
-    private fb: FormBuilder,
     private customerService: CustomerService,
     private router: Router,
     private modalService: ConfirmationModalService,
     private responseMessageService: ResponseMessageService,
   ) {
-    this.updateForm = this.createUpdateForm();
     this.id = this.route.snapshot.params['id'];
-  }
-
-  private createUpdateForm(): FormGroup {
-    return this.fb.group({
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-    });
   }
 
   ngOnInit() {
@@ -73,9 +67,7 @@ export class UpdateCustomerPage {
       next: () => {
         this.responseMessageService.success('Cadastrado atualizado!');
 
-        setTimeout(() => {
-          this.navigate('/customers');
-        }, 2000);
+        this.navigate('/customers');
         this.isUpdating = false;
       },
       error: (err) => {
@@ -99,9 +91,7 @@ export class UpdateCustomerPage {
       next: () => {
         this.responseMessageService.success('Cliente desativado!');
 
-        setTimeout(() => {
-          this.navigate('/customers');
-        }, 3000);
+        this.navigate('/customers');
         this.isDeactivating = false;
       },
       error: (err) => {

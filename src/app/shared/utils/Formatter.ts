@@ -7,6 +7,14 @@ export class Formatter {
     return new Date(date).toLocaleDateString('pt-BR');
   }
 
+  static hours(date: string): string {
+    return new Date(date).toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  }
+
   static priceToString(price: number): string {
     return price.toLocaleString('pt-BR', {
       minimumFractionDigits: 2,

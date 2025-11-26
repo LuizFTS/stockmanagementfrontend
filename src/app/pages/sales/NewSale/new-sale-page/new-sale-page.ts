@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { Stepper } from '../../../../shared/components/stepper/stepper';
 import { SearchCustomerSaleStep } from '../search-customer-sale-step/search-customer-sale-step';
 import { AddItemsSaleStep } from '../add-items-sale-step/add-items-sale-step';
-import { ReactiveFormsModule, type FormGroup, type FormArray } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Card } from '../../../../shared/components/card/card';
 import { ConfirmationModalService } from '../../../../core/services/confirmation-modal.service';
 import { CustomValidators } from '../../../../shared/utils/CustomValidators';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { SaleService } from '../../../../core/services/api/sale.service';
 import type { AddSaleRequest } from '../../../../core/models/request/AddSaleRequest.model';
@@ -28,41 +27,32 @@ export interface SaleItem {
   styleUrl: './new-sale-page.scss',
 })
 export class NewSalePage {
-  saleForm: FormGroup;
-  saleItemForm: FormGroup;
+  saleForm: FormGroup = new FormGroup({
+    customerName: new FormControl<string>('', { validators: Validators.required }),
+    customerId: new FormControl<string>('', { validators: Validators.required }),
+    itens: new FormArray([]),
+  });
+
+  saleItemForm: FormGroup = new FormGroup({
+    name: new FormControl<string>('', { validators: Validators.required }),
+    id: new FormControl<string>('', { validators: Validators.required }),
+    quantity: new FormControl<string>('', {
+      validators: [Validators.required, CustomValidators.quantity()],
+    }),
+    price: new FormControl<number>(0, { validators: Validators.required }),
+  });
   currentStep: number = 1;
   totalSteps: number = 2;
 
   isLoading: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
     private saleService: SaleService,
     private router: Router,
     private modalService: ConfirmationModalService,
     private layout: HomeLayout,
     private responseMessageService: ResponseMessageService,
-  ) {
-    this.saleForm = this.newSaleForm();
-    this.saleItemForm = this.newSaleItemForm();
-  }
-
-  private newSaleForm(): FormGroup {
-    return this.fb.group({
-      customerName: ['', [Validators.required]],
-      customerId: ['', [Validators.required]],
-      itens: this.fb.array([]),
-    });
-  }
-
-  private newSaleItemForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required]],
-      id: ['', [Validators.required]],
-      quantity: ['', [Validators.required, CustomValidators.quantity()]],
-      price: ['', [Validators.required]],
-    });
-  }
+  ) {}
 
   get itens(): FormArray {
     return this.saleForm.get('itens') as FormArray;
@@ -70,11 +60,13 @@ export class NewSalePage {
 
   addItem(item: any) {
     this.itens.push(
-      this.fb.group({
-        name: [item.name, [Validators.required]],
-        id: [item.id, [Validators.required]],
-        quantity: [item.quantity, [Validators.required, CustomValidators.quantity()]],
-        price: [item.price, [Validators.required]],
+      new FormGroup({
+        name: new FormControl<string>(item.name, { validators: Validators.required }),
+        id: new FormControl<string>(item.id, { validators: Validators.required }),
+        quantity: new FormControl<string>(item.quantity, {
+          validators: [Validators.required, CustomValidators.quantity()],
+        }),
+        price: new FormControl<number>(item.price, { validators: Validators.required }),
       }),
     );
   }
@@ -97,7 +89,6 @@ export class NewSalePage {
 
     this.isLoading = true;
 
-    console.log(this.saleForm.value);
     const formValue = this.saleForm.value;
 
     const payload: AddSaleRequest = {
@@ -113,10 +104,7 @@ export class NewSalePage {
         this.responseMessageService.success('Venda realizada!');
 
         this.layout.scrollToTop();
-
-        setTimeout(() => {
-          this.navigate(`/sales/${response.content[0].id}`);
-        }, 2000);
+        this.navigate(`/sales/${response.content[0].id}`);
         this.isLoading = false;
       },
       error: (err) => {

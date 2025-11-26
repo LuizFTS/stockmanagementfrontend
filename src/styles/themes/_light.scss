@@ -4,6 +4,9 @@ body[data-theme='light'] {
   --bg-color: #{variables.$gray-2};
   --hover-color: #{variables.$gray-4};
   --text-color: #{variables.$gray-9};
+  --text-color-l: #{variables.$gray-6};
+
+  --focus-color-glow: #{variables.$focus-glow};
 
   --border-color: #{variables.$gray-4};
 

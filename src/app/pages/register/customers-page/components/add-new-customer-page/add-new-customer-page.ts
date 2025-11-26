@@ -3,7 +3,13 @@ import { Stepper } from '../../../../../shared/components/stepper/stepper';
 import { CustomerTaxId } from '../customer-tax-id/customer-tax-id';
 import { Card } from '../../../../../shared/components/card/card';
 import { CustomerGeneralInformation } from '../customer-general-information/customer-general-information';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { CustomValidators } from '../../../../../shared/utils/CustomValidators';
@@ -16,29 +22,24 @@ import { ResponseMessageService } from '../../../../../core/services/response-me
   styleUrl: './add-new-customer-page.scss',
 })
 export class AddNewCustomerPage {
-  customerForm: FormGroup;
+  customerForm: FormGroup = new FormGroup({
+    name: new FormControl<string>('', { validators: Validators.required }),
+    phone: new FormControl<string>('', { validators: Validators.required }),
+    email: new FormControl<string>('', { validators: [Validators.required, Validators.email] }),
+    taxId: new FormControl<string>('', {
+      validators: [Validators.required, CustomValidators.cpfOrCnpj()],
+    }),
+  });
   currentStep: number = 1;
   totalSteps: number = 2;
 
   isLoading: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
     private customerService: CustomerService,
     private router: Router,
     private responseMessageService: ResponseMessageService,
-  ) {
-    this.customerForm = this.newCustomerForm();
-  }
-
-  private newCustomerForm(): FormGroup {
-    return this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      taxId: ['', [Validators.required, CustomValidators.cpfOrCnpj()]],
-    });
-  }
+  ) {}
 
   onAddNewCustomer() {
     if (this.customerForm.invalid) return;
@@ -57,9 +58,7 @@ export class AddNewCustomerPage {
       next: () => {
         this.responseMessageService.success('Cliente cadastrado!');
 
-        setTimeout(() => {
-          this.navigate('/customers');
-        }, 3000);
+        this.navigate('/customers');
         this.isLoading = false;
       },
       error: (err) => {
