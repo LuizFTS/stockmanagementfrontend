@@ -34,35 +34,6 @@
         </div>
       </div>
     </stk-card>
-    <stk-card>
-      <table class="inventory-movement__table">
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Tipo</th>
-            <th>Saldo anterior</th>
-            <th>Movimento</th>
-            <th>Saldo posterior</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (movement of inventoryMovements; track movement.id) {
-            <tr>
-              <td>
-                <p>{{ formatDate(movement.createdAt) }}</p>
-                <p>{{ formatHour(movement.createdAt) }}</p>
-              </td>
-              <td>{{ movement.type }}</td>
-              <td>{{ movement.previousBalance }}</td>
-              <td>
-                {{ movement.type === 'ENTRADA' ? '+' : '-' }}
-                {{ currentMovementValue(movement.previousBalance, movement.balance) }}
-              </td>
-              <td>{{ movement.balance }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </stk-card>
+    <stk-table-component [inventoryMovements]="inventoryMovements" />
   }
 </div>

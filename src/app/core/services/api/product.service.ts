@@ -16,6 +16,7 @@ export class ProductService {
   get(
     page: number,
     pageSize: number,
+    active: boolean,
     opts?: {
       filter?: string;
       id?: string;
@@ -25,14 +26,17 @@ export class ProductService {
     const filterQuery = opts?.filter ? `filter=${opts?.filter}` : null;
     const idQuery = opts?.id ? `id=${opts?.id}` : null;
     const nameQuery = opts?.name ? `name=${opts?.name}` : null;
-    const pageQuery = `page=${page}`;
-    const pageSizeQuery = `size=${pageSize}`;
 
-    const query = [filterQuery, idQuery, nameQuery, pageQuery, pageSizeQuery]
-      .filter((q) => q !== null)
-      .join('&');
+    const query = [filterQuery, idQuery, nameQuery].filter((q) => q !== null).join('&');
 
-    return this.http.get<PageableResponse<Product[]>>(`${this.apiUrl}?${query}&sort=name,asc`);
+    return this.http.get<PageableResponse<Product[]>>(`${this.apiUrl}?${query}`, {
+      params: {
+        isActive: active,
+        page,
+        size: pageSize,
+        sort: 'name,asc',
+      },
+    });
   }
 
   create(productData: AddProductRequest): Observable<CreatedResponse<Product>> {
@@ -54,17 +58,17 @@ export class ProductService {
     });
   }
 
-  deactivate({ id }: { id?: string }): Observable<void> {
-    const idQuery = id ? `id=${id}` : null;
-
-    const query = [idQuery].filter((q) => q !== null).join('&');
-
-    return this.http.delete<void>(`${this.apiUrl}?${query}`);
+  deactivate(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  autocomplete(query: string) {
+  reactivate(id: string): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/reactivate/${id}`, {});
+  }
+
+  autocomplete(query: string, isActive: boolean) {
     return this.http.get<String[]>(`${this.apiUrl}/autocomplete`, {
-      params: { q: query, limit: 10 },
+      params: { q: query, limit: 10, isActive },
     });
   }
 }

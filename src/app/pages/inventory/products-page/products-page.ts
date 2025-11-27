@@ -7,9 +7,11 @@ import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
+import { MatTabsModule } from '@angular/material/tabs';
+
 @Component({
   selector: 'app-products-page',
-  imports: [ProductItem, ReactiveFormsModule, ItensNotFound, ListPageLayout],
+  imports: [ProductItem, ReactiveFormsModule, ItensNotFound, ListPageLayout, MatTabsModule],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
 })
@@ -23,6 +25,9 @@ export class ProductsPage {
   pageSize: number = 10;
   totalItems: number = 1;
   filter: string = '';
+  activeStatus: boolean = true;
+
+  isLoading: boolean = true;
 
   constructor(
     public productService: ProductService,
@@ -36,17 +41,23 @@ export class ProductsPage {
   }
 
   ngOnInit() {
-    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
+    this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
+      filter: this.filter,
+    });
   }
 
   onSearch(term: string) {
     this.filter = term?.toLowerCase() ?? '';
-    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
+    this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
+      filter: this.filter,
+    });
   }
 
   onSearchSubmit() {
     this.filter = this.searchForm.value.search?.toLowerCase() ?? '';
-    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
+    this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
+      filter: this.filter,
+    });
   }
 
   changePage(page: number) {
@@ -55,33 +66,56 @@ export class ProductsPage {
     this.layout.scrollToTop();
 
     this.currentPage = page;
-    this.getProducts(page, this.pageSize, { filter: this.filter });
+    this.getProducts(page, this.pageSize, this.activeStatus, { filter: this.filter });
   }
 
   changePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.currentPage = 1;
-    this.getProducts(this.currentPage, this.pageSize, { filter: this.filter });
+    this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
+      filter: this.filter,
+    });
+  }
+
+  onTabChange(index: number) {
+    this.activeStatus = index === 0;
+    this.currentPage = 1;
+    this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
+      filter: this.filter,
+    });
   }
 
   navigate(path: string) {
     this.router.navigate([path]);
   }
 
+  activateItem() {
+    this.activeStatus = true;
+    this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
+      filter: this.filter,
+    });
+  }
+
   private getProducts(
     page: number,
     pageSize: number,
+    active: boolean,
     opts?: {
       filter?: string;
       id?: string;
       name?: string;
     },
   ) {
-    this.productService.get(page - 1, pageSize, opts).subscribe({
+    this.isLoading = true;
+    this.productService.get(page - 1, pageSize, active, opts as any).subscribe({
       next: (response) => {
         this.products = response.content;
         this.filteredProducts = response.content;
         this.totalItems = response.totalElements;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
       },
     });
   }

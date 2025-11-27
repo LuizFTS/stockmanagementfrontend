@@ -1,5 +1,6 @@
 <stk-list-page-layout
   [autoCompleteService]="productService"
+  [activeStatus]="activeStatus"
   title="Estoque"
   subtitle="Produtos cadastrados"
   [searchForm]="searchForm"
@@ -14,19 +15,87 @@
   (pageChange)="changePage($event)"
   (pageSizeChange)="changePageSize($event)"
 >
-  @for (item of filteredProducts; track item.id; let i = $index) {
-    <stk-product-item
-      [id]="item.id"
-      [name]="item.name"
-      [description]="item.description"
-      [costPrice]="item.costPrice"
-      [salePrice]="item.salePrice"
-      [createdAt]="item.createdAt"
-      [saldo]="item.inventoryBalance"
-      [index]="i"
-    />
-  }
-  @if (filteredProducts.length === 0) {
-    <stk-itens-not-found text="Nenhum produto encontrado" />
-  }
+  <mat-tab-group
+    (selectedIndexChange)="onTabChange($event)"
+    animationDuration="0ms"
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+  >
+    <mat-tab label="Ativos">
+      <div class="tab-content">
+        @if (isLoading) {
+          @for (item of [1, 2, 3, 4, 5]; track item; let i = $index) {
+            <div class="skeleton-item" [class.first-item]="i === 0">
+              <div class="skeleton-item__info">
+                <div>
+                  <div class="skeleton-text skeleton-title"></div>
+                  <div class="skeleton-text skeleton-desc"></div>
+                </div>
+                <div>
+                  <div class="skeleton-text skeleton-price"></div>
+                  <div class="skeleton-text skeleton-price"></div>
+                  <div class="skeleton-text skeleton-price"></div>
+                </div>
+              </div>
+            </div>
+          }
+        } @else {
+          @for (item of filteredProducts; track item.id; let i = $index) {
+            <stk-product-item
+              [id]="item.id"
+              [name]="item.name"
+              [description]="item.description"
+              [costPrice]="item.costPrice"
+              [salePrice]="item.salePrice"
+              [createdAt]="item.createdAt"
+              [saldo]="item.inventoryBalance"
+              [index]="i"
+            />
+          }
+          @if (filteredProducts.length === 0) {
+            <stk-itens-not-found text="Nenhum produto encontrado" />
+          }
+        }
+      </div>
+    </mat-tab>
+    <mat-tab label="Inativos">
+      <div class="tab-content">
+        @if (isLoading) {
+          @for (item of [1, 2, 3, 4, 5]; track item; let i = $index) {
+            <div class="skeleton-item" [class.first-item]="i === 0">
+              <div class="skeleton-item__info">
+                <div>
+                  <div class="skeleton-text skeleton-title"></div>
+                  <div class="skeleton-text skeleton-desc"></div>
+                </div>
+                <div>
+                  <div class="skeleton-text skeleton-price"></div>
+                  <div class="skeleton-text skeleton-price"></div>
+                  <div class="skeleton-text skeleton-price"></div>
+                </div>
+              </div>
+            </div>
+          }
+        } @else {
+          @for (item of filteredProducts; track item.id) {
+            <stk-product-item
+              [id]="item.id"
+              [name]="item.name"
+              [description]="item.description"
+              [costPrice]="item.costPrice"
+              [salePrice]="item.salePrice"
+              [createdAt]="item.createdAt"
+              [saldo]="item.inventoryBalance"
+              [active]="item.active"
+              [index]="$index"
+              (activeChange)="activateItem()"
+            />
+          }
+          @if (filteredProducts.length === 0) {
+            <stk-itens-not-found text="Nenhum produto encontrado" />
+          }
+        }
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </stk-list-page-layout>

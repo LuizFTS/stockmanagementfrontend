@@ -3,6 +3,7 @@ export interface Product {
   name: string;
   description: string;
   inventoryBalance: number;
+  active: boolean;
   costPrice: number;
   salePrice: number;
   createdAt: string;

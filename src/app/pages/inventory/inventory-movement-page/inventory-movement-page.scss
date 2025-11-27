@@ -1,4 +1,5 @@
 @use '../../../../styles/mixins' as mix;
+@use '../../../../styles/breakpoints' as *;
 
 :host {
   @include mix.main-host;
@@ -23,10 +24,16 @@ stk-card {
 
 .inventory-movement__product {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
 
+  gap: 50px;
   padding: 20px;
+
+  @include respond('md') {
+    flex-direction: row;
+  }
 
   &__header {
     display: flex;
@@ -64,7 +71,13 @@ stk-card {
   &__footer {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 4rem;
+    justify-content: center;
+
+    @include respond('md') {
+      justify-content: flex-end;
+      gap: 1rem;
+    }
 
     &__cost {
       & h3 {
@@ -87,16 +100,5 @@ stk-card {
         color: var(--primary-color-m);
       }
     }
-  }
-}
-.inventory-movement__table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th,
-  td {
-    border-bottom: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
   }
 }

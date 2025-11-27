@@ -1,8 +1,10 @@
-import { Component, inject, Input, type OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Button } from '../../../../../shared/components/button/button';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Formatter } from '../../../../../shared/utils/Formatter';
+import { ProductService } from '../../../../../core/services/api/product.service';
+import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
 
 @Component({
   selector: 'stk-product-item',
@@ -10,20 +12,27 @@ import { Formatter } from '../../../../../shared/utils/Formatter';
   templateUrl: './product-item.html',
   styleUrl: './product-item.scss',
 })
-export class ProductItem implements OnChanges {
-  @Input() id: string = '';
-  @Input() name: string = '';
-  @Input() description: string = '';
-  @Input() costPrice: number = 0;
-  @Input() salePrice: number = 0;
-  @Input() createdAt: string = '';
-  @Input() saldo: number = 0;
+export class ProductItem {
+  @Input() id!: string;
+  @Input() name!: string;
+  @Input() description!: string;
+  @Input() costPrice!: number;
+  @Input() salePrice!: number;
+  @Input() createdAt!: string;
+  @Input() saldo!: number;
+  @Input() active: boolean = true;
 
-  @Input() index: number = 0;
+  @Input() index!: number;
+
+  @Output() activeChange = new EventEmitter<void>();
 
   firstItem: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private productService: ProductService,
+    private modalService: ConfirmationModalService,
+  ) {}
 
   ngOnChanges() {
     this.firstItem = this.index === 0;
@@ -37,7 +46,29 @@ export class ProductItem implements OnChanges {
     return Formatter.capitalize(str);
   }
 
-  navigate(path: string[]) {
-    this.router.navigate(path);
+  navigate() {
+    this.router.navigate(['inventory', 'products', this.id]);
+  }
+
+  get itemActionFunction() {
+    return this.active ? this.navigate : this.reactivateItem;
+  }
+
+  async reactivateItem() {
+    const confirmed = await this.modalService.open({
+      title: 'Confirmar reativação',
+      message: 'Tem certeza que deseja reativar este produto?',
+      confirmText: 'Confirmar',
+      cancelText: 'Cancelar',
+    });
+
+    if (!confirmed) return;
+    this.productService.reactivate(this.id).subscribe({
+      next: () => {
+        this.active = true;
+
+        this.activeChange.emit();
+      },
+    });
   }
 }

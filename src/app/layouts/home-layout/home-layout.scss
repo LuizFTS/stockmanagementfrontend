@@ -12,8 +12,9 @@
     position: absolute;
     top: 5px;
     left: 15px;
-    z-index: 3;
+    z-index: 15;
     cursor: pointer;
+    background-color: var(--bg-color);
 
     @include respond('md') {
       display: none;

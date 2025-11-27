@@ -95,7 +95,7 @@ export class AddItemsPurchaseStep {
   private getProductByName() {
     const productName = this.form.get('name')?.value.toLowerCase().trim();
 
-    this.productService.get(0, 1, { name: productName }).subscribe({
+    this.productService.get(0, 1, true, { name: productName }).subscribe({
       next: ({ content }) => {
         if (content.length === 0) {
           this.responseMessageService.error('Produto não encontrado');

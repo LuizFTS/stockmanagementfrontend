@@ -55,7 +55,7 @@ export class UpdateProductPage {
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id ?? '';
 
-    this.productService.get(0, 1, { id: this.id }).subscribe({
+    this.productService.get(0, 1, true, { id: this.id }).subscribe({
       next: (response) => {
         const product = response.content[0];
         this.product = product;
@@ -108,7 +108,7 @@ export class UpdateProductPage {
 
     if (!confirmed) return;
     this.isDeactivating = true;
-    this.productService.deactivate({ id: this.id }).subscribe({
+    this.productService.deactivate(this.id).subscribe({
       next: () => {
         this.responseMessageService.success('Produto desativado!');
 

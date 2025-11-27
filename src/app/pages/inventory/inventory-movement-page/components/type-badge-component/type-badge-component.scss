@@ -1,0 +1,35 @@
+@use '../../../../../../styles/mixins' as mix;
+
+.badge {
+  @include mix.flex-center;
+  gap: 0.5rem;
+  justify-content: start;
+  width: fit-content;
+  padding: 6px;
+  border-radius: 6px;
+
+  background-color: var(--badge-red-bg);
+  color: var(--badge-red-text);
+  border: 1px solid var(--badge-red-border);
+
+  & p {
+    font-weight: bold;
+    font-size: 0.7rem;
+  }
+
+  & mat-icon {
+    @include mix.icon-size(0.7rem);
+  }
+}
+
+.entry {
+  background-color: var(--badge-green-bg);
+  color: var(--badge-green-text);
+  border: 1px solid var(--badge-green-border);
+}
+
+.exit {
+  background-color: var(--badge-red-bg);
+  color: var(--badge-red-text);
+  border: 1px solid var(--badge-red-border);
+}

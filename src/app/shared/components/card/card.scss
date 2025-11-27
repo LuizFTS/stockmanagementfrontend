@@ -3,6 +3,7 @@
 :host {
   @include mix.main-host;
   height: fit-content;
+  min-height: fit-content;
 }
 
 .card {
@@ -11,7 +12,7 @@
   background-color: var(--card-bg);
   width: 100%;
   max-width: 700px;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 
   &.padding-sm {

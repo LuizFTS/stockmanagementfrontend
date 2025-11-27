@@ -16,7 +16,8 @@ export class SearchInput {
   @ViewChild(TextInput) child!: TextInput;
   @Input() placeholder: string = '';
   @Input() hasButton: boolean = true;
-  @Input() autocompleteFn!: (query: string) => Observable<any[]>;
+  @Input() autocompleteFn!: (query: string, isActive: boolean) => Observable<any[]>;
+  @Input() activeStatus: boolean = true;
   @Input() form!: FormGroup;
   @Input() label: string = '';
   @Input() name: string = '';
@@ -40,7 +41,7 @@ export class SearchInput {
         debounceTime(300),
         distinctUntilChanged(),
         filter((v) => v && v.trim().length > 0),
-        switchMap((value) => this.autocompleteFn(value)),
+        switchMap((value) => this.autocompleteFn(value, this.activeStatus)),
       )
       .subscribe((results) => {
         this.suggestions = results;

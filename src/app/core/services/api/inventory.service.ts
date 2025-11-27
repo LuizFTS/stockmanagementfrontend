@@ -10,19 +10,12 @@ export class InventoryService {
 
   constructor(private http: HttpClient) {}
 
-  get(
-    productId: string,
-    startPeriod: string,
-    endPeriod: string,
-  ): Observable<PageableResponse<InventoryMovement[]>> {
-    return this.http.get<PageableResponse<InventoryMovement[]>>(this.apiUrl, {
+  get(productId: string, startPeriod: string, endPeriod: string): Observable<InventoryMovement[]> {
+    return this.http.get<InventoryMovement[]>(this.apiUrl, {
       params: {
         productId,
         startPeriod,
         endPeriod,
-        page: '0',
-        size: '20',
-        sort: 'createdAt,desc',
       },
     });
   }

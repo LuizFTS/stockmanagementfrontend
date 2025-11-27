@@ -1,0 +1,50 @@
+<stk-card>
+  <div class="header">
+    <h2>Transações</h2>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th class="table__header">Saldo anterior</th>
+        <th class="table__header">Movimento</th>
+        <th class="table__header">Saldo posterior</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (movement of inventoryMovements; track movement.id) {
+        <tr>
+          <td>
+            <p class="table__data__date">
+              {{ formatDate(movement.createdAt) }}
+            </p>
+            <p class="table__data__hour">
+              {{ formatHour(movement.createdAt) }}
+            </p>
+          </td>
+          <td>
+            <stk-type-badge-component [type]="movement.type" />
+          </td>
+          <td class="table__data">
+            <p>{{ movement.previousBalance }}</p>
+          </td>
+          <td class="table__data">
+            <p
+              class="{{
+                currentMovementValue(movement.previousBalance, movement.balance).class
+              }} table__data__movement"
+            >
+              {{ currentMovementValue(movement.previousBalance, movement.balance).value }}
+            </p>
+          </td>
+          <td class="table__data">
+            <span class="table__data__balance">
+              <p>{{ movement.balance }}</p>
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</stk-card>

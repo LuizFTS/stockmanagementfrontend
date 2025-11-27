@@ -19,6 +19,7 @@ export class ListPageLayout {
   @Input() searchForm!: FormGroup;
   @Input() searchPlaceholder: string = '';
   @Input() searchName!: string;
+  @Input() activeStatus: boolean = true;
 
   @Input() page: number = 1;
   @Input() pageSize: number = 10;

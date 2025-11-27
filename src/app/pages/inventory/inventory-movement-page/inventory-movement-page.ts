@@ -6,14 +6,14 @@ import type { InventoryMovement } from '../../../core/models/InventoryMovement.m
 import { ResponseMessageService } from '../../../core/services/response-message.service';
 import { CustomValidators } from '../../../shared/utils/CustomValidators';
 import { FilterComponent } from './components/filter-component/filter-component';
-import { InventoryItemComponent } from './components/inventory-item-component/inventory-item-component';
 import { Card } from '../../../shared/components/card/card';
 import { Formatter } from '../../../shared/utils/Formatter';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
+import { TableComponent } from './components/table-component/table-component';
 
 @Component({
   selector: 'app-inventory-movement-page',
-  imports: [ReactiveFormsModule, FilterComponent, InventoryItemComponent, Card, MatIcon],
+  imports: [ReactiveFormsModule, FilterComponent, TableComponent, Card, MatIcon],
   templateUrl: './inventory-movement-page.html',
   styleUrl: './inventory-movement-page.scss',
 })
@@ -58,7 +58,7 @@ export class InventoryMovementPage {
 
     this.inventoryService.get(data.productId, data.startPeriod, data.endPeriod).subscribe({
       next: (response) => {
-        this.inventoryMovements = response.content;
+        this.inventoryMovements = response;
         console.log(this.inventoryMovements);
         this.isLoading = false;
       },
@@ -71,9 +71,13 @@ export class InventoryMovementPage {
     });
   }
 
-  currentMovementValue(previousBalance: number, currentBalance: number) {
-    if (currentBalance > previousBalance) return currentBalance - previousBalance;
-    return previousBalance - currentBalance;
+  currentMovementValue(
+    previousBalance: number,
+    currentBalance: number,
+  ): { value: string; class: string } {
+    if (currentBalance > previousBalance)
+      return { value: `+${currentBalance - previousBalance}`, class: 'positive' };
+    return { value: `-${previousBalance - currentBalance}`, class: 'negative' };
   }
 
   formatDate(date: string) {

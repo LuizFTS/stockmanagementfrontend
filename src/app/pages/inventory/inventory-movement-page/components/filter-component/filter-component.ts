@@ -115,7 +115,7 @@ export class FilterComponent {
       name?: string;
     },
   ) {
-    this.productService.get(page, pageSize, opts).subscribe({
+    this.productService.get(page, pageSize, true, opts).subscribe({
       next: (response) => {
         this.searchProductForm.patchValue({
           ...this.searchProductForm.value,

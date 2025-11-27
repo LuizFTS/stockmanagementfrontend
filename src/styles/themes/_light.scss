@@ -10,9 +10,9 @@ body[data-theme='light'] {
 
   --border-color: #{variables.$gray-4};
 
-  --primary-color-l: #{variables.$green-1};
-  --primary-color-m: #{variables.$green-2};
-  --primary-color-d: #{variables.$green-3};
+  --primary-color-l: #{variables.$green-3};
+  --primary-color-m: #{variables.$green-4};
+  --primary-color-d: #{variables.$green-5};
 
   --sidebar-bg: #{variables.$gray-9};
   --sidebar-hover: #{variables.$gray-7};
@@ -36,12 +36,20 @@ body[data-theme='light'] {
   --btn-hover-light-gray: #{variables.$gray-4};
   --btn-text-light-gray: #{variables.$gray-2};
 
-  --btn-bg-red: #{variables.$red-1};
-  --btn-hover-red: #{variables.$red-2};
+  --btn-bg-red: #{variables.$red-4};
+  --btn-hover-red: #{variables.$red-5};
 
   --card-bg: #{variables.$gray-1};
   --card-hover: #{variables.$gray-2};
 
   --dark-bg: #{variables.$gray-9};
   --dark-hover: #{variables.$gray-7};
+
+  --badge-green-bg: #{variables.$green-1};
+  --badge-green-border: #{variables.$green-3};
+  --badge-green-text: #{variables.$green-4};
+
+  --badge-red-bg: #{variables.$red-1};
+  --badge-red-border: #{variables.$red-3};
+  --badge-red-text: #{variables.$red-4};
 }

@@ -11,6 +11,7 @@
       [placeholder]="searchPlaceholder"
       [autocompleteFn]="autoCompleteService.autocomplete.bind(autoCompleteService)"
       (searchChange)="onSearch($event)"
+      [activeStatus]="activeStatus"
       [form]="searchForm"
       [name]="searchName"
       [hasButton]="false"
