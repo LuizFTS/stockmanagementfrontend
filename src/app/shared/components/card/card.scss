@@ -7,19 +7,27 @@
 }
 
 .card {
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  background-color: var(--card-bg);
+  border-radius: 16px; // More rounded
+  border: 1px solid rgba(0, 0, 0, 0.05); // Softer border
+  background-color: var(--card-bg, #fff); // Default to white if var not set
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); // Modern soft shadow
   width: 100%;
   max-width: 700px;
-  overflow: auto;
+  overflow: hidden; // Ensure content doesn't spill out of rounded corners
   position: relative;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease; // Smooth transitions
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
 
   &.padding-sm {
-    padding: 10px;
+    padding: 15px;
   }
   &.padding-md {
-    padding: 20px;
+    padding: 25px;
   }
   &.padding-lg {
     padding: 40px;
