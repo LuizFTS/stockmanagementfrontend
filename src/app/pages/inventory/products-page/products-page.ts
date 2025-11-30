@@ -8,10 +8,18 @@ import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
 import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ItemSkeleton } from '../../../shared/components/skeleton/item-skeleton/item-skeleton';
 
 @Component({
   selector: 'app-products-page',
-  imports: [ProductItem, ReactiveFormsModule, ItensNotFound, ListPageLayout, MatTabsModule],
+  imports: [
+    ProductItem,
+    ReactiveFormsModule,
+    ItensNotFound,
+    ListPageLayout,
+    MatTabsModule,
+    ItemSkeleton,
+  ],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
 })
@@ -20,6 +28,8 @@ export class ProductsPage {
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
+
+  selectedTabIndex: number = 0;
 
   currentPage: number = 1;
   pageSize: number = 10;
@@ -78,8 +88,9 @@ export class ProductsPage {
   }
 
   onTabChange(index: number) {
-    this.activeStatus = index === 0;
+    this.selectedTabIndex = index;
     this.currentPage = 1;
+    this.activeStatus = index === 0;
     this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
       filter: this.filter,
     });
@@ -89,11 +100,8 @@ export class ProductsPage {
     this.router.navigate([path]);
   }
 
-  activateItem() {
-    this.activeStatus = true;
-    this.getProducts(this.currentPage, this.pageSize, this.activeStatus, {
-      filter: this.filter,
-    });
+  onReactivate() {
+    this.onTabChange(0);
   }
 
   private getProducts(

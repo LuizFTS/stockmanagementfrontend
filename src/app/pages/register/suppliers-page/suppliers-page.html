@@ -14,17 +14,60 @@
   (pageChange)="changePage($event)"
   (pageSizeChange)="changePageSize($event)"
 >
-  @for (item of filteredSuppliers; track item.id; let i = $index) {
-    <stk-supplier-item
-      [id]="item.id"
-      [name]="item.name"
-      [taxId]="item.taxId"
-      [phone]="item.phone"
-      [email]="item.email"
-      [index]="i"
-    />
-  }
-  @if (filteredSuppliers.length === 0) {
-    <stk-itens-not-found text="Nenhum fornecedor encontrado" />
-  }
+  <mat-tab-group
+    [(selectedIndex)]="selectedTabIndex"
+    (selectedIndexChange)="onTabChange($event)"
+    animationDuration="0ms"
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+  >
+    <mat-tab label="Ativos">
+      <div class="tab-content">
+        @if (isLoading) {
+          @for (item of [1, 2, 3, 4, 5]; track item) {
+            <stk-item-skeleton [index]="$index" />
+          }
+        } @else {
+          @for (item of filteredSuppliers; track item.id) {
+            <stk-supplier-item
+              [id]="item.id"
+              [name]="item.name"
+              [taxId]="item.taxId"
+              [phone]="item.phone"
+              [email]="item.email"
+              [index]="$index"
+            />
+          }
+          @if (filteredSuppliers.length === 0) {
+            <stk-itens-not-found text="Nenhum fornecedor encontrado" />
+          }
+        }
+      </div>
+    </mat-tab>
+    <mat-tab label="Inativos">
+      <div class="tab-content">
+        @if (isLoading) {
+          @for (item of [1, 2, 3, 4, 5]; track item) {
+            <stk-item-skeleton [index]="$index" />
+          }
+        } @else {
+          @for (item of filteredSuppliers; track item.id) {
+            <stk-supplier-item
+              [id]="item.id"
+              [name]="item.name"
+              [taxId]="item.taxId"
+              [phone]="item.phone"
+              [email]="item.email"
+              [index]="$index"
+              [active]="item.isActive"
+              (activeChange)="onReactivate()"
+            />
+          }
+          @if (filteredSuppliers.length === 0) {
+            <stk-itens-not-found text="Nenhum fornecedor encontrado" />
+          }
+        }
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </stk-list-page-layout>
