@@ -2,22 +2,84 @@
   <div class="home__top">
     <h1 class="title">Olá, {{ user?.firstName }}!</h1>
   </div>
-  <stk-card class="home__total">
-    <div class="home__total__value">
-      <h2>Valor total de vendas no dia:</h2>
-      <h1>R$2.453,60</h1>
-    </div>
-    <div class="home__total__quantity">
-      <h2>Quantidade de vendas no dia:</h2>
-      <h1>35</h1>
-    </div>
-  </stk-card>
-  <section class="home__transactions">
-    <stk-card class="home__transactions__purchases">
-      <h2>Compras</h2>
+
+  <!-- Summary Cards -->
+  <section class="home__summary">
+    <stk-card class="home__total" [padding]="2">
+      <div class="home__total__value">
+        <h2>Vendas Hoje:</h2>
+        <h1>{{ summaryMetrics.salesToday | currency:'BRL' }}</h1>
+      </div>
+      <div class="home__total__quantity">
+        <h2>Qtd Vendas:</h2>
+        <h1>{{ summaryMetrics.salesCountToday }}</h1>
+      </div>
     </stk-card>
-    <stk-card class="home__transactions__sales">
-      <h2>Vendas</h2>
+
+    <stk-card class="home__total" [padding]="2">
+      <div class="home__total__value">
+        <h2>Compras Hoje:</h2>
+        <h1>{{ summaryMetrics.purchasesToday | currency:'BRL' }}</h1>
+      </div>
+      <div class="home__total__quantity">
+        <h2>Qtd Compras:</h2>
+        <h1>{{ summaryMetrics.purchasesCountToday }}</h1>
+      </div>
+    </stk-card>
+
+    <stk-card class="home__total alert" *ngIf="summaryMetrics.lowStockCount > 0" [padding]="2">
+      <div class="home__total__value">
+        <h2>Estoque Baixo:</h2>
+        <h1 class="text-danger">{{ summaryMetrics.lowStockCount }} itens</h1>
+      </div>
+    </stk-card>
+  </section>
+
+  <!-- Recent Transactions -->
+  <section class="home__transactions">
+    <stk-card class="home__transactions__purchases" [padding]="2">
+      <h2>Últimas Compras</h2>
+      <ul class="transaction-list">
+        <li *ngFor="let purchase of recentPurchases" class="transaction-item">
+          <span class="transaction-date">{{ purchase.createdAt | date:'short' }}</span>
+          <span class="transaction-info">{{ purchase.supplier.name }}</span>
+          <span class="transaction-value">{{ purchase.totalValue | currency:'BRL' }}</span>
+        </li>
+      </ul>
+    </stk-card>
+
+    <stk-card class="home__transactions__sales" [padding]="2">
+      <h2>Últimas Vendas</h2>
+      <ul class="transaction-list">
+        <li *ngFor="let sale of recentSales" class="transaction-item">
+          <span class="transaction-date">{{ sale.createdAt | date:'short' }}</span>
+          <span class="transaction-info">{{ sale.customer.name }}</span>
+          <span class="transaction-value">{{ sale.totalValue | currency:'BRL' }}</span>
+        </li>
+      </ul>
+    </stk-card>
+  </section>
+
+  <!-- Low Stock Alert Details -->
+  <section class="home__alerts" *ngIf="lowStockProducts.length > 0">
+    <stk-card [padding]="2">
+      <h2>Alerta de Estoque</h2>
+      <table class="alert-table">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Estoque Atual</th>
+            <th>Preço Custo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of lowStockProducts">
+            <td>{{ product.name }}</td>
+            <td class="text-danger">{{ product.inventoryBalance }}</td>
+            <td>{{ product.costPrice | currency:'BRL' }}</td>
+          </tr>
+        </tbody>
+      </table>
     </stk-card>
   </section>
 </div>
