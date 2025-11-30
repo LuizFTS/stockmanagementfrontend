@@ -68,7 +68,7 @@
   align-items: center;
 }
 
-@mixin backdrop {
+@mixin backdrop($zIndex: 1000) {
   @include flex-center;
   position: fixed;
   top: 0;
@@ -85,7 +85,7 @@
   &.fade-in {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
-    z-index: 1000;
+    z-index: $zIndex;
   }
 
   &.fade-out {
