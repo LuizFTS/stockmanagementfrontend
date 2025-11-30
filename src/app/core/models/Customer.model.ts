@@ -4,6 +4,7 @@ export interface Customer {
   taxId: string;
   phone: string;
   email: string;
+  isActive: boolean;
   createdAt: string;
   updatedAt: string;
 }
