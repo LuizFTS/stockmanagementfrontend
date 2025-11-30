@@ -42,7 +42,7 @@ export class UpdateSupplierPage {
   }
 
   ngOnInit() {
-    this.supplierService.get(0, 1, { id: this.id }).subscribe({
+    this.supplierService.get(0, 1, true, { id: this.id }).subscribe({
       next: (response) => {
         const supplier = response.content[0];
         this.supplier = supplier;

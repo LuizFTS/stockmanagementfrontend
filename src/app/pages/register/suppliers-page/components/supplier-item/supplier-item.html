@@ -1,19 +1,20 @@
 <div class="item" [class.first-item]="firstItem">
   <div class="item__info">
     <h2>{{ capitalize(name) }}</h2>
-    <p>
-      CNPJ: <strong>{{ formatTaxId(taxId) }}</strong>
-    </p>
+    <p>CNPJ: {{ formatTaxId(taxId) }}</p>
     <div>
-      <p>
-        Celular: <strong>{{ formatPhone(phone) }}</strong>
-      </p>
-      <p>
-        E-mail: <strong>{{ email }}</strong>
-      </p>
+      <p>Celular: {{ formatPhone(phone) }}</p>
+      <p>E-mail: {{ email }}</p>
     </div>
   </div>
-  <stk-button [model]="3" (click)="navigate(['suppliers', id])">
-    <mat-icon>edit</mat-icon>
-  </stk-button>
+  @if (active) {
+    <stk-button [model]="3" (click)="navigate(['suppliers', id])">
+      <mat-icon>edit</mat-icon>
+    </stk-button>
+  }
+  @if (!active) {
+    <stk-button [model]="3" (click)="reactivateItem()">
+      <mat-icon>check</mat-icon>
+    </stk-button>
+  }
 </div>
