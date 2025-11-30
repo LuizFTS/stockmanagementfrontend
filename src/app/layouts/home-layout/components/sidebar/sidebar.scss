@@ -117,6 +117,66 @@ $mobile-breakpoint: 'md';
     gap: $menu-gap;
     list-style: none;
     font-weight: 400;
+
+    // Side Menu Styling
+    &__side-menu {
+      position: absolute;
+      left: calc(100% + 10px);
+      top: 0;
+      background-color: var(--sidebar-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      padding: 10px;
+      min-width: 220px;
+      z-index: 1002;
+      animation: fadeIn 0.2s ease-out;
+      border: 1px solid rgba(39, 39, 39, 0.05);
+
+      // Quando a sidebar está expandida (active), o menu deve se comportar como accordion
+      @at-root .nav.active & {
+        position: static;
+        box-shadow: none;
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        min-width: auto;
+        animation: none;
+        margin-top: 10px;
+        margin-left: $submenu-indent;
+      }
+
+      &__header {
+        padding: 10px 15px;
+        font-weight: 600;
+        color: var(--sidebar-text);
+        border-bottom: 1px solid var(--sidebar-text);
+        margin-bottom: 5px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        @at-root .nav.active & {
+          display: none;
+        }
+      }
+
+      &__items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      &__item {
+        border-radius: 8px;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.03);
+        }
+      }
+    }
   }
 
   &__section {
@@ -126,33 +186,7 @@ $mobile-breakpoint: 'md';
     gap: $menu-gap;
     cursor: pointer;
     transition: all 0.2s ease;
-  }
-
-  &__subitems {
-    display: flex;
-    flex-direction: column;
-    gap: $menu-gap;
-    padding-left: $submenu-indent;
-    list-style: none;
-
-    @include respond($mobile-breakpoint) {
-      display: none;
-    }
-  }
-
-  &.active &__subitems {
-    @include respond($mobile-breakpoint) {
-      display: flex;
-    }
-  }
-
-  &__subitem {
-    display: flex;
-    flex-direction: column;
-    color: var(--sidebar-text);
-    gap: $menu-gap;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    position: relative; // Needed for absolute positioning of side-menu
   }
 }
 

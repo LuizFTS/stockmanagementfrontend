@@ -31,24 +31,30 @@
             (action)="handleSectionClick(sectionIndex)"
           />
 
-          <!-- Subitens (apenas se não for Home e estiver ativo) -->
+          <!-- Subitens (Side Menu) -->
           @if (shouldShowSubItems(sectionIndex)) {
-            <ul class="menu-container__subitems">
-              @for (item of section.items; track item.path; let itemIndex = $index) {
-                <li
-                  class="menu-container__subitem"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                >
-                  <stk-sidebar-menu-sub-option
-                    [text]="item.label"
-                    [path]="item.path"
-                    [active]="isItemActive(sectionIndex, itemIndex)"
-                    (close)="handleItemClick(itemIndex)"
-                  />
-                </li>
-              }
-            </ul>
+            <div class="menu-container__sections__side-menu">
+              <div class="menu-container__sections__side-menu__header">
+                {{ section.label }}
+              </div>
+              <ul class="menu-container__sections__side-menu__items">
+                @for (item of section.items; track item.path; let itemIndex = $index) {
+                  <li
+                    class="menu-container__sections__side-menu__item"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >
+                    <stk-sidebar-menu-sub-option
+                      [text]="item.label"
+                      [path]="item.path"
+                      [barActive]="active"
+                      [active]="isItemActive(sectionIndex, itemIndex)"
+                      (close)="handleItemClick(itemIndex)"
+                    />
+                  </li>
+                }
+              </ul>
+            </div>
           }
         </li>
       }

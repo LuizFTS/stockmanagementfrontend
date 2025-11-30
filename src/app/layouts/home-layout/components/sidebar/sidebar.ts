@@ -98,6 +98,7 @@ export class Sidebar {
   ngOnInit() {
     this.loadUserData();
     this.setupRouteTracking();
+    console.log(this.menuState);
   }
 
   toggleSidebar(isOpen: boolean): void {
@@ -105,6 +106,8 @@ export class Sidebar {
   }
 
   handleSectionClick(sectionIndex: number): void {
+    const currentUrl = this.router.url;
+
     const shouldAutoClose = this.isMobileView();
 
     // Abre sidebar se necessário (exceto para home e profile)
@@ -121,12 +124,16 @@ export class Sidebar {
       return;
     }
 
+    if (this.menuState.activeSection === null) {
+      this.updateMenuStateFromRoute();
+      return;
+    }
+
     // Reseta subitem se mudou de seção
     if (this.menuState.activeSection !== sectionIndex) {
       this.menuState.activeItem = null;
     }
 
-    // Toggle da seção
     this.menuState.activeSection =
       this.menuState.activeSection === sectionIndex ? null : sectionIndex;
   }
@@ -186,6 +193,7 @@ export class Sidebar {
 
         if (currentUrl === item.path) {
           this.menuState = { activeSection: sectionIdx, activeItem: itemIdx };
+          console.log(this.menuState);
           return;
         }
       }

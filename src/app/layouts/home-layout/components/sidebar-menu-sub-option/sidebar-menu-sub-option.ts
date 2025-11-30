@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar-menu-sub-option.scss',
 })
 export class SidebarMenuSubOption {
+  @Input() barActive = false;
   @Input() active = false;
   @Input() text = '';
   @Input() path = '';
@@ -20,7 +21,17 @@ export class SidebarMenuSubOption {
    * Computa as classes CSS baseadas no estado ativo
    */
   get containerClasses(): string {
-    return this.active ? 'option-container active' : 'option-container';
+    const classes = ['option-container'];
+
+    if (this.active) {
+      classes.push('active');
+    }
+
+    if (this.barActive) {
+      classes.push('bar-active');
+    }
+
+    return classes.join(' ');
   }
 
   /**
