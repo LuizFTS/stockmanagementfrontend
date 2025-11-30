@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Formatter } from '../../../../../shared/utils/Formatter';
 import { ProductService } from '../../../../../core/services/api/product.service';
 import { ConfirmationModalService } from '../../../../../core/services/confirmation-modal.service';
+import { ResponseMessageService } from '../../../../../core/services/response-message.service';
 
 @Component({
   selector: 'stk-product-item',
@@ -32,6 +33,7 @@ export class ProductItem {
     private router: Router,
     private productService: ProductService,
     private modalService: ConfirmationModalService,
+    private messageService: ResponseMessageService,
   ) {}
 
   ngOnChanges() {
@@ -65,9 +67,10 @@ export class ProductItem {
     if (!confirmed) return;
     this.productService.reactivate(this.id).subscribe({
       next: () => {
-        this.active = true;
-
         this.activeChange.emit();
+      },
+      error: () => {
+        this.messageService.error('Erro ao reativar produto');
       },
     });
   }
