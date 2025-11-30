@@ -14,7 +14,14 @@
       </p>
     </div>
   </div>
-  <stk-button [model]="3" (click)="navigate(['customers', id])">
-    <mat-icon>edit</mat-icon>
-  </stk-button>
+  @if (active) {
+    <stk-button [model]="3" (click)="navigate(['customers', id])">
+      <mat-icon>edit</mat-icon>
+    </stk-button>
+  }
+  @if (!active) {
+    <stk-button [model]="3" (click)="reactivateItem()">
+      <mat-icon>check</mat-icon>
+    </stk-button>
+  }
 </div>

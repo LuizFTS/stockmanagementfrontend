@@ -42,7 +42,7 @@ export class SearchSupplierPurchaseStep {
   private getSupplierByName() {
     const name = this.form.get('supplierName')?.value;
 
-    this.supplierService.get(0, 1, { name: name }).subscribe({
+    this.supplierService.get(0, 1, true, { name: name }).subscribe({
       next: (response) => {
         this.form.patchValue({ supplierId: response.content[0].id });
         this.nextStep.emit();

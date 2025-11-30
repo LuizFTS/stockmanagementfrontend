@@ -3,3 +3,8 @@
 :host {
   @include mix.main-host;
 }
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+}

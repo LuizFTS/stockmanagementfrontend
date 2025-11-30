@@ -38,7 +38,7 @@ export class UpdateCustomerPage {
   }
 
   ngOnInit() {
-    this.customerService.get(0, 1, { id: this.id }).subscribe({
+    this.customerService.get(0, 1, true, { id: this.id }).subscribe({
       next: (response) => {
         const customer = response.content[0];
         this.customer = customer;
