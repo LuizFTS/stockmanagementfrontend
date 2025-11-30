@@ -44,7 +44,7 @@ export class SearchCustomerSaleStep {
   private getCustomerByName() {
     const name = this.form.get('customerName')?.value;
 
-    this.customerService.get(0, 1, { name: name }).subscribe({
+    this.customerService.get(0, 1, true, { name: name }).subscribe({
       next: (response) => {
         this.form.patchValue({ customerId: response.content[0].id });
         this.nextStep.emit();
