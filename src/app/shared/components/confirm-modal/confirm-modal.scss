@@ -2,7 +2,7 @@
 
 .modal {
   &__overlay {
-    @include mix.backdrop;
+    @include mix.backdrop(1002);
   }
 
   &__content {
