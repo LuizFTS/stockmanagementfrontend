@@ -3,12 +3,9 @@ import { Component } from '@angular/core';
 import {
   FormsModule,
   Validators,
-  FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   FormControl,
-  type AbstractControl,
-  type ValidatorFn,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
@@ -38,6 +35,9 @@ export class ChangePasswordPage {
   isLoading: boolean = false;
   passwordForm: FormGroup = new FormGroup(
     {
+      currentPassword: new FormControl<string>('', {
+        validators: [Validators.minLength(8), Validators.maxLength(25)],
+      }),
       newPassword: new FormControl<string>('', {
         validators: [Validators.minLength(8), Validators.maxLength(25)],
       }),
