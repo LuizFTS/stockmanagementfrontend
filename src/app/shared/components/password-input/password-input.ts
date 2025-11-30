@@ -17,6 +17,7 @@ export class PasswordInput {
   @Input() label: string = '';
   @Input() id: string = '';
   @Input() control: AbstractControl | null = null;
+  @Input() placeholder: string = '';
   @Input() errorMessages: { [key: string]: string } = {};
   @Input() parentForm: FormGroup | null = null;
   @Input() formLevelErrors: string[] = [];
