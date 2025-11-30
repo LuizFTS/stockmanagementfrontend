@@ -16,7 +16,7 @@ export class ProductService {
   get(
     page: number,
     pageSize: number,
-    active: boolean,
+    isActive: boolean,
     opts?: {
       filter?: string;
       id?: string;
@@ -31,7 +31,7 @@ export class ProductService {
 
     return this.http.get<PageableResponse<Product[]>>(`${this.apiUrl}?${query}`, {
       params: {
-        isActive: active,
+        isActive,
         page,
         size: pageSize,
         sort: 'name,asc',

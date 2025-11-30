@@ -16,6 +16,7 @@ export class SupplierService {
   get(
     page: number,
     pageSize: number,
+    isActive: boolean,
     opts?: {
       filter?: string;
       id?: string;
@@ -27,14 +28,17 @@ export class SupplierService {
     const idQuery = opts?.id ? `id=${opts?.id}` : null;
     const taxIdQuery = opts?.taxId ? `taxId=${opts?.taxId}` : null;
     const nameQuery = opts?.name ? `name=${opts?.name}` : null;
-    const pageQuery = `page=${page}`;
-    const pageSizeQuery = `size=${pageSize}`;
 
-    const query = [filterQuery, idQuery, taxIdQuery, nameQuery, pageQuery, pageSizeQuery]
-      .filter((q) => q !== null)
-      .join('&');
+    const query = [filterQuery, idQuery, taxIdQuery, nameQuery].filter((q) => q !== null).join('&');
 
-    return this.http.get<PageableResponse<Supplier[]>>(`${this.apiUrl}?${query}&sort=name,asc`);
+    return this.http.get<PageableResponse<Supplier[]>>(`${this.apiUrl}?${query}`, {
+      params: {
+        isActive,
+        page,
+        size: pageSize,
+        sort: 'name,asc',
+      },
+    });
   }
 
   create(supplierData: AddSupplierRequest): Observable<CreatedResponse<Supplier>> {
@@ -54,9 +58,13 @@ export class SupplierService {
     return this.http.delete<void>(`${this.apiUrl}?${query}`);
   }
 
-  autocomplete(query: string) {
+  reactivate(id: string): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/reactivate/${id}`, {});
+  }
+
+  autocomplete(query: string, isActive: boolean) {
     return this.http.get<String[]>(`${this.apiUrl}/autocomplete`, {
-      params: { q: query, limit: 10 },
+      params: { q: query, limit: 10, isActive },
     });
   }
 }
