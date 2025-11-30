@@ -16,6 +16,7 @@
   (pageSizeChange)="changePageSize($event)"
 >
   <mat-tab-group
+    [(selectedIndex)]="selectedTabIndex"
     (selectedIndexChange)="onTabChange($event)"
     animationDuration="0ms"
     mat-stretch-tabs="false"
@@ -24,23 +25,11 @@
     <mat-tab label="Ativos">
       <div class="tab-content">
         @if (isLoading) {
-          @for (item of [1, 2, 3, 4, 5]; track item; let i = $index) {
-            <div class="skeleton-item" [class.first-item]="i === 0">
-              <div class="skeleton-item__info">
-                <div>
-                  <div class="skeleton-text skeleton-title"></div>
-                  <div class="skeleton-text skeleton-desc"></div>
-                </div>
-                <div>
-                  <div class="skeleton-text skeleton-price"></div>
-                  <div class="skeleton-text skeleton-price"></div>
-                  <div class="skeleton-text skeleton-price"></div>
-                </div>
-              </div>
-            </div>
+          @for (item of [1, 2, 3, 4, 5]; track item) {
+            <stk-item-skeleton [index]="$index" />
           }
         } @else {
-          @for (item of filteredProducts; track item.id; let i = $index) {
+          @for (item of filteredProducts; track item.id) {
             <stk-product-item
               [id]="item.id"
               [name]="item.name"
@@ -49,7 +38,7 @@
               [salePrice]="item.salePrice"
               [createdAt]="item.createdAt"
               [saldo]="item.inventoryBalance"
-              [index]="i"
+              [index]="$index"
             />
           }
           @if (filteredProducts.length === 0) {
@@ -61,20 +50,8 @@
     <mat-tab label="Inativos">
       <div class="tab-content">
         @if (isLoading) {
-          @for (item of [1, 2, 3, 4, 5]; track item; let i = $index) {
-            <div class="skeleton-item" [class.first-item]="i === 0">
-              <div class="skeleton-item__info">
-                <div>
-                  <div class="skeleton-text skeleton-title"></div>
-                  <div class="skeleton-text skeleton-desc"></div>
-                </div>
-                <div>
-                  <div class="skeleton-text skeleton-price"></div>
-                  <div class="skeleton-text skeleton-price"></div>
-                  <div class="skeleton-text skeleton-price"></div>
-                </div>
-              </div>
-            </div>
+          @for (item of [1, 2, 3, 4, 5]; track item) {
+            <stk-item-skeleton [index]="$index" />
           }
         } @else {
           @for (item of filteredProducts; track item.id) {
@@ -88,7 +65,7 @@
               [saldo]="item.inventoryBalance"
               [active]="item.active"
               [index]="$index"
-              (activeChange)="activateItem()"
+              (activeChange)="onReactivate()"
             />
           }
           @if (filteredProducts.length === 0) {
