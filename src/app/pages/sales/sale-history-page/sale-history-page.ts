@@ -14,10 +14,12 @@ import {
 } from '@angular/forms';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
+import { ResponseMessageService } from '../../../core/services/response-message.service';
+import { ItemSkeleton } from '../../../shared/components/skeleton/item-skeleton/item-skeleton';
 
 @Component({
   selector: 'app-sale-history-page',
-  imports: [TransactionItem, ItensNotFound, ReactiveFormsModule, ListPageLayout],
+  imports: [TransactionItem, ItensNotFound, ReactiveFormsModule, ListPageLayout, ItemSkeleton],
   templateUrl: './sale-history-page.html',
   styleUrl: './sale-history-page.scss',
 })
@@ -34,11 +36,14 @@ export class SaleHistoryPage {
     search: new FormControl<string>('', { validators: Validators.required }),
   });
 
+  isLoading: boolean = true;
+
   constructor(
     public customerService: CustomerService,
     private saleService: SaleService,
     private layout: HomeLayout,
     private router: Router,
+    private messageService: ResponseMessageService,
   ) {}
 
   ngOnInit() {
@@ -85,6 +90,11 @@ export class SaleHistoryPage {
         this.sales = response.content;
         this.filteredSales = response.content;
         this.totalItems = response.totalElements;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+        this.messageService.error('Erro ao buscar vendas');
       },
     });
   }

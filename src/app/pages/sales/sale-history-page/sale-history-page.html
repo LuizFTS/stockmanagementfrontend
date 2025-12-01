@@ -13,16 +13,22 @@
   (pageChange)="changePage($event)"
   (pageSizeChange)="changePageSize($event)"
 >
-  @for (item of filteredSales; track $index; let i = $index) {
-    <stk-transaction-item
-      [id]="item.id"
-      [date]="item.createdAt"
-      [nameInfo]="{ type: 'Cliente', name: item.customer.name }"
-      [value]="item.totalValue"
-      [index]="i"
-    />
-  }
-  @if (filteredSales.length === 0) {
-    <stk-itens-not-found text="Nenhuma venda encontrado" />
+  @if (isLoading) {
+    @for (item of [1, 2, 3, 4, 5]; track item) {
+      <stk-item-skeleton [index]="$index" />
+    }
+  } @else {
+    @for (item of filteredSales; track $index; let i = $index) {
+      <stk-transaction-item
+        [id]="item.id"
+        [date]="item.createdAt"
+        [nameInfo]="{ type: 'Cliente', name: item.customer.name }"
+        [value]="item.totalValue"
+        [index]="i"
+      />
+    }
+    @if (filteredSales.length === 0) {
+      <stk-itens-not-found text="Nenhuma venda encontrado" />
+    }
   }
 </stk-list-page-layout>
