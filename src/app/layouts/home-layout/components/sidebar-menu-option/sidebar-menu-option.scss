@@ -58,10 +58,6 @@ $mobile-breakpoint: 'md';
   &.item-active {
     background-color: var(--sidebar-hover);
     font-weight: 500;
-
-    .option-container__arrow {
-      transform: rotate($arrow-rotation-expanded);
-    }
   }
 
   // Bar active state (sidebar expandida)
@@ -113,7 +109,7 @@ $mobile-breakpoint: 'md';
 
     // Rotação quando colapsada
     &.arrow-rotate {
-      transform: rotate($arrow-rotation-collapsed);
+      transform: rotate($arrow-rotation-expanded) !important;
     }
   }
 }

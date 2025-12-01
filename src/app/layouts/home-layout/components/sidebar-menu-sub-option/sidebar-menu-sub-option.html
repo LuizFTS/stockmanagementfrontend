@@ -1,3 +1,9 @@
-<button type="button" [class]="containerClasses" (click)="handleClick()">
-  <span class="option-container__text">{{ text }}</span>
+<button
+  type="button"
+  [class]="containerClasses"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  (click)="handleClick()"
+>
+  <a mat-button [routerLink]="path" class="option-container__text">{{ text }}</a>
 </button>

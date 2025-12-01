@@ -8,7 +8,7 @@
 ></div>
 
 <!-- Navegação principal -->
-<nav class="nav" [class.active]="active">
+<nav #navRef class="nav" [class.active]="active">
   <!-- Container do menu -->
   <div class="menu-container" [class.active]="active">
     <!-- Header -->
@@ -19,37 +19,33 @@
 
     <!-- Lista de seções do menu -->
     <ul class="menu-container__sections">
-      @for (section of menuData; track section.id; let sectionIndex = $index) {
-        <li class="menu-container__section" [class.active]="isSectionActive(sectionIndex)">
+      @for (section of menuData; track section.id) {
+        <li class="menu-container__section" [class.active]="isSectionActive($index)">
           <!-- Botão da seção -->
           <stk-sidebar-menu-option
             [icon]="section.icon"
             [text]="section.label"
             [arrow]="hasArrow(section) ? 'arrow_back_ios_new' : null"
             [barActive]="active"
-            [itemActive]="isSectionActive(sectionIndex)"
-            (action)="handleSectionClick(sectionIndex)"
+            [itemActive]="isSectionActive($index)"
+            [itemShowing]="isSectionShowing($index)"
+            (action)="handleSectionClick($index)"
           />
 
           <!-- Subitens (Side Menu) -->
-          @if (shouldShowSubItems(sectionIndex)) {
-            <div class="menu-container__sections__side-menu">
+          @if (isSectionShowing($index)) {
+            <div #floatMenuRef class="menu-container__sections__side-menu">
               <div class="menu-container__sections__side-menu__header">
                 {{ section.label }}
               </div>
               <ul class="menu-container__sections__side-menu__items">
-                @for (item of section.items; track item.path; let itemIndex = $index) {
-                  <li
-                    class="menu-container__sections__side-menu__item"
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                  >
+                @for (item of section.items; track item.path) {
+                  <li class="menu-container__sections__side-menu__item">
                     <stk-sidebar-menu-sub-option
                       [text]="item.label"
                       [path]="item.path"
                       [barActive]="active"
-                      [active]="isItemActive(sectionIndex, itemIndex)"
-                      (close)="handleItemClick(itemIndex)"
+                      (close)="handleItemClick()"
                     />
                   </li>
                 }

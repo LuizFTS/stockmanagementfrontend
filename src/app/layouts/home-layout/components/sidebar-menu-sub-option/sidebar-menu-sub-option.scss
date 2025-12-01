@@ -28,7 +28,6 @@ $transition-duration: 0.2s;
   position: relative;
   width: 100%;
   justify-content: flex-start;
-  padding: $option-padding;
 
   // Visual
   border: none;
@@ -90,6 +89,7 @@ $transition-duration: 0.2s;
   // Text
   &__text {
     color: var(--sidebar-text);
+    padding: $option-padding;
     display: flex;
     justify-content: flex-start;
     align-items: center;

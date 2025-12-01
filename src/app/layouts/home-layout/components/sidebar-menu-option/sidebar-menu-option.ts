@@ -13,6 +13,7 @@ export class SideBarMenuOption {
   @Input() arrow: string | null = null;
   @Input() barActive = false;
   @Input() itemActive = false;
+  @Input() itemShowing = false;
 
   @Output() action = new EventEmitter<void>();
 

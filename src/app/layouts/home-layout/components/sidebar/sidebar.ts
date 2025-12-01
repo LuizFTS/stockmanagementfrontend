@@ -1,11 +1,20 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, Output } from '@angular/core';
-import { NavigationEnd, Router, RouterLinkActive, RouterModule } from '@angular/router';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  HostListener,
+  inject,
+  Input,
+  Output,
+  ViewChild,
+  type ElementRef,
+} from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { SideBarMenuOption } from '../sidebar-menu-option/sidebar-menu-option';
 import { UserService } from '../../../../core/services/api/user.service';
 import { AuthService } from '../../../../core/services/api/auth.service';
 import { SidebarMenuSubOption } from '../sidebar-menu-sub-option/sidebar-menu-sub-option';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
 
 interface MenuItem {
   label: string;
@@ -21,7 +30,7 @@ interface MenuSection {
 
 interface MenuState {
   activeSection: number | null;
-  activeItem: number | null;
+  showingSection: number | null;
 }
 
 const MENU_CONFIG: MenuSection[] = [
@@ -69,24 +78,24 @@ const SPECIAL_ROUTES = {
   PROFILE: '/profile',
 } as const;
 
-const PROFILE_SECTION_INDEX = -1;
-const HOME_SECTION_INDEX = 0;
 const MOBILE_BREAKPOINT = 1024;
 
 @Component({
   selector: 'stk-sidebar',
-  imports: [RouterLinkActive, RouterModule, SideBarMenuOption, SidebarMenuSubOption],
+  imports: [RouterModule, SideBarMenuOption, SidebarMenuSubOption],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  @ViewChild('floatMenuRef') floatMenuRef: ElementRef | null = null;
+  @ViewChild('navRef') navRef!: ElementRef;
   @Input() active: boolean = false;
   @Output() opened = new EventEmitter<boolean>();
 
   readonly menuData = MENU_CONFIG;
   menuState: MenuState = {
     activeSection: null,
-    activeItem: null,
+    showingSection: null,
   };
   userName = '';
 
@@ -97,49 +106,60 @@ export class Sidebar {
 
   ngOnInit() {
     this.loadUserData();
-    this.setupRouteTracking();
-    console.log(this.menuState);
   }
 
   toggleSidebar(isOpen: boolean): void {
     this.opened.emit(isOpen);
   }
 
-  handleSectionClick(sectionIndex: number): void {
-    const currentUrl = this.router.url;
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    if (!this.floatMenuRef) return;
 
-    const shouldAutoClose = this.isMobileView();
-
-    // Abre sidebar se necessário (exceto para home e profile)
-    if (!this.active && !this.isSpecialRoute(sectionIndex)) {
-      this.toggleSidebar(true);
+    if (
+      !this.floatMenuRef.nativeElement.contains(event.target) &&
+      !this.navRef.nativeElement.contains(event.target)
+    ) {
+      this.menuState.showingSection = null;
     }
+  }
+
+  handleSectionClick(index: number): void {
+    const shouldAutoClose = this.isMobileView();
+    const { activeSection, showingSection } = this.menuState;
 
     // Navega para rotas especiais
-    if (this.isSpecialRoute(sectionIndex)) {
-      this.navigateToSpecialRoute(sectionIndex);
+    if (this.isSpecialRoute(index)) {
+      this.menuState.showingSection = null;
+      this.menuState.activeSection = index;
+      this.navigateToSpecialRoute(index);
       if (shouldAutoClose) {
         this.toggleSidebar(false);
       }
       return;
     }
+    console.log(this.menuState);
 
-    if (this.menuState.activeSection === null) {
-      this.updateMenuStateFromRoute();
+    const isSameAsActive = activeSection === index;
+    const isSameAsShowing = showingSection === index;
+
+    if (isSameAsActive && isSameAsShowing) {
+      this.menuState.showingSection = null;
+      return;
+    }
+    if (isSameAsActive && !isSameAsShowing) {
+      this.menuState.showingSection = index;
       return;
     }
 
-    // Reseta subitem se mudou de seção
-    if (this.menuState.activeSection !== sectionIndex) {
-      this.menuState.activeItem = null;
-    }
-
-    this.menuState.activeSection =
-      this.menuState.activeSection === sectionIndex ? null : sectionIndex;
+    this.menuState.activeSection = index;
+    this.menuState.showingSection = index;
   }
 
-  handleItemClick(itemIndex: number): void {
-    this.menuState.activeItem = itemIndex;
+  handleItemClick(): void {
+    if (!this.active) {
+      this.menuState.showingSection = null;
+    }
 
     // Fecha sidebar em mobile após navegação
     if (this.isMobileView()) {
@@ -151,6 +171,22 @@ export class Sidebar {
     this.authService.logout();
   }
 
+  isSectionActive(index: number): boolean {
+    return this.menuState.activeSection === index;
+  }
+
+  isSectionShowing(index: number): boolean {
+    return this.menuState.showingSection === index;
+  }
+
+  isHomeSection(section: MenuSection): boolean {
+    return section.id === 'home';
+  }
+
+  hasArrow(section: MenuSection): boolean {
+    return !this.isHomeSection(section);
+  }
+
   private loadUserData(): void {
     this.userService
       .getUserFullName()
@@ -160,76 +196,16 @@ export class Sidebar {
       });
   }
 
-  private setupRouteTracking(): void {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(() => {
-        this.updateMenuStateFromRoute();
-      });
-    this.updateMenuStateFromRoute();
+  private isSpecialRoute(index: number): boolean {
+    return index === 0 || index === -1;
   }
 
-  private updateMenuStateFromRoute(): void {
-    const currentUrl = this.router.url;
-
-    if (currentUrl === SPECIAL_ROUTES.HOME) {
-      this.menuState = { activeSection: HOME_SECTION_INDEX, activeItem: null };
-      return;
-    }
-
-    if (currentUrl === SPECIAL_ROUTES.PROFILE) {
-      this.menuState = { activeSection: PROFILE_SECTION_INDEX, activeItem: null };
-      return;
-    }
-
-    for (let sectionIdx = 0; sectionIdx < this.menuData.length; sectionIdx++) {
-      const section = this.menuData[sectionIdx];
-
-      for (let itemIdx = 0; itemIdx < section.items.length; itemIdx++) {
-        const item = section.items[itemIdx];
-
-        if (currentUrl === item.path) {
-          this.menuState = { activeSection: sectionIdx, activeItem: itemIdx };
-          console.log(this.menuState);
-          return;
-        }
-      }
-    }
-  }
-
-  private isSpecialRoute(sectionIndex: number): boolean {
-    return sectionIndex === 0 || sectionIndex === -1;
-  }
-
-  private navigateToSpecialRoute(sectionIndex: number): void {
-    const route = sectionIndex === -1 ? SPECIAL_ROUTES.PROFILE : SPECIAL_ROUTES.HOME;
+  private navigateToSpecialRoute(index: number): void {
+    const route = index === -1 ? SPECIAL_ROUTES.PROFILE : SPECIAL_ROUTES.HOME;
     this.router.navigate([route]);
   }
 
   private isMobileView(): boolean {
     return window.innerWidth < MOBILE_BREAKPOINT;
-  }
-
-  isSectionActive(index: number): boolean {
-    return this.menuState.activeSection === index;
-  }
-
-  isItemActive(sectionIndex: number, itemIndex: number): boolean {
-    return this.menuState.activeSection === sectionIndex && this.menuState.activeItem === itemIndex;
-  }
-
-  shouldShowSubItems(index: number): boolean {
-    return this.menuData[index].items.length > 0 && this.isSectionActive(index);
-  }
-
-  isHomeSection(section: MenuSection): boolean {
-    return section.id === 'home';
-  }
-
-  hasArrow(section: MenuSection): boolean {
-    return !this.isHomeSection(section);
   }
 }
