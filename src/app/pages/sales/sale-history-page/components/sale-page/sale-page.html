@@ -7,37 +7,49 @@
   <stk-back-button (click)="navigate('/sales/history')" />
 
   <div class="main__sale-info">
-    <p>
-      Cliente: <strong>{{ capitalize(sale?.customer?.name ?? '') }}</strong>
-    </p>
-    <p>
-      Data: <strong>{{ formatDate(sale?.createdAt ?? '') }}</strong>
-    </p>
-    <p>
-      Valor total: <strong>R${{ formatValue(sale?.totalValue ?? 0) }}</strong>
-    </p>
-    <p>
-      Itens: <strong>{{ sale?.itens?.length }}</strong>
-    </p>
+    @if (isLoading) {
+      @for (item of [1, 2, 3, 4]; track item) {
+        <span class="main__sale-info__line-skeleton"></span>
+      }
+    } @else {
+      <p>
+        Cliente: <strong>{{ capitalize(sale?.customer?.name ?? '') }}</strong>
+      </p>
+      <p>
+        Data: <strong>{{ formatDate(sale?.createdAt ?? '') }}</strong>
+      </p>
+      <p>
+        Valor total: <strong>R${{ formatValue(sale?.totalValue ?? 0) }}</strong>
+      </p>
+      <p>
+        Itens: <strong>{{ sale?.itens?.length }}</strong>
+      </p>
+    }
   </div>
   <div class="main__sale-items">
     <stk-card>
-      @for (item of sale?.itens; track $index) {
-        <div class="main__sale-items__item">
-          <p>
-            Produto: <strong>{{ capitalize(item.name) }}</strong>
-          </p>
-          <p>
-            Quantidade: <strong>{{ item.quantity }}</strong>
-          </p>
-          <p>
-            Preço unitário: <strong>R${{ formatValue(item.unitPrice) }}</strong>
-          </p>
-          <p>
-            Valor total do item:
-            <strong>R${{ formatValue(item.quantity * item.unitPrice) }}</strong>
-          </p>
-        </div>
+      @if (isLoading) {
+        @for (item of [1, 2, 3]; track item) {
+          <stk-item-skeleton [index]="$index" />
+        }
+      } @else {
+        @for (item of sale?.itens; track $index) {
+          <div class="main__sale-items__item">
+            <p>
+              Produto: <strong>{{ capitalize(item.name) }}</strong>
+            </p>
+            <p>
+              Quantidade: <strong>{{ item.quantity }}</strong>
+            </p>
+            <p>
+              Preço unitário: <strong>R${{ formatValue(item.unitPrice) }}</strong>
+            </p>
+            <p>
+              Valor total do item:
+              <strong>R${{ formatValue(item.quantity * item.unitPrice) }}</strong>
+            </p>
+          </div>
+        }
       }
     </stk-card>
   </div>

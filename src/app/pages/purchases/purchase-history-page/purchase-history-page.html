@@ -13,16 +13,22 @@
   (pageChange)="changePage($event)"
   (pageSizeChange)="changePageSize($event)"
 >
-  @for (purchase of filteredPurchases; track $index; let i = $index) {
-    <stk-transaction-item
-      [id]="purchase.id"
-      [date]="purchase.createdAt"
-      [nameInfo]="{ type: 'Fornecedor', name: purchase.supplier.name }"
-      [value]="purchase.totalValue"
-      [index]="i"
-    />
-  }
-  @if (filteredPurchases.length === 0) {
-    <stk-itens-not-found text="Nenhuma compra encontrado" />
+  @if (isLoading) {
+    @for (item of [1, 2, 3, 4, 5]; track item) {
+      <stk-item-skeleton [index]="$index" />
+    }
+  } @else {
+    @for (purchase of filteredPurchases; track $index; let i = $index) {
+      <stk-transaction-item
+        [id]="purchase.id"
+        [date]="purchase.createdAt"
+        [nameInfo]="{ type: 'Fornecedor', name: purchase.supplier.name }"
+        [value]="purchase.totalValue"
+        [index]="i"
+      />
+    }
+    @if (filteredPurchases.length === 0) {
+      <stk-itens-not-found text="Nenhuma compra encontrado" />
+    }
   }
 </stk-list-page-layout>

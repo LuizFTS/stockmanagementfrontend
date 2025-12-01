@@ -5,19 +5,15 @@ import { TransactionItem } from '../../../shared/components/transaction-item/tra
 import { ItensNotFound } from '../../../shared/components/itens-not-found/itens-not-found';
 import { Router } from '@angular/router';
 import { HomeLayout } from '../../../layouts/home-layout/home-layout';
-import {
-  FormGroup,
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators, FormControl } from '@angular/forms';
 import { SupplierService } from '../../../core/services/api/supplier.service';
 import { ListPageLayout } from '../../../layouts/list-page-layout/list-page-layout';
+import { ItemSkeleton } from '../../../shared/components/skeleton/item-skeleton/item-skeleton';
+import { ResponseMessageService } from '../../../core/services/response-message.service';
 
 @Component({
   selector: 'app-purchase-history-page',
-  imports: [TransactionItem, ItensNotFound, ReactiveFormsModule, ListPageLayout],
+  imports: [TransactionItem, ItensNotFound, ReactiveFormsModule, ListPageLayout, ItemSkeleton],
   templateUrl: './purchase-history-page.html',
   styleUrl: './purchase-history-page.scss',
 })
@@ -29,6 +25,8 @@ export class PurchaseHistoryPage {
     search: new FormControl<string>('', { validators: Validators.required }),
   });
 
+  isLoading: boolean = true;
+
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 1;
@@ -39,6 +37,7 @@ export class PurchaseHistoryPage {
     public supplierService: SupplierService,
     private layout: HomeLayout,
     private router: Router,
+    private messageService: ResponseMessageService,
   ) {}
 
   ngOnInit() {
@@ -89,6 +88,11 @@ export class PurchaseHistoryPage {
         this.purchases = response.content;
         this.filteredPurchases = response.content;
         this.totalItems = response.totalElements;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.messageService.error('Erro ao buscar compras');
+        this.isLoading = false;
       },
     });
   }
